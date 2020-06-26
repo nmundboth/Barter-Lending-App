@@ -10,4 +10,11 @@ public class Item {
         this.descrip = descrip;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescrip() {
+        return descrip;
+    }
 }
