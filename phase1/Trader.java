@@ -51,6 +51,10 @@ public class Trader extends User{
 
     }
 
+    public int unreadTraderNotifs(){
+        return this.getInbox().getTradersUnread();
+    }
+
     public int unreadAdminNotifs(){
         return this.getInbox().getAdmiNotiUnread();
     }
@@ -61,26 +65,49 @@ public class Trader extends User{
     }
 
     //OG Trader requests a Trade
-    public void sendRequest(Trader trader, Trade trade, String string){
-        this.getInbox().addUnaccepted(trade, trader, string);
+    public void sendRequest(Trader trader, Trade trade){
+        this.getInbox().addUnaccepted(trade, trader);
+        trader.getInbox().addTraderNoti(this.name+" wants to trade "+trade.getObj()+" with "+trader.name);
     }
 
     public List<Item> getInventory() {
         return inventory;
     }
 
-    public void rejectUnaccepted(Trader trader, Trade trade, String text){
-        this.getInbox().refuseUnaccepted(trade, trader, text);
+    public void rejectUnaccepted(Trader trader, Trade trade){
+        this.getInbox().refuseUnaccepted(trade, trader);
+        trader.getInbox().addTraderNoti(this.name+" can't trade "+trade.getObj()+" with "+trader.name);
     }
 
-    public void acceptTrade(Trader trader, Trade trade, String text){
-        this.getInbox().addTrade(trade, trader, text);
+    public void acceptTrade(Trader trader, Trade trade){
+        this.getInbox().addTrade(trade, trader);
+        trader.getInbox().addTraderNoti(this.name+" accepts to trade "+trade.getObj()+" with "+trader.name);
     }
 
+    // Schedule a meeting between Traders. (Work-in-progress) method
     public void scheduleMeet(Trader trader, Meeting meet){
-        trader.notifs_count += 1;
+        trader.getInbox().setTradeUnread(trader.getInbox().getTradeUnread() + 1);
         trader.getInbox().addTraderNoti("Hey "+trader.name+"! Can you meet "+this.name+" on"+meet.getDate()+" at "+
                 meet.getLocation()+" at "+meet.getTime()+"?");
+    }
+
+    // Change meeting time/place. Each Trader has up to 3 edits
+    public void changeMeet(Trader trader, Trade trade, String text, String cancel, Meeting meet, String location, String date, String time){
+        if (trade.getOg_edits() == 0 && trade.getOther_edits() == 0){
+            this.tradeCancelled(trader, trade, text, cancel);
+        }
+        else {
+            meet.setDate(date);
+            meet.setLocation(location);
+            meet.setTime(time);
+            if ((this.name.equals(trade.getOg_trader()))) {
+                trade.setOg_edits(trade.getOg_edits() - 1);
+            }
+            else {
+                trade.setOther_edits(trade.getOther_edits() - 1);
+            }
+            this.scheduleMeet(trader, meet);
+        }
     }
 
     public String getName() {
@@ -95,8 +122,8 @@ public class Trader extends User{
         this.getInbox().completeTrade(trader, trade, text);
     }
 
-    public void tradeCancelled(Trader trader, Trade trade, String request, String cancel){
-        this.getInbox().cancelTrade(trade, trader, request, cancel);
+    public void tradeCancelled(Trader trader, Trade trade, String text, String cancel){
+        this.getInbox().cancelTrade(trade, trader, text, cancel);
     }
 
 }

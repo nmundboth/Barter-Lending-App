@@ -45,6 +45,9 @@ public class Inbox {
     public int getTotalUnread(){return this.tradeUnread + this.unaccptedUnread + this.admiNotiUnread; }
         //Returns the total number of unread messages
 
+    // Returns messages from Traders
+    public int getTradersUnread(){return this.tradeUnread + this.unaccptedUnread; }
+
     public Trade getTrade(int index){
         Trade temp = this.trades.get(index);
         this.trades.remove(index);
@@ -71,33 +74,32 @@ public class Inbox {
     }
 
     // Traders accepting a Trade
-    public void addTrade(Trade trade, Trader trader, String text){
+    public void addTrade(Trade trade, Trader trader){
         this.trades.add(trade);
         // The Trader receiving the acceptance will be notified
         trader.getInbox().trades.add(trade);
         trader.getInbox().tradeUnread += 1;
-        trader.getInbox().addTraderNoti(text);
         // Issue is how to remove that Trade from both Trades' unacceptedTrades. Need to be sure that we are
         // extracting the Trade correctly. Maybe need more details in the objects to extract Trade correctly from
         // both unacceptedTrades?
     }
 
     // Decline an unaccepted trade
-    public void refuseUnaccepted(Trade trade, Trader trader, String text){
+    public void refuseUnaccepted(Trade trade, Trader trader){
         this.unacceptedTrades.remove(trade);
         trader.getInbox().unacceptedTrades.remove(trade);
         trader.getInbox().unaccptedUnread += 1;
-        trader.getInbox().addTraderNoti(text);
     }
 
     // Both Traders reach a compromise to cancel a Trade. (Work-in-progress) method
     public boolean cancelTradeRequest(Trade trade, Trader trader, String request){
+        // Case where editing Meeting by both Traders exceeded: automatically returns true
         return true;
     }
 
     // Traders successfully cancel the Trade
-    public void cancelTrade(Trade trade, Trader trader, String request, String cancel){
-        if (cancelTradeRequest(trade, trader, request)){
+    public void cancelTrade(Trade trade, Trader trader, String text, String cancel){
+        if (cancelTradeRequest(trade, trader, text)){
             this.trades.remove(trade);
             trader.getInbox().trades.remove(trade);
             this.addTraderNoti(cancel);
@@ -129,12 +131,11 @@ public class Inbox {
 
     public void addTraderNoti(String text){ this.traderNoti.add(text);}
 
-    public void addUnaccepted(Trade trade, Trader trader, String text){
+    public void addUnaccepted(Trade trade, Trader trader){
         this.unacceptedTrades.add(trade);
         // Trader gets a notification about a pending Trade request
         trader.getInbox().unacceptedTrades.add(trade);
         trader.getInbox().unaccptedUnread += 1;
-        trader.getInbox().addTraderNoti(text);
     }
 
     // for adding to the lists, maybe for an incoming trade or admin notification
@@ -160,4 +161,7 @@ public class Inbox {
         this.unaccptedUnread = unaccptedUnread;
     }
 
+    public int getTradeUnread() {
+        return tradeUnread;
+    }
 }
