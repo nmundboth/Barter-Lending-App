@@ -9,6 +9,8 @@ public class Inbox {
     //All the trades available to the user
     private List<String> admiNoti;
     //All notifications from the Admin
+    //Notifications from other Traders
+    private List<String> traderNoti;
     private List<Trade> unacceptedTrades;
     //All unaccepted offers
     private int tradeUnread ;
@@ -16,10 +18,11 @@ public class Inbox {
     private int unaccptedUnread;
     //The number of unread messages for each category
 
-    public Inbox(List<Trade> trades, List<String> notifs){
+    public Inbox(List<Trade> trades, List<String> adminNotifs, List<String> traderNotifs){
         //Admin cannot trade so trades for admin is an empty list?
         this.trades = trades;
-        this.admiNoti = notifs;
+        this.admiNoti = adminNotifs;
+        this.traderNoti = traderNotifs;
         this.unacceptedTrades = new ArrayList<Trade>();
         this.tradeUnread = 0;
         this.admiNotiUnread = 0;
@@ -40,7 +43,7 @@ public class Inbox {
         //getter for unaccepted offers
 
     public int getTotalUnread(){return this.tradeUnread + this.unaccptedUnread + this.admiNotiUnread; }
-        //Returns the total number of unread messeges
+        //Returns the total number of unread messages
 
     public Trade getTrade(int index){
         Trade temp = this.trades.get(index);
@@ -62,18 +65,99 @@ public class Inbox {
 
     public Trade getUnacceptedTrades(int index){
         Trade temp = this.unacceptedTrades.get(index);
-        this.unaccptedUnread.reemove(index);
+        this.unacceptedTrades.remove(index);
         this.admiNotiUnread -= 1;
         return temp;
     }
 
+    // Traders accepting a Trade
+    public void addTrade(Trade trade, Trader trader, String text){
+        this.trades.add(trade);
+        // The Trader receiving the acceptance will be notified
+        trader.getInbox().trades.add(trade);
+        trader.getInbox().tradeUnread += 1;
+        trader.getInbox().addTraderNoti(text);
+        // Issue is how to remove that Trade from both Trades' unacceptedTrades. Need to be sure that we are
+        // extracting the Trade correctly. Maybe need more details in the objects to extract Trade correctly from
+        // both unacceptedTrades?
+    }
 
-    public void addTrade(Trade trade){ this.trades.add(trade); }
+    // Decline an unaccepted trade
+    public void refuseUnaccepted(Trade trade, Trader trader, String text){
+        this.unacceptedTrades.remove(trade);
+        trader.getInbox().unacceptedTrades.remove(trade);
+        trader.getInbox().unaccptedUnread += 1;
+        trader.getInbox().addTraderNoti(text);
+    }
+
+    // Both Traders reach a compromise to cancel a Trade. (Work-in-progress) method
+    public boolean cancelTradeRequest(Trade trade, Trader trader, String request){
+        return true;
+    }
+
+    // Traders successfully cancel the Trade
+    public void cancelTrade(Trade trade, Trader trader, String request, String cancel){
+        if (cancelTradeRequest(trade, trader, request)){
+            this.trades.remove(trade);
+            trader.getInbox().trades.remove(trade);
+            this.addTraderNoti(cancel);
+            trader.getInbox().addTraderNoti(cancel);
+            this.tradeUnread += 1;
+            trader.getInbox().tradeUnread += 1;
+            trade.setOpen(false);
+        }
+    }
+
+    public void tradeConfirmed(Trader trader, Trade trade, String text){
+        this.tradeUnread += 1;
+        trader.getInbox().tradeUnread += 1;
+        this.addTraderNoti(text);
+        trader.getInbox().addTraderNoti(text);
+        trade.setOpen(true);
+    }
+
+    // Mark the Trade as complete
+    public void completeTrade(Trader trader, Trade trade, String text){
+        this.tradeUnread += 1;
+        trader.getInbox().tradeUnread += 1;
+        this.addTraderNoti(text);
+        trader.getInbox().addTraderNoti(text);
+        trade.setOpen(false);
+    }
 
     public void addAdminNoti(String text){ this.admiNoti.add(text);}
 
-    public void addUnaccepted(Trade trade){this.unacceptedTrades.add(trade);}
+    public void addTraderNoti(String text){ this.traderNoti.add(text);}
+
+    public void addUnaccepted(Trade trade, Trader trader, String text){
+        this.unacceptedTrades.add(trade);
+        // Trader gets a notification about a pending Trade request
+        trader.getInbox().unacceptedTrades.add(trade);
+        trader.getInbox().unaccptedUnread += 1;
+        trader.getInbox().addTraderNoti(text);
+    }
 
     // for adding to the lists, maybe for an incoming trade or admin notification
+
+
+    public int getAdmiNotiUnread() {
+        return admiNotiUnread;
+    }
+
+    public void setAdmiNotiUnread(int admiNotiUnread) {
+        this.admiNotiUnread = admiNotiUnread;
+    }
+
+    public List<String> getTraderNoti() {
+        return traderNoti;
+    }
+
+    public void setTradeUnread(int tradeUnread) {
+        this.tradeUnread = tradeUnread;
+    }
+
+    public void setUnaccptedUnread(int unaccptedUnread) {
+        this.unaccptedUnread = unaccptedUnread;
+    }
 
 }
