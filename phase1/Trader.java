@@ -1,17 +1,20 @@
-package group_0073.phase1;
+package phase1;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Trader extends User{
 
     //Might have to create an inventory class?
     private List<Item> inventory;
+    private List<Item> wish_list;
     private int notifs_count;
     private String name;
 
     public Trader(String username, String password, String type, Inbox inbox, List<Item> inventory, String name) {
         super(username, password, type, inbox);
         this.inventory = inventory;
+        this.wish_list = new ArrayList<Item>();
         this.notifs_count = 0;
         this.name = name;
     }
@@ -72,6 +75,25 @@ public class Trader extends User{
 
     public List<Item> getInventory() {
         return inventory;
+    }
+
+    public List<Item> getWishList() {
+        return wish_list;
+    }
+
+    public void add_wish(Item item){
+        this.wish_list.add(item);
+        System.out.println("Added item " + item.getName() + " to your wish list!");
+    }
+
+    public void remove_wish(Item item){
+        for(int i = 0; i < this.wish_list.size(); i++){
+            if(item == this.wish_list.get(i)){
+                this.wish_list.remove(item);
+                break;
+            }
+        }
+        System.out.println("Item not found!");
     }
 
     public void rejectUnaccepted(Trader trader, Trade trade){
