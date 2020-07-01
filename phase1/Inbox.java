@@ -1,4 +1,4 @@
-package group_0073.phase1;
+package phase1;
 
 import java.util.ArrayList;
 import java.util.List;

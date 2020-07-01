@@ -1,4 +1,4 @@
-package group_0073.phase1;
+package phase1;
 
 public class Item {
 
