@@ -124,17 +124,22 @@ public class Inbox {
         trader.getInbox().tradeUnread += 1;
         this.addTraderNoti(text);
         trader.getInbox().addTraderNoti(text);
-        trade.setOpen(false);
+        if (trade.isPermanent()){
+            trade.setOpen(false);
+        }
     }
 
     public void addAdminNoti(String text){ this.admiNoti.add(text);}
 
     public void addTraderNoti(String text){ this.traderNoti.add(text);}
 
-    public void addUnaccepted(Trade trade, Trader trader){
+    public void addUnaccepted(Trade trade, Trader trader, String type){
         this.unacceptedTrades.add(trade);
         // Trader gets a notification about a pending Trade request
         trader.getInbox().unacceptedTrades.add(trade);
+        if (type.equals("permanent")){
+            trade.setPermanent(true);
+        }
         trader.getInbox().unaccptedUnread += 1;
     }
 

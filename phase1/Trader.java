@@ -66,8 +66,8 @@ public class Trader extends User{
     }
 
     //OG Trader requests a Trade
-    public void sendRequest(Trader trader, Trade trade){
-        this.getInbox().addUnaccepted(trade, trader);
+    public void sendRequest(Trader trader, Trade trade, String type){
+        this.getInbox().addUnaccepted(trade, trader, type);
         trader.getInbox().addTraderNoti(this.name+" wants to trade "+trade.getObj()+" with "+trader.name);
     }
 
