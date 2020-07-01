@@ -8,14 +8,12 @@ public class Trader extends User{
     //Might have to create an inventory class?
     private List<Item> inventory;
     private List<Item> wish_list;
-    private int notifs_count;
     private String name;
 
     public Trader(String username, String password, String type, Inbox inbox, List<Item> inventory, String name) {
         super(username, password, type, inbox);
         this.inventory = inventory;
         this.wish_list = new ArrayList<Item>();
-        this.notifs_count = 0;
         this.name = name;
     }
 
