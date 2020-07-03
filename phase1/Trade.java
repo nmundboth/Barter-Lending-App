@@ -11,6 +11,7 @@ public class Trade {
     private int og_edits;
     private int other_edits;
     private boolean open;
+    private boolean permanent;
 
     // Store objects Item and User or only details about Item and User e.g. item's and persons' names?
     public Trade(Item item, String og_trader, String other_trader){
@@ -20,6 +21,7 @@ public class Trade {
         this.og_edits = 3;
         this.other_edits = 3;
         this.open = false;
+        this.permanent = false;
     }
 
     public String getObj() {
@@ -56,5 +58,13 @@ public class Trade {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public boolean isPermanent() {
+        return permanent;
+    }
+
+    public void setPermanent(boolean permanent) {
+        this.permanent = permanent;
     }
 }

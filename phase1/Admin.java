@@ -17,8 +17,8 @@ public class Admin extends User{
 
         //Reads notifications line by line
         int i = 0;
-        while (i < this.getInbox().getNotifs().size()){
-            System.out.println(this.getInbox().getNotifs().get(i));
+        while (i < this.getInbox().getAdmiNoti().size()){
+            System.out.println(this.getInbox().getAdmiNoti().get(i));
             i++;
         }
     }
