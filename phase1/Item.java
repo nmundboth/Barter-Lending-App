@@ -10,6 +10,8 @@ public class Item {
         this.descrip = descrip;
     }
 
+    // Testing rebase on master branch
+
     public String getName() {
         return name;
     }
