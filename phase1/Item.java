@@ -19,4 +19,8 @@ public class Item {
     public String getDescrip() {
         return descrip;
     }
+
+    public String toString(){
+        return this.name;
+    }
 }

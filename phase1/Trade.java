@@ -1,67 +1,74 @@
 package phase1;
 
+import java.util.ArrayList;
+
 public class Trade {
 
-    //Only works for one-way Trade so far
-
-    private String obj;
-    private String og_trader;
-    private String other_trader;
     // og is Original Trader
-    private int og_edits;
-    private int other_edits;
+    private Trader ogTrader;
+    private Trader otherTrader;
+    private int ogEdits;
+    private int otherEdits;
     private boolean open;
     private boolean permanent;
+    private ArrayList<Trader> confirmations;
 
-    // Store objects Item and User or only details about Item and User e.g. item's and persons' names?
-    public Trade(Item item, String og_trader, String other_trader){
-        this.obj = item.getName();
-        this.og_trader = og_trader;
-        this.other_trader = other_trader;
-        this.og_edits = 3;
-        this.other_edits = 3;
+    public Trade(Trader ogTrader, Trader otherTrader){
+        this.ogTrader = ogTrader;
+        this.otherTrader = otherTrader;
+        this.ogEdits = 3;
+        this.otherEdits = 3;
         this.open = false;
         this.permanent = false;
+        this.confirmations = new ArrayList<Trader>();
     }
 
-    public String getObj() {
-        return obj;
+    public Trader getOgTrader(){
+        return ogTrader;
     }
 
-    public int getOther_edits() {
-        return other_edits;
+    public Trader getOtherTrader(){
+        return otherTrader;
     }
 
-    public int getOg_edits() {
-        return og_edits;
+    public int getOgEdits() {
+        return ogEdits;
     }
 
-    public String getOg_trader() {
-        return og_trader;
+    public int getOtherEdits() {
+        return otherEdits;
     }
 
-    public String getOther_trader() {
-        return other_trader;
-    }
-
-    public void setOg_edits(int og_edits) {
-        this.og_edits = og_edits;
-    }
-
-    public void setOther_edits(int other_edits) {
-        this.other_edits = other_edits;
+    public ArrayList<Trader> getConfirmations(){
+        return confirmations;
     }
 
     public boolean isOpen() {
         return open;
     }
 
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
     public boolean isPermanent() {
         return permanent;
+    }
+
+    public void setOgEdits(int ogEdits) {
+        this.ogEdits = ogEdits;
+    }
+
+    public void setOtherEdits(int otherEdits) {
+        this.otherEdits = otherEdits;
+    }
+
+    public void addConfirmation(Trader trader){
+        confirmations.add(trader);
+    }
+
+    public void clearConfirmations(){
+        confirmations.clear();
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
     }
 
     public void setPermanent(boolean permanent) {

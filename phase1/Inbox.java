@@ -79,9 +79,12 @@ public class Inbox {
         // The Trader receiving the acceptance will be notified
         trader.getInbox().trades.add(trade);
         trader.getInbox().tradeUnread += 1;
-        // Issue is how to remove that Trade from both Trades' unacceptedTrades. Need to be sure that we are
+        // Issue is how to remove that Trade from both Traders' unacceptedTrades. Need to be sure that we are
         // extracting the Trade correctly. Maybe need more details in the objects to extract Trade correctly from
         // both unacceptedTrades?
+        this.unacceptedTrades.remove(trade);
+        trader.getInbox().unacceptedTrades.remove(trade);
+        // Would this work? ^
     }
 
     // Decline an unaccepted trade
@@ -133,13 +136,10 @@ public class Inbox {
 
     public void addTraderNoti(String text){ this.traderNoti.add(text);}
 
-    public void addUnaccepted(Trade trade, Trader trader, String type){
+    public void addUnaccepted(Trade trade, Trader trader){
         this.unacceptedTrades.add(trade);
         // Trader gets a notification about a pending Trade request
         trader.getInbox().unacceptedTrades.add(trade);
-        if (type.equals("permanent")){
-            trade.setPermanent(true);
-        }
         trader.getInbox().unaccptedUnread += 1;
     }
 
