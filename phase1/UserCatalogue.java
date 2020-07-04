@@ -6,6 +6,9 @@ import java.util.ArrayList;
 public class UserCatalogue {
     public ArrayList<User> userBase;
 
+    public UserCatalogue(ArrayList<User> list){
+        userBase = new ArrayList<User>(list);
+    }
 
     public ArrayList<Item> findItem(){
         ArrayList<Item> items = new ArrayList<Item>();
