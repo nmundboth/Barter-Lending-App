@@ -65,12 +65,6 @@ public class Trader extends User{
         return this.getInbox().getTotalUnread();
     }
 
-    //OG Trader requests a Trade
-    public void sendRequest(Trader trader, Trade trade, String type){
-        this.getInbox().addUnaccepted(trade, trader, type);
-        trader.getInbox().addTraderNoti(this.name+" wants to trade "+trade.getObj()+" with "+trader.name);
-    }
-
     public List<Item> getInventory() {
         return inventory;
     }
@@ -94,16 +88,6 @@ public class Trader extends User{
         System.out.println("Item not found!");
     }
 
-    public void rejectUnaccepted(Trader trader, Trade trade){
-        this.getInbox().refuseUnaccepted(trade, trader);
-        trader.getInbox().addTraderNoti(this.name+" can't trade "+trade.getObj()+" with "+trader.name);
-    }
-
-    public void acceptTrade(Trader trader, Trade trade){
-        this.getInbox().addTrade(trade, trader);
-        trader.getInbox().addTraderNoti(this.name+" accepts to trade "+trade.getObj()+" with "+trader.name);
-    }
-
     // Schedule a meeting between Traders. (Work-in-progress) method
     public void scheduleMeet(Trader trader, Meeting meet){
         trader.getInbox().setTradeUnread(trader.getInbox().getTradeUnread() + 1);
@@ -113,18 +97,18 @@ public class Trader extends User{
 
     // Change meeting time/place. Each Trader has up to 3 edits
     public void changeMeet(Trader trader, Trade trade, String text, String cancel, Meeting meet, String location, String date, String time){
-        if (trade.getOg_edits() == 0 && trade.getOther_edits() == 0){
+        if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
             this.tradeCancelled(trader, trade, text, cancel);
         }
         else {
             meet.setDate(date);
             meet.setLocation(location);
             meet.setTime(time);
-            if ((this.name.equals(trade.getOg_trader()))) {
-                trade.setOg_edits(trade.getOg_edits() - 1);
+            if ((this.name.equals(trade.getOgTrader()))) {
+                trade.setOgEdits(trade.getOgEdits() - 1);
             }
             else {
-                trade.setOther_edits(trade.getOther_edits() - 1);
+                trade.setOtherEdits(trade.getOtherEdits() - 1);
             }
             this.scheduleMeet(trader, meet);
         }
@@ -134,10 +118,6 @@ public class Trader extends User{
         return name;
     }
 
-    public void confirmTrade(Trader trader, Trade trade, String text){
-        this.getInbox().tradeConfirmed(trader, trade, text);
-    }
-
     public void tradeComplete(Trader trader, Trade trade, String text){
         this.getInbox().completeTrade(trader, trade, text);
     }
@@ -145,5 +125,7 @@ public class Trader extends User{
     public void tradeCancelled(Trader trader, Trade trade, String text, String cancel){
         this.getInbox().cancelTrade(trade, trader, text, cancel);
     }
+    //^ Moved this method to TradeManager, but keeping here for now since ChangeMeet uses it.
+    //Can possibly create another UseCase that deals with the Meeting methods
 
 }

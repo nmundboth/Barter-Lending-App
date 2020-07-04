@@ -10,11 +10,17 @@ public class Item {
         this.descrip = descrip;
     }
 
+    // Testing rebase on master branch
+
     public String getName() {
         return name;
     }
 
     public String getDescrip() {
         return descrip;
+    }
+
+    public String toString(){
+        return this.name;
     }
 }
