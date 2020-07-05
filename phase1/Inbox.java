@@ -3,60 +3,39 @@ package phase1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inbox {
+abstract class Inbox {
 
-    private List<Trade> trades;
-    //All the trades available to the user
-    private List<String> admiNoti;
-    //All notifications from the Admin
     //Notifications from other Traders
     private List<String> traderNoti;
-    private List<Trade> unacceptedTrades;
-    //All unaccepted offers
-    private int tradeUnread ;
-    private int admiNotiUnread;
-    private int unaccptedUnread;
-    //The number of unread messages for each category
+    private List<String> admiNoti;
+    //All notifications from the Admin
 
-    public Inbox(List<Trade> trades, List<String> adminNotifs, List<String> traderNotifs){
-        //Admin cannot trade so trades for admin is an empty list?
-        this.trades = trades;
-        this.admiNoti = adminNotifs;
+    private int tradeUnread ;
+    //The number of unread messages form other traders
+    private int admiNotiUnread;
+    //The number of unread messages form admins
+
+    public Inbox(List<String> traderNotifs, List<String> adminNotifs){
         this.traderNoti = traderNotifs;
-        this.unacceptedTrades = new ArrayList<Trade>();
+        this.admiNoti = adminNotifs;
         this.tradeUnread = 0;
         this.admiNotiUnread = 0;
-        this.unaccptedUnread = 0;
     }
 
     public List<String> getAdmiNoti() { return admiNoti; }
         //getter for adminNoti
 
-    public List<Trade> getTrades() {
-        return trades;
+    public int getTotalUnread(){
+        return this.tradeUnread + this.admiNotiUnread;
     }
-        //getter for trades
-
-    public List<Trade> getUnacceptedTrades() {
-        return unacceptedTrades;
-    }
-        //getter for unaccepted offers
-
-    public int getTotalUnread(){return this.tradeUnread + this.unaccptedUnread + this.admiNotiUnread; }
-        //Returns the total number of unread messages
+    //Returns the total number of unread messages
 
     // Returns messages from Traders
-    public int getTradersUnread(){return this.tradeUnread + this.unaccptedUnread; }
+    public int getTradersUnread(){return this.tradeUnread; }
 
-    public Trade getTrade(int index){
-        Trade temp = this.trades.get(index);
-        this.trades.remove(index);
+    public void tradeUnreadMinusOne(){
         this.tradeUnread -= 1;
-        return temp;
     }
-
-    // Returns a certain Trade from the list. I'm not sure if we are keeping a message after being accessed
-    // For now I'm assuming we are removing it instantly from the list, feel free to change
 
     public String getAdminNoti(int index){
         String temp = this.admiNoti.get(index);
@@ -66,12 +45,34 @@ public class Inbox {
     }
     // Same deal as the one before
 
-    public Trade getUnacceptedTrades(int index){
-        Trade temp = this.unacceptedTrades.get(index);
-        this.unacceptedTrades.remove(index);
-        this.admiNotiUnread -= 1;
-        return temp;
+    public void adminNotiUnreadMinusOne(){
+        this.admiNotiUnread -=1;
     }
+    public void tradeConfirmed(Trader trader, Trade trade, String text){
+        this.tradeUnread += 1;
+        trader.getInbox().tradeUnread += 1;
+        this.addTraderNoti(text);
+        trader.getInbox().addTraderNoti(text);
+        trade.setOpen(true);
+    }
+
+    // Mark the Trade as complete
+    public void completeTrade(Trader trader, Trade trade, String text){
+        this.tradeUnread += 1;
+        trader.getInbox().tradeUnread += 1;
+        this.addTraderNoti(text);
+        trader.getInbox().addTraderNoti(text);
+        if (trade.isPermanent()){
+            trade.setOpen(false);
+        }
+    }
+
+
+    //The rest of the inbox class im not sure how to modify so that it can work the best for its sub-classes
+    //please feel free to change
+    //P.S. It seems like we need to change the getInbox method in the User class for the following classes
+    //to work
+    //----------------------------------
 
     // Traders accepting a Trade
     public void addTrade(Trade trade, Trader trader){
@@ -112,25 +113,7 @@ public class Inbox {
             trade.setOpen(false);
         }
     }
-
-    public void tradeConfirmed(Trader trader, Trade trade, String text){
-        this.tradeUnread += 1;
-        trader.getInbox().tradeUnread += 1;
-        this.addTraderNoti(text);
-        trader.getInbox().addTraderNoti(text);
-        trade.setOpen(true);
-    }
-
-    // Mark the Trade as complete
-    public void completeTrade(Trader trader, Trade trade, String text){
-        this.tradeUnread += 1;
-        trader.getInbox().tradeUnread += 1;
-        this.addTraderNoti(text);
-        trader.getInbox().addTraderNoti(text);
-        if (trade.isPermanent()){
-            trade.setOpen(false);
-        }
-    }
+    //-----------
 
     public void addAdminNoti(String text){ this.admiNoti.add(text);}
 
