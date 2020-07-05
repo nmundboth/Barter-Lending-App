@@ -9,6 +9,7 @@ public class Trader extends User{
     private List<Item> inventory;
     private List<Item> wish_list;
     private String name;
+    private boolean greedy;
 
     public Trader(String username, String password, String type, Inbox inbox, List<Item> inventory, String name) {
         super(username, password, type, inbox);
@@ -128,4 +129,13 @@ public class Trader extends User{
     //^ Moved this method to TradeManager, but keeping here for now since ChangeMeet uses it.
     //Can possibly create another UseCase that deals with the Meeting methods
 
+    //Sets if user is greedy (has book longer than 1 month)
+    public void isGreedy(boolean greedy) {
+        return this.greedy;
+    }
+
+    public void setGreedy(boolean) {
+        this.greedy = greedy;
+        //Set to true by Admin freezeTrader and set to false automatically when user returns overdue book.
+    }
 }
