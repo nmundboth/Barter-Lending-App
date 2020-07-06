@@ -1,6 +1,6 @@
 package phase1;
 
-public class TradeManager {
+public class TradeManager implements TradeScreen{
 
     //This class relies on the input of two traders to the methods, so will need to have something like "current trader"
     //and "desired trader" (person they are interacting with) to be input from the controller - will be possible using
