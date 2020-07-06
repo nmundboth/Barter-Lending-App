@@ -11,7 +11,7 @@ public class Trader extends User{
     private String name;
     private boolean greedy;
 
-    public Trader(String username, String password, String type, Inbox inbox, List<Item> inventory, String name) {
+    public Trader(String username, String password, String type, TraderInbox inbox, List<Item> inventory, String name) {
         super(username, password, type, inbox);
         this.inventory = inventory;
         this.wish_list = new ArrayList<Item>();
@@ -20,12 +20,14 @@ public class Trader extends User{
 
     // Reads Trades
     public List<Trade> readTrades(){
-        return this.getInbox().getTrades();
+        TraderInbox traderInbox = (TraderInbox) this.getInbox();
+        return traderInbox.getTrades();
     }
 
     // Reads pending Trade requests
     public List<Trade> readUnacceptedTrades(){
-        return this.getInbox().getUnacceptedTrades();
+        TraderInbox traderInbox = (TraderInbox) this.getInbox();
+        return traderInbox.getUnacceptedTrades();
     }
 
     public void readAdminNotifs(){
@@ -130,11 +132,13 @@ public class Trader extends User{
     //Can possibly create another UseCase that deals with the Meeting methods
 
     //Sets if user is greedy (has book longer than 1 month)
-    public void isGreedy(boolean greedy) {
-        return this.greedy;
+
+
+    public boolean isGreedy(boolean b) {
+        return greedy;
     }
 
-    public void setGreedy(boolean) {
+    public void setGreedy(boolean greedy) {
         this.greedy = greedy;
         //Set to true by Admin freezeTrader and set to false automatically when user returns overdue book.
     }
