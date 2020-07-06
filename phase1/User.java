@@ -1,8 +1,9 @@
 package phase1;
 
 import java.util.List;
+import java.io.Serializable;
 
-abstract class User {
+abstract class User implements Serializable{
 
     private String username;
     private String password;
