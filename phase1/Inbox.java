@@ -4,29 +4,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 abstract class Inbox {
-
+    //All the trades available to the user
+    private List<Trade> trades;
     //Notifications from other Traders
     private List<String> traderNoti;
     private List<String> admiNoti;
     //All notifications from the Admin
+    private List<Trade> unacceptedTrades;
+    //All unaccepted offers
 
+    private int unaccptedUnread;
+    //The number of unread messages for each category
     private int tradeUnread ;
     //The number of unread messages form other traders
     private int admiNotiUnread;
     //The number of unread messages form admins
-
-    public Inbox(List<String> traderNotifs, List<String> adminNotifs){
+    //<trades> for admin user should be empty
+    public Inbox(List<Trade> trades, List<String> traderNotifs, List<String> adminNotifs){
         this.traderNoti = traderNotifs;
         this.admiNoti = adminNotifs;
         this.tradeUnread = 0;
         this.admiNotiUnread = 0;
+        this.trades = trades;
+        this.unaccptedUnread = 0;
+        this.unacceptedTrades = new ArrayList<Trade>();
     }
 
     public List<String> getAdmiNoti() { return admiNoti; }
         //getter for adminNoti
 
     public int getTotalUnread(){
-        return this.tradeUnread + this.admiNotiUnread;
+        return this.tradeUnread + this.admiNotiUnread + this.unaccptedUnread;
     }
     //Returns the total number of unread messages
 
@@ -37,6 +45,15 @@ abstract class Inbox {
         this.tradeUnread -= 1;
     }
 
+    public Trade getTrade(int index){
+        Trade temp = this.trades.get(index);
+        this.trades.remove(index);
+        this.admiNotiUnread -=1;
+        return temp;
+    }
+    // Returns a certain Trade from the list. I'm not sure if we are keeping a message after being accessed
+    // For now I'm assuming we are removing it instantly from the list, feel free to change
+
     public String getAdminNoti(int index){
         String temp = this.admiNoti.get(index);
         this.admiNoti.remove(index);
@@ -45,9 +62,6 @@ abstract class Inbox {
     }
     // Same deal as the one before
 
-    public void adminNotiUnreadMinusOne(){
-        this.admiNotiUnread -=1;
-    }
     public void tradeConfirmed(Trader trader, Trade trade, String text){
         this.tradeUnread += 1;
         trader.getInbox().tradeUnread += 1;
@@ -67,12 +81,12 @@ abstract class Inbox {
         }
     }
 
-
-    //The rest of the inbox class im not sure how to modify so that it can work the best for its sub-classes
-    //please feel free to change
-    //P.S. It seems like we need to change the getInbox method in the User class for the following classes
-    //to work
-    //----------------------------------
+    public Trade getUnacceptedTrades(int index){
+        Trade temp = this.unacceptedTrades.get(index);
+        this.unacceptedTrades.remove(index);
+        this.admiNotiUnread -=1;
+        return temp;
+    }
 
     // Traders accepting a Trade
     public void addTrade(Trade trade, Trader trader){
@@ -113,7 +127,6 @@ abstract class Inbox {
             trade.setOpen(false);
         }
     }
-    //-----------
 
     public void addAdminNoti(String text){ this.admiNoti.add(text);}
 
@@ -125,9 +138,17 @@ abstract class Inbox {
         trader.getInbox().unacceptedTrades.add(trade);
         trader.getInbox().unaccptedUnread += 1;
     }
-
     // for adding to the lists, maybe for an incoming trade or admin notification
 
+    public List<Trade> getTrades() {
+        return this.trades;
+    }
+    //getter for trades
+
+    public List<Trade> getUnacceptedTrades() {
+        return unacceptedTrades;
+    }
+    //getter for unaccepted offers
 
     public int getAdmiNotiUnread() {
         return admiNotiUnread;
