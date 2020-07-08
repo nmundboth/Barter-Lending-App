@@ -4,11 +4,14 @@ import java.util.List;
 
 public class Admin extends User{
     private int notifs_count;
+    private AdminInbox inbox;
 
     public Admin(String username, String password, String type, AdminInbox inbox) {
         super(username, password, type, inbox);
         this.notifs_count = 0;
     }
+
+    public int getNotifs_count(){return this.notifs_count;}
 
     public void readNotifs(){
         this.notifs_count = 0;
@@ -23,4 +26,7 @@ public class Admin extends User{
         trader.isGreedy(true);
         //Setting isGreedy to False should be handled somewhere else automatically when Trader returns book.
     }
+
+    public void confirmItem(Item item){item.setConfirm();}
+    // Confirms a certain item
 }
