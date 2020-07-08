@@ -11,7 +11,10 @@ public class Trader extends User{
     private String name;
     private boolean frozen;
     private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
-    private int incomplete; // # of outstanding incomplete trades currently associated with the trader
+    private int incomplete;// # of outstanding incomplete trades currently associated with the trader
+    private int weeklyTransxns; //TODO: Modify so that it is on a per week basis (probably use java.time methods)
+    private int incompleteLimit;
+    private int weeklyTransxnLimit;
 
     public Trader(String username, String password, String type, TraderInbox inbox, List<Item> inventory, String name) {
         super(username, password, type, inbox);
@@ -21,6 +24,9 @@ public class Trader extends User{
         this.frozen = false;
         this.greedyInt = 0;
         this.incomplete = 0;
+        this.weeklyTransxns = 0;
+        this.incompleteLimit = 3; // Change this to change the limit on incomplete transxns a trader can have
+        this.weeklyTransxnLimit = 10; // Change this to change the weekly transxn limit
     }
 
     // Reads Trades
@@ -133,6 +139,21 @@ public class Trader extends User{
     //^ Moved this method to TradeManager, but keeping here for now since ChangeMeet uses it.
     //Can possibly create another UseCase that deals with the Meeting methods
 
+    public void addWeeklyTransxn(){
+        this.weeklyTransxns += 1;
+    }
+
+    public void addIncomplete(){
+        this.incomplete += 1;
+    }
+
+    public boolean overWeeklyLimit(){
+        return this.weeklyTransxns >= weeklyTransxnLimit;
+    }
+
+    public boolean overIncompleteLimit(){
+        return this.incomplete >= incompleteLimit;
+    }
 
     public boolean isFrozen(boolean b) {
         return frozen;
@@ -153,9 +174,5 @@ public class Trader extends User{
 
     public int getIncomplete(){
         return this.incomplete;
-    }
-
-    public void setIncomplete(int incomplete){
-        this.incomplete = incomplete;
     }
 }

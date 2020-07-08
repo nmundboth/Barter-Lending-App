@@ -1,18 +1,25 @@
 package phase1;
 
+import java.util.List;
+
 public class TradeManager implements TradeScreen{
 
+    private List<Trader> transxnFlagged; // Users flagged to be frozen (but not yet frozen) - should be accessed when admin wants to view users to flag
     //This class relies on the input of two traders to the methods, so will need to have something like "current trader"
     //and "desired trader" (person they are interacting with) to be input from the controller - will be possible using
     //UserCatalogue and having the user select which user they want to trade with/borrow from, etc.
 
-    public TradeManager(){
-    // Could just use default constructor but I like having a constructor even if its empty - feel free to remove.
+    public TradeManager(List<Trader> transxnFlagged){
+        this.transxnFlagged = transxnFlagged;
+    }
+
+    public List<Trader> getTransxnFlagged(){
+        return transxnFlagged;
     }
 
     //TODO: Gate all Trade Request functionality behind whether a trader is frozen (can do in controller)
 
-    //TODO: Gate borrow functionality behind GreedyUser integer
+    //TODO: Gate borrow functionality behind GreedyUser integer of receiver (can be done in controller level)
     public void sendBorrowRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent){
         OneWayTrade trade = new OneWayTrade(ogTrader, otherTrader, item);
         trade.setReceiver(ogTrader);
@@ -24,6 +31,7 @@ public class TradeManager implements TradeScreen{
         // Note that I added a toString method for the Item class that is just the name of the item.
     }
 
+    //TODO: Gate lend functionality behind GreedyUser integer of receiver (can be done in controller level)
     public void sendLendRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent){
         OneWayTrade trade = new OneWayTrade(ogTrader, otherTrader, item);
         trade.setLender(ogTrader);
@@ -71,6 +79,8 @@ public class TradeManager implements TradeScreen{
     // Overloading the next two similarly.
     public void acceptTrade(Trader accepting, Trader accepted, OneWayTrade trade){
         accepting.getInbox().addTrade(trade, accepted);
+        this.checkTransxnLimit(accepting);
+        this.checkTransxnLimit(accepted);
         if (accepting == trade.getLender()){
             accepted.getInbox().addTraderNoti(accepting.getName() + " will lend you their " +
                     trade.getItem() + ".");
@@ -83,6 +93,8 @@ public class TradeManager implements TradeScreen{
 
     public void acceptTrade(Trader accepting, Trader accepted, TwoWayTrade trade){
         accepting.getInbox().addTrade(trade, accepted);
+        this.checkTransxnLimit(accepting);
+        this.checkTransxnLimit(accepted);
         if (accepting == trade.getOgTrader()){
             accepted.getInbox().addTraderNoti(accepting.getName() + " accepts the trade for their " +
                     trade.getOgItem() + " and your " + trade.getOtherItem() + ".");
@@ -90,6 +102,13 @@ public class TradeManager implements TradeScreen{
         else { // (accepting == trade.getOtherTrader())
             accepted.getInbox().addTraderNoti(accepting.getName() + " accepts the trade for their " +
                     trade.getOtherItem() + " and your" + trade.getOgItem() + ".");
+        }
+    }
+
+    public void checkTransxnLimit(Trader trader){
+        trader.addWeeklyTransxn();
+        if (trader.overWeeklyLimit()){
+            transxnFlagged.add(trader);
         }
     }
 
@@ -129,96 +148,5 @@ public class TradeManager implements TradeScreen{
     public void cancelTrade(){
         //TODO: Could implement in a similar way to confirming a trade (i.e. have a List of Users that have requested
         // to cancel, and once the list contains both users, cancel the trade.
-    }
-
-    // ===============POSSIBLY MOVE THE FOLLOWING TO MeetingManager===============================
-
-    // Output of this method will be passed to the controller/presenter upon a user attempting to set/edit a meeting.
-    public String proposeMeeting(Trader setter, Trade trade, String location, String date, String time){
-        if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
-            return "Both users involved in this trade have used all of their available edits.\n" +
-            "Would you like to cancel the trade? (Y/N)";
-        }
-        else if (setter == trade.getOgTrader()){
-            if (trade.getOgEdits() == 0){
-                return "You have no available edits for this trade.\nPlease confirm or cancel the trade.";
-            }
-            else {
-                this.ogScheduleMeet(trade, location, date, time);
-                return "Meeting successfully proposed to " + trade.getOtherTrader().getName() + ".\n" +
-                        "Remaining edits: " + trade.getOgEdits();
-            }
-        }
-        else { // setter == trade.getOtherTrader
-            if (trade.getOtherEdits() == 0){
-                return "You have no available edits for this trade.\nPlease confirm or cancel the trade.";
-            }
-            else {
-                this.otherScheduleMeet(trade, location, date, time);
-                return "Meeting successfully proposed to " + trade.getOgTrader().getName() + ".\n" +
-                        "Remaining edits: " + trade.getOtherEdits();
-            }
-        }
-    }
-
-    public void ogScheduleMeet(Trade trade, String location, String date, String time){
-        Trader sender = trade.getOgTrader();
-        Trader receiver = trade.getOtherTrader();
-        Meeting meeting = trade.getMeeting();
-        meeting.setAll(location, date, time, sender);
-        trade.setOgEdits(trade.getOgEdits() - 1);
-        this.sendMeet(sender, receiver, meeting, trade);
-    }
-
-    public void otherScheduleMeet(Trade trade, String location, String date, String time){
-        Trader sender = trade.getOtherTrader();
-        Trader receiver = trade.getOgTrader();
-        Meeting meeting = trade.getMeeting();
-        meeting.setAll(location, date, time, sender);
-        trade.setOtherEdits(trade.getOtherEdits() - 1);
-        this.sendMeet(sender, receiver, meeting, trade);
-    }
-
-    /**
-     * Helper method for ogScheduleMeet and otherScheduleMeet that sends a meeting request to the inbox of the receiver.
-     * @param sender Trader proposing the meeting proposal.
-     * @param receiver Trader receiving the meeting proposal.
-     * @param meeting The meeting that is being proposed.
-     */
-    public void sendMeet(Trader sender, Trader receiver, Meeting meeting, Trade trade){
-        receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
-        receiver.getInbox().addTraderNoti("Hey " + receiver.getName() + "! Can you meet " + sender.getName() +
-                " at " + meeting.getTime() + " on " + meeting.getDate() + " at " + meeting.getLocation() +
-                " to conduct the following trade?\n" + trade);
-    }
-
-    /**
-     * Allows a trader that has received a meeting proposal to confirm a trade.
-     * Sets available edits to 0, so that neither user can edit the meeting after it is confirmed.
-     * Sets the trade to open, adjusting amount of incomplete trades for each user, since this trade is now
-     * considered incomplete (open).
-     * Adjust greedy user integers if the meeting is for a One-Way Trade.
-     * @param trade The trade for which the meeting is being confirmed.
-     */
-    // In controller method that interacts with this, need to make sure that the meeting is not being confirmed by the
-    // person that proposed it (confirmer != meeting.getProposedBy())
-
-    public void confirmMeet(TwoWayTrade trade){
-        this.helperConfirmMeet(trade);
-    }
-
-    public void confirmMeet(OneWayTrade trade) {
-        this.helperConfirmMeet(trade);
-        trade.getLender().setGreedyInt(trade.getLender().getGreedyInt() - 1);
-        trade.getReceiver().setGreedyInt(trade.getReceiver().getGreedyInt() + 1);
-    }
-
-    // Helper for the above methods - wanted to overload methods, but avoid duplicate code.
-    public void helperConfirmMeet(Trade trade){
-        trade.getOgTrader().setIncomplete(trade.getOgTrader().getIncomplete() + 1);
-        trade.getOtherTrader().setIncomplete(trade.getOtherTrader().getIncomplete() + 1);
-        trade.setOpen(true);
-        trade.setOgEdits(0);
-        trade.setOtherEdits(0);
     }
 }
