@@ -23,7 +23,7 @@ public class Admin extends User{
         }
     }
     public void freezeTrader(Trader trader){
-        trader.isGreedy(true);
+        trader.isFrozen(true);
         //Setting isGreedy to False should be handled somewhere else automatically when Trader returns book.
     }
 

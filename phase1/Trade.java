@@ -5,13 +5,14 @@ import java.util.ArrayList;
 public class Trade {
 
     // og is Original Trader
-    private Trader ogTrader;
-    private Trader otherTrader;
+    protected Trader ogTrader;
+    protected Trader otherTrader;
     private int ogEdits;
     private int otherEdits;
     private boolean open;
-    private boolean permanent;
+    protected boolean permanent;
     private ArrayList<Trader> confirmations;
+    private Meeting meeting;
 
     public Trade(Trader ogTrader, Trader otherTrader){
         this.ogTrader = ogTrader;
@@ -21,6 +22,7 @@ public class Trade {
         this.open = false;
         this.permanent = false;
         this.confirmations = new ArrayList<Trader>();
+        this.meeting = new Meeting();
     }
 
     public Trader getOgTrader(){
@@ -49,6 +51,10 @@ public class Trade {
 
     public boolean isPermanent() {
         return permanent;
+    }
+
+    public Meeting getMeeting(){
+        return meeting;
     }
 
     public void setOgEdits(int ogEdits) {

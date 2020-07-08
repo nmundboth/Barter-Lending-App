@@ -33,5 +33,14 @@ public class OneWayTrade extends Trade{
         return this.item;
     }
 
+    public String toString(){
+        if (permanent){
+            return receiver.getName() + " receiving " + item + " from " + lender.getName() + ".";
+        }
+        else { // temporary trade
+            return receiver.getName() + " borrowing " + item + " from " + lender.getName() + ".";
+        }
+    }
+
 
 }

@@ -9,13 +9,18 @@ public class Trader extends User{
     private List<Item> inventory;
     private List<Item> wish_list;
     private String name;
-    private boolean greedy;
+    private boolean frozen;
+    private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
+    private int incomplete; // # of outstanding incomplete trades currently associated with the trader
 
     public Trader(String username, String password, String type, TraderInbox inbox, List<Item> inventory, String name) {
         super(username, password, type, inbox);
         this.inventory = inventory;
         this.wish_list = new ArrayList<Item>();
         this.name = name;
+        this.frozen = false;
+        this.greedyInt = 0;
+        this.incomplete = 0;
     }
 
     // Reads Trades
@@ -121,9 +126,6 @@ public class Trader extends User{
         return name;
     }
 
-    public void tradeComplete(Trader trader, Trade trade, String text){
-        this.getInbox().completeTrade(trader, trade, text);
-    }
 
     public void tradeCancelled(Trader trader, Trade trade, String text, String cancel){
         this.getInbox().cancelTrade(trade, trader, text, cancel);
@@ -131,15 +133,29 @@ public class Trader extends User{
     //^ Moved this method to TradeManager, but keeping here for now since ChangeMeet uses it.
     //Can possibly create another UseCase that deals with the Meeting methods
 
-    //Sets if user is greedy (has book longer than 1 month)
 
-
-    public boolean isGreedy(boolean b) {
-        return greedy;
+    public boolean isFrozen(boolean b) {
+        return frozen;
     }
 
-    public void setGreedy(boolean greedy) {
-        this.greedy = greedy;
+    public void setFrozen(boolean frozen) {
+        this.frozen = frozen;
         //Set to true by Admin freezeTrader and set to false automatically when user returns overdue book.
+    }
+
+    public int getGreedyInt(){
+        return greedyInt;
+    }
+
+    public void setGreedyInt(int greedyInt){
+        this.greedyInt = greedyInt;
+    }
+
+    public int getIncomplete(){
+        return this.incomplete;
+    }
+
+    public void setIncomplete(int incomplete){
+        this.incomplete = incomplete;
     }
 }

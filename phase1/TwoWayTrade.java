@@ -18,4 +18,15 @@ public class TwoWayTrade extends Trade{
     public Item getOtherItem(){
         return otherItem;
     }
+
+    public String toString(){
+        if (permanent){
+            return ogTrader.getName() + " giving " + ogItem + " to " + otherTrader.getName() + " for " +
+                    otherItem + ".";
+        }
+        else {// temporary
+            return ogTrader.getName() + " temporarily giving " + ogItem + " to " + otherTrader.getName() +
+                    " for " + otherItem + ".";
+        }
+    }
 }
