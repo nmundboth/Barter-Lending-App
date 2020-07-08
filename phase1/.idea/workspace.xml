@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3b01a81b-c85f-4aaa-982d-8ff8db919e63" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/TradingSystem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/UserManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TradingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/TradingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserManager.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
