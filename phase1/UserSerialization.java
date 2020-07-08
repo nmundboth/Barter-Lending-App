@@ -7,6 +7,9 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+// Serialization template taken from
+//https://howtodoinjava.com/java/collections/arraylist/serialize-deserialize-arraylist/
+
 public class UserSerialization
 {
     public static void toSerialize(ArrayList<User> users) throws Exception
@@ -49,7 +52,6 @@ public class UserSerialization
             System.out.println("Class not found");
         }
 
-        //Verify list data
         for (User name : userList) {
             System.out.println(name);
         }

@@ -1,6 +1,6 @@
 package phase1;
 
-public interface TradeScreen {
+public interface Tradable {
 
     void sendBorrowRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent);
     void sendLendRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent);
