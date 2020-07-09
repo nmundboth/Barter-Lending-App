@@ -29,4 +29,16 @@ public class TwoWayTrade extends Trade{
                     " for " + otherItem + ".";
         }
     }
+
+    @Override
+    public void removeItems(){
+        ogTrader.removeFromInventory(ogItem);
+        otherTrader.removeFromInventory(otherItem);
+    }
+
+    @Override
+    public void addRecentItem(){
+        ogTrader.addRecentItemToList(ogItem);
+        otherTrader.addRecentItemToList(otherItem);
+    }
 }

@@ -1,5 +1,7 @@
 package phase1;
 
+import java.time.Period;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Trade {
@@ -13,6 +15,8 @@ public class Trade {
     protected boolean permanent;
     private ArrayList<Trader> confirmations;
     private Meeting meeting;
+    private int completedMeetings; // For temporary trades only -> tracks whether this is the first or second meeting.
+    private Period tempTradePeriod;
 
     public Trade(Trader ogTrader, Trader otherTrader){
         this.ogTrader = ogTrader;
@@ -23,6 +27,7 @@ public class Trade {
         this.permanent = false;
         this.confirmations = new ArrayList<Trader>();
         this.meeting = new Meeting();
+        this.tempTradePeriod = Period.ofMonths(1); // Change this to change the length of a temporary trade
     }
 
     public Trader getOgTrader(){
@@ -57,6 +62,23 @@ public class Trade {
         return meeting;
     }
 
+    public int getCompletedMeetings(){
+        return completedMeetings;
+    }
+
+    // Currently does not take time of day into account, just adds one month, and sets the meeting to be at the same
+    // time of day as the first one.
+    public void completeFirstMeeting(){
+        String confirmationText = "First meeting for the trade:\n" + this +
+                "\nhas been completed.";
+        completedMeetings = 1;
+        LocalDate currMeeting = LocalDate.parse(meeting.getDate());
+        LocalDate secondMeeting = currMeeting.plus(tempTradePeriod);
+        meeting.setDate(secondMeeting.toString());
+
+        ogTrader.getInbox().tradeConfirmed(otherTrader, confirmationText);
+    }
+
     public void setOgEdits(int ogEdits) {
         this.ogEdits = ogEdits;
     }
@@ -79,5 +101,11 @@ public class Trade {
 
     public void setPermanent(boolean permanent) {
         this.permanent = permanent;
+    }
+
+    public void addRecentItem(){
+    }
+
+    public void removeItems(){
     }
 }

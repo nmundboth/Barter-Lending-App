@@ -3,12 +3,11 @@ package phase1;
 public class Meeting {
 
     private String location = "";
-    private String date = "";
+    private String date = ""; // Format should be "YYYY-MM-DD" -> NEED TO HAVE TRY/CATCH BLOCK IN CONTROLLER
     private String time = "";
     private Trader proposedBy; // To track who last proposed the meeting, so that only the other person can confirm the meeting (see confirmMeet method in MeetingManager)
 
     public Meeting(){
-
     }
 
     public Meeting(String location, String date, String time){
