@@ -148,12 +148,16 @@ public class TradeManager implements Tradable{
 
         trade.addRecentItem();
 
-        String completionText = "The trade:\n" + trade + "\n has been completed.";
-        ogTrader.getInbox().completeTrade(otherTrader, completionText);
+        ogTrader.getInbox().completeTrade(otherTrader, trade, "The trade:\n" + trade + "\n has been completed.");
     }
 
-    public void cancelTrade(){
-        //TODO: Could implement in a similar way to confirming a trade (i.e. have a List of Users that have requested
-        // to cancel, and once the list contains both users, cancel the trade.
+    // Similar to confirmTrade, but else block would read: "You have already requested to cancel the trade, or are trying to cancel an open trade!"
+    public void cancelTrade(Trader cancelling, Trader other, Trade trade){
+        if ((!trade.getCancellations().contains(cancelling)) && !trade.isOpen()){
+            trade.addCancellation(cancelling);
+            if(trade.getCancellations().size() == 2){
+                cancelling.getInbox().cancelTrade(trade, other, "The trade:\n" + trade + "\nhas been cancelled.");
+            }
+        }
     }
 }

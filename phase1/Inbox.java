@@ -70,7 +70,9 @@ abstract class Inbox {
     }
 
     // Mark the Trade as complete
-    public void completeTrade(Trader trader, String text){
+    public void completeTrade(Trader trader, Trade trade, String text){
+        this.trades.remove(trade);
+        trader.getInbox().trades.remove(trade);
         this.tradeUnread += 1;
         trader.getInbox().tradeUnread += 1;
         this.addTraderNoti(text);
@@ -87,15 +89,10 @@ abstract class Inbox {
     // Traders accepting a Trade
     public void addTrade(Trade trade, Trader trader){
         this.trades.add(trade);
-        // The Trader receiving the acceptance will be notified
         trader.getInbox().trades.add(trade);
         trader.getInbox().tradeUnread += 1;
-        // Issue is how to remove that Trade from both Traders' unacceptedTrades. Need to be sure that we are
-        // extracting the Trade correctly. Maybe need more details in the objects to extract Trade correctly from
-        // both unacceptedTrades?
         this.unacceptedTrades.remove(trade);
         trader.getInbox().unacceptedTrades.remove(trade);
-        // Would this work? ^
     }
 
     // Decline an unaccepted trade
@@ -105,23 +102,14 @@ abstract class Inbox {
         trader.getInbox().unaccptedUnread += 1;
     }
 
-    // Both Traders reach a compromise to cancel a Trade. (Work-in-progress) method
-    public boolean cancelTradeRequest(Trade trade, Trader trader, String request){
-        // Case where editing Meeting by both Traders exceeded: automatically returns true
-        return true;
-    }
-
     // Traders successfully cancel the Trade
-    public void cancelTrade(Trade trade, Trader trader, String text, String cancel){
-        if (cancelTradeRequest(trade, trader, text)){
+    public void cancelTrade(Trade trade, Trader trader, String cancel){
             this.trades.remove(trade);
             trader.getInbox().trades.remove(trade);
             this.addTraderNoti(cancel);
             trader.getInbox().addTraderNoti(cancel);
             this.tradeUnread += 1;
             trader.getInbox().tradeUnread += 1;
-            trade.setOpen(false);
-        }
     }
 
     public void addAdminNoti(String text){ this.admiNoti.add(text);}

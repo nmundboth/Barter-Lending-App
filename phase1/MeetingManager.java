@@ -22,7 +22,7 @@ public class MeetingManager {
         }
         else if (setter == trade.getOgTrader()){
             if (trade.getOgEdits() == 0){
-                return "You have no available edits for this trade.\nPlease confirm or cancel the trade.";
+                return "You have no available edits for this trade.\nPlease confirm the meeting or cancel the trade.";
             }
             else {
                 this.ogScheduleMeet(trade, location, date, time);
