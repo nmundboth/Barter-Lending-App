@@ -9,9 +9,9 @@ public class TradingSystem {
     public static void main(String[] args) {
         UserSerialization userSerialization = new UserSerialization();
         Scanner userInfo = new Scanner(System.in);
-        System.out.println("Enter username")
+        System.out.println("Enter username");
         String username = userInfo.nextLine();
-        System.out.println("Enter password")
+        System.out.println("Enter password");
         String password = userInfo.nextLine();
         System.out.println("1: Log in 2: Register");
         int signInOption = userInfo.nextLine();
