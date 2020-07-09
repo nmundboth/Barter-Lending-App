@@ -2,7 +2,7 @@ package phase1;
 
 import java.util.List;
 
-public class TradeManager implements TradeScreen{
+public class TradeManager implements Tradable{
 
     private List<Trader> transxnFlagged; // Users flagged to be frozen (but not yet frozen) - should be accessed when admin wants to view users to flag
     //This class relies on the input of two traders to the methods, so will need to have something like "current trader"
@@ -108,13 +108,12 @@ public class TradeManager implements TradeScreen{
     public void checkTransxnLimit(Trader trader){
         trader.addWeeklyTransxn();
         if (trader.overWeeklyLimit()){
-            transxnFlagged.add(trader);
+            transxnFlagged.add(trader); // Doesn't automatically freeze trader, just flags them
         }
     }
 
     // I'm using booleans here to handle the case that a User is trying to confirm a trade that they have already
     // confirmed. The booleans will be received by the presenter and output the appropriate text to the screen.
-    //TODO: Related to above, need to track unconfirmed transactions per user per week.
     //TODO: Once transaction has been confirmed by both users, should remove items involved in the transaction from the
     // appropriate item lists — likely need to overload another method here depending on OneWay or TwoWayTrade.
     public boolean confirmTrade(Trader confirming, Trader other, Trade trade){

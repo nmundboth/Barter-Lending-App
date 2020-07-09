@@ -112,13 +112,14 @@ public class MeetingManager {
         }
         receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
         receiver.getInbox().addTraderNoti("Meeting with " + confirmer.getName() + " confirmed for "
-                + meeting.getTime() + " on " + meeting.getDate() + " at " + meeting.getLocation());
+                + meeting.getTime() + " on " + meeting.getDate() + " at " + meeting.getLocation() +
+                " to conduct the following trade:\n" + trade);
     }
 
     public void checkIncompleteLimit(Trader trader){
         trader.addIncomplete();
         if (trader.overIncompleteLimit()){
-            incompleteFlagged.add(trader);
+            incompleteFlagged.add(trader); // Doesn't automatically freeze trader, just flags them
         }
     }
 }
