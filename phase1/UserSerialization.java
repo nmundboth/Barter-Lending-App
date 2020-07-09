@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class UserSerialization
 {
-    public static void toSerialize(ArrayList<User> users) throws Exception
+    public void toSerialize(ArrayList<User> users) throws Exception
     {
         ArrayList<User> userList = new ArrayList<User>(users);
         try
@@ -29,7 +29,7 @@ public class UserSerialization
         }
     }
 
-    public static void deserialize() throws Exception
+    public ArrayList<User> deserialize() throws Exception
     {
         ArrayList<User> userList = new ArrayList<User>();
 
@@ -55,6 +55,7 @@ public class UserSerialization
         for (User name : userList) {
             System.out.println(name);
         }
+        return userList;
     }
 }
 
