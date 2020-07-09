@@ -2,6 +2,8 @@ package phase1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Period;
+import java.time.LocalDateTime;
 
 public class Trader extends User{
 
@@ -13,6 +15,7 @@ public class Trader extends User{
     private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
     private int incomplete;// # of outstanding incomplete trades currently associated with the trader
     private int weeklyTransxns; //TODO: Modify so that it is on a per week basis (probably use java.time methods)
+    private LocalDateTime weeklyEnd;
     private int incompleteLimit;
     private int weeklyTransxnLimit;
 
@@ -25,6 +28,7 @@ public class Trader extends User{
         this.greedyInt = 0;
         this.incomplete = 0;
         this.weeklyTransxns = 0;
+        this.weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1));
         this.incompleteLimit = 3; // Change this to change the limit on incomplete transxns a trader can have
         this.weeklyTransxnLimit = 10; // Change this to change the weekly transxn limit
     }
@@ -139,8 +143,17 @@ public class Trader extends User{
     //^ Moved this method to TradeManager, but keeping here for now since ChangeMeet uses it.
     //Can possibly create another UseCase that deals with the Meeting methods
 
+
+    // If we want to account for the very small time difference in LocalDateTime.now() between each use, can instead
+    // create a temporary variable; LocalDateTime currTime = LocalDateTime.now() and use throughout method
     public void addWeeklyTransxn(){
-        this.weeklyTransxns += 1;
+        if (LocalDateTime.now().isAfter(weeklyEnd) || LocalDateTime.now().isEqual(weeklyEnd)){
+            weeklyTransxns = 1;
+            weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1));
+        }
+        else{ // Weekly period hasn't ended
+            weeklyTransxns += 1;
+        }
     }
 
     public void addIncomplete(){
