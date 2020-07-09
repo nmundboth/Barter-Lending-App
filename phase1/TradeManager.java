@@ -2,7 +2,7 @@ package phase1;
 
 import java.util.List;
 
-public class TradeManager implements TradeScreen{
+public class TradeManager implements Tradable{
 
     private List<Trader> transxnFlagged; // Users flagged to be frozen (but not yet frozen) - should be accessed when admin wants to view users to flag
     //This class relies on the input of two traders to the methods, so will need to have something like "current trader"
@@ -27,8 +27,6 @@ public class TradeManager implements TradeScreen{
         trade.setPermanent(isPermanent);
         ogTrader.getInbox().addUnaccepted(trade, otherTrader);
         otherTrader.getInbox().addTraderNoti(ogTrader.getName() + " wants to borrow " + item + " from you.");
-        // Can either do "from you" or "from" + otherTrader.getName()
-        // Note that I added a toString method for the Item class that is just the name of the item.
     }
 
     //TODO: Gate lend functionality behind GreedyUser integer of receiver (can be done in controller level)
@@ -39,7 +37,6 @@ public class TradeManager implements TradeScreen{
         trade.setPermanent(isPermanent);
         ogTrader.getInbox().addUnaccepted(trade, otherTrader);
         otherTrader.getInbox().addTraderNoti(ogTrader.getName() + " wants to lend you " + item + ".");
-        // Same thing here, can either do "wants to lend you" or "wants to lend " + otherTrader.getName()
     }
 
     //Two-way trade request
@@ -108,41 +105,51 @@ public class TradeManager implements TradeScreen{
     public void checkTransxnLimit(Trader trader){
         trader.addWeeklyTransxn();
         if (trader.overWeeklyLimit()){
-            transxnFlagged.add(trader);
+            transxnFlagged.add(trader); // Doesn't automatically freeze trader, just flags them
         }
     }
 
-    // I'm using booleans here to handle the case that a User is trying to confirm a trade that they have already
-    // confirmed. The booleans will be received by the presenter and output the appropriate text to the screen.
-    //TODO: Related to above, need to track unconfirmed transactions per user per week.
-    //TODO: Once transaction has been confirmed by both users, should remove items involved in the transaction from the
-    // appropriate item lists — likely need to overload another method here depending on OneWay or TwoWayTrade.
-    public boolean confirmTrade(Trader confirming, Trader other, Trade trade){
-        String confirmationText = "Transaction between " + confirming.getName() + " and " + other.getName() +
-                " has been confirmed.";
+    // Can add an else block (outer layer) that prints "You have already confirmed the trade!" if the trader has already confirmed.
+    public void confirmTrade(Trader confirming, Trader other, Trade trade){
         if (!trade.getConfirmations().contains(confirming)){
             trade.addConfirmation(confirming);
             if(trade.getConfirmations().size() == 2){
-                confirming.getInbox().tradeConfirmed(other, trade, confirmationText);
-                trade.clearConfirmations(); //Clearing the confirmations so the second meeting for a temp trade can also be confirmed.
+                this.confirm(confirming, other, trade);
             }
-            else{
-
-            }
-            return true;
-        }
-        else { // Trader has already confirmed the trade
-            return false;
         }
     }
 
-    //TODO: Implementation can vary, but should remove a trade once it is completed.
+    public void confirm(Trader confirming, Trader other, Trade trade){
+        if (trade.isPermanent()){
+            trade.removeItems();
+            this.completeTrade(trade);
+        }
+        else if ((!trade.isPermanent()) && trade.getCompletedMeetings() == 0){
+            trade.removeItems();
+            trade.completeFirstMeeting();
+            trade.clearConfirmations();
+        }
+        else{// Temporary trade that has had one meeting completed already
+            this.completeTrade(trade);
+        }
+
+    }
+
     public void completeTrade(Trade trade){
         Trader ogTrader = trade.getOgTrader();
         Trader otherTrader = trade.getOtherTrader();
-        String completionText = "Transaction between " + ogTrader.getName() + " and " + otherTrader.getName() +
-                " has been completed.";
-        ogTrader.getInbox().completeTrade(otherTrader, trade, completionText);
+
+        trade.setOpen(false);
+        ogTrader.removeIncomplete(); // Note this is not removing them from being flagged completing the trade drops them into an acceptable range
+        otherTrader.removeIncomplete();
+
+        ogTrader.addTradingPartner(otherTrader);
+        otherTrader.addTradingPartner(ogTrader);
+
+        trade.addRecentItem();
+
+        String completionText = "The trade:\n" + trade + "\n has been completed.";
+        ogTrader.getInbox().completeTrade(otherTrader, completionText);
     }
 
     public void cancelTrade(){

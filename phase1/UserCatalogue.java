@@ -10,7 +10,7 @@ public class UserCatalogue {
         userBase = new ArrayList<User>(list);
     }
 
-    public ArrayList<Item> findItem(){
+    public ArrayList<Item> findAllItems(){
         ArrayList<Item> items = new ArrayList<Item>();
         for(User trader: userBase){
             if(trader instanceof Trader) {

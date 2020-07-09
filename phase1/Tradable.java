@@ -2,6 +2,8 @@ package phase1;
 
 public interface Tradable {
 
+    // Reference: https://www.geeksforgeeks.org/interfaces-in-java/
+
     void sendBorrowRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent);
     void sendLendRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent);
     void sendTWTradeRequest(Trader ogTrader, Trader otherTrader, Item ogItem, Item otherItem,

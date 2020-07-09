@@ -1,7 +1,10 @@
 package phase1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.time.Period;
+import java.time.LocalDateTime;
 
 public class Trader extends User{
 
@@ -12,7 +15,10 @@ public class Trader extends User{
     private boolean frozen;
     private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
     private int incomplete;// # of outstanding incomplete trades currently associated with the trader
-    private int weeklyTransxns; //TODO: Modify so that it is on a per week basis (probably use java.time methods)
+    private int weeklyTransxns;
+    private LocalDateTime weeklyEnd;
+    private HashMap<Trader, Integer> tradingPartners;
+    private ArrayList<Item> recentItems;
     private int incompleteLimit;
     private int weeklyTransxnLimit;
 
@@ -25,6 +31,9 @@ public class Trader extends User{
         this.greedyInt = 0;
         this.incomplete = 0;
         this.weeklyTransxns = 0;
+        this.weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1));
+        this.tradingPartners = new HashMap<Trader, Integer>();
+        this.recentItems = new ArrayList<Item>();
         this.incompleteLimit = 3; // Change this to change the limit on incomplete transxns a trader can have
         this.weeklyTransxnLimit = 10; // Change this to change the weekly transxn limit
     }
@@ -102,49 +111,74 @@ public class Trader extends User{
         System.out.println("Item not found!");
     }
 
-    // Schedule a meeting between Traders. (Work-in-progress) method
-    public void scheduleMeet(Trader trader, Meeting meet){
-        trader.getInbox().setTradeUnread(trader.getInbox().getTradeUnread() + 1);
-        trader.getInbox().addTraderNoti("Hey "+trader.name+"! Can you meet "+this.name+" on"+meet.getDate()+" at "+
-                meet.getLocation()+" at "+meet.getTime()+"?");
-    }
-
-    // Change meeting time/place. Each Trader has up to 3 edits
-    public void changeMeet(Trader trader, Trade trade, String text, String cancel, Meeting meet, String location, String date, String time){
-        if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
-            this.tradeCancelled(trader, trade, text, cancel);
-        }
-        else {
-            meet.setDate(date);
-            meet.setLocation(location);
-            meet.setTime(time);
-            if ((this.name.equals(trade.getOgTrader()))) {
-                trade.setOgEdits(trade.getOgEdits() - 1);
-            }
-            else {
-                trade.setOtherEdits(trade.getOtherEdits() - 1);
-            }
-            this.scheduleMeet(trader, meet);
-        }
+    public void removeFromInventory(Item item){
+        inventory.remove(item);
     }
 
     public String getName() {
         return name;
     }
 
-
-    public void tradeCancelled(Trader trader, Trade trade, String text, String cancel){
-        this.getInbox().cancelTrade(trade, trader, text, cancel);
-    }
     //^ Moved this method to TradeManager, but keeping here for now since ChangeMeet uses it.
     //Can possibly create another UseCase that deals with the Meeting methods
 
+
+    // If we want to account for the very small time difference in LocalDateTime.now() between each use, can instead
+    // create a temporary variable; LocalDateTime currTime = LocalDateTime.now() and use throughout method
     public void addWeeklyTransxn(){
-        this.weeklyTransxns += 1;
+        if (LocalDateTime.now().isAfter(weeklyEnd) || LocalDateTime.now().isEqual(weeklyEnd)){
+            weeklyTransxns = 1;
+            weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1));
+        }
+        else{ // Weekly period hasn't ended
+            weeklyTransxns += 1;
+        }
+    }
+
+    public void addTradingPartner(Trader partner){
+        if (tradingPartners.containsKey(partner)){
+            tradingPartners.put(partner, tradingPartners.get(partner) + 1);
+        }
+        else{
+            tradingPartners.put(partner, 1);
+        }
+    }
+
+    public ArrayList<Trader> frequentPartners(){
+        HashMap<Trader, Integer> threeMostFrequent = new HashMap<Trader, Integer>();
+        for (Trader t : tradingPartners.keySet()){
+            if (threeMostFrequent.size() < 3){
+                threeMostFrequent.put(t, tradingPartners.get(t));
+            }
+            else{ // Size of threeMostFrequent >= 3
+                for (Trader ft : threeMostFrequent.keySet()){
+                    if (tradingPartners.get(t) > threeMostFrequent.get(ft)){
+                        threeMostFrequent.remove(ft);
+                        threeMostFrequent.put(t, tradingPartners.get(t));
+                    }
+                }
+            }
+        }
+        ArrayList<Trader> frequentPartners = new ArrayList<Trader>(threeMostFrequent.keySet());
+        return frequentPartners;
+    }
+
+    public void addRecentItemToList(Item item){
+        if (recentItems.size() < 3){
+            recentItems.add(item);
+        }
+        else{ // recentItems.size == 3 ---> recentItems will always have a size <= 3
+            recentItems.add(item);
+            recentItems.remove(0);
+        }
     }
 
     public void addIncomplete(){
         this.incomplete += 1;
+    }
+
+    public void removeIncomplete(){
+        this.incomplete -= 1;
     }
 
     public boolean overWeeklyLimit(){
@@ -174,5 +208,9 @@ public class Trader extends User{
 
     public int getIncomplete(){
         return this.incomplete;
+    }
+
+    public String toString(){
+        return this.name;
     }
 }
