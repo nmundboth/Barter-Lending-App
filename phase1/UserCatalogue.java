@@ -47,5 +47,14 @@ public class UserCatalogue {
         return new ArrayList<Item>();
     }
 
+    public boolean availableUsername(String newUsername){
+        for (User users: userBase){
+            if (users.getUsername().equals(newUsername)){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }
