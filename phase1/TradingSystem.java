@@ -27,7 +27,7 @@ public class TradingSystem {
         if (signInOption == 1) {
             // check if exists in userserialization and add to usermanager as current user
         }
-        else if (signInOption) == 2) {
+        else if (signInOption == 2) {
             // add to list of accounts in userserialization
         }
     }
