@@ -62,23 +62,19 @@ abstract class Inbox {
     }
     // Same deal as the one before
 
-    public void tradeConfirmed(Trader trader, Trade trade, String text){
+    public void tradeConfirmed(Trader trader, String text){
         this.tradeUnread += 1;
         trader.getInbox().tradeUnread += 1;
         this.addTraderNoti(text);
         trader.getInbox().addTraderNoti(text);
-        trade.setOpen(true);
     }
 
     // Mark the Trade as complete
-    public void completeTrade(Trader trader, Trade trade, String text){
+    public void completeTrade(Trader trader, String text){
         this.tradeUnread += 1;
         trader.getInbox().tradeUnread += 1;
         this.addTraderNoti(text);
         trader.getInbox().addTraderNoti(text);
-        if (trade.isPermanent()){
-            trade.setOpen(false);
-        }
     }
 
     public Trade getUnacceptedTrades(int index){

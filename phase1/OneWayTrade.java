@@ -33,6 +33,16 @@ public class OneWayTrade extends Trade{
         return this.item;
     }
 
+    @Override
+    public void removeItems(){
+        lender.removeFromInventory(item);
+    }
+
+    @Override
+    public void addRecentItem(){
+        lender.addRecentItemToList(item);
+    }
+
     public String toString(){
         if (permanent){
             return receiver.getName() + " receiving " + item + " from " + lender.getName() + ".";
