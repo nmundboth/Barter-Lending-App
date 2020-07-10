@@ -60,8 +60,8 @@ abstract class Inbox {
         this.admiNotiUnread -= 1;
         return temp;
     }
-    // Same deal as the one before
 
+    // Same deal as the one before
     public void tradeConfirmed(Trader trader, String text){
         this.tradeUnread += 1;
         trader.getInbox().tradeUnread += 1;
