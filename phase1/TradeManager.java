@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * <h1>Trade Functions</h1>
- * <p>The TradeManager class contains method that allow traders to send/receive trades, accept/reject trade requests,
+ * <p>The TradeManager class contains methods that allow traders to send/receive trades, accept/reject trade requests,
  * confirm that a transaction has taken place, or cancel a trade. It also relays trade information to the involved
  * traders' inboxes. TradeManager and MeetingManager work to manage all of the components of trades.
  * TradeManager also tracks users that have too many accepted trades, flagging them for admin users to decide if they
@@ -21,7 +21,7 @@ public class TradeManager implements Tradable{
 
     /**
      * On instantiation, TradeManager contains a list of all Traders that have been flagged for having too many weekly
-     * transactions outstanding (empty if no users are flagged).
+     * transactions outstanding (empty if no traders are flagged).
      * @param transxnFlagged List of all users that have too many weekly transactions (used by admin to determine which
      *                       users should be frozen).
      */
