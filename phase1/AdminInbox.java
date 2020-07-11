@@ -2,15 +2,15 @@ package phase1;
 
 import java.util.List;
 
-public class AdminInbox {
+public class AdminInbox extends Inbox{
 
     private List<Trader> undoFrozen;
     // User can request to be unfrozen and then an instance of the user is received inside the sub-inbox undoFrozen
     // I figured this is the easiest way to do it
-    private List<String> adminNoti;
-    // Notification from other admins
-    private List<String> traderNoti;
-    // Notification from traders
+//    private List<String> adminNoti;
+//    // Notification from other admins
+//    private List<String> traderNoti;
+//    // Notification from traders
 
 
     private int traderUnread ;
@@ -20,11 +20,9 @@ public class AdminInbox {
     private int undoFrozenUnread;
     //The number of unread unfreezing requests from traders
 
-    public AdminInbox(List<String> traderNoti, List<String> adminNoti, List<Trader> undoFrozen){
-
+    public AdminInbox(List<Trade> trades, List<String> traderNoti, List<String> adminNotifs, List<Trader> undoFrozen){
+        super(trades, traderNoti, adminNotifs);
         this.undoFrozen = undoFrozen;
-        this.adminNoti = adminNoti;
-        this.traderNoti = traderNoti;
         this.admiNotiUnread = 0;
         this.traderUnread = 0;
         this.undoFrozenUnread = 0;
@@ -37,7 +35,7 @@ public class AdminInbox {
     public int getUndoFrozenUnread(){return this.undoFrozenUnread;}
     public int getTotalUnread(){return this.traderUnread + this.admiNotiUnread + undoFrozenUnread;}
 
-    // getters for unread messeges
+    // getters for unread messages
 
     public void getUndoFrozen(int index){
         Trader temp = this.undoFrozen.get(index);
@@ -50,16 +48,16 @@ public class AdminInbox {
     // method for undoing frozen status for a user
 
     public String getAdminNoti(int index){
-        String temp = this.adminNoti.get(index);
-        this.adminNoti.remove(index);
+        String temp = this.getAdmiNoti().get(index);
+        this.getAdmiNoti().remove(index);
         this.admiNotiUnread -= 1;
         return temp;
     }
     //method for accessing admin notifications
 
     public String getTraderNoti(int index){
-        String temp = this.traderNoti.get(index);
-        this.traderNoti.remove(index);
+        String temp = this.getTraderNoti().get(index);
+        this.getTraderNoti().remove(index);
         this.traderUnread -= 1;
         return temp;
     }
