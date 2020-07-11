@@ -189,14 +189,9 @@ public class Trader extends User{
         return this.incomplete >= incompleteLimit;
     }
 
-    public boolean isFrozen(boolean b) {
-        return frozen;
-    }
+    public boolean isFrozen(){return frozen;}
 
-    public void setFrozen(boolean frozen) {
-        this.frozen = frozen;
-        //Set to true by Admin freezeTrader and set to false automatically when user returns overdue book.
-    }
+    public void setFrozen(boolean b){this.frozen = b;}
 
     public int getGreedyInt(){
         return greedyInt;
