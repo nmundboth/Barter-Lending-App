@@ -2,46 +2,83 @@ package phase1;
 
 import java.util.List;
 
+/**
+ * <h1>Meeting Functions</h1>
+ * <p>The MeetingManager class contains methods that allow traders to propose meetings for specific trades to each
+ * other, and confirm or edit proposed meetings from other traders. MeetingManager also contains a list of users that
+ * have been flagged as having too many incomplete (open) transactions at once, to be reviewed by an admin as to
+ * whether or not they should be frozen.</p>
+ */
+
 public class MeetingManager {
 
     private List<Trader> incompleteFlagged;
 
+    /**
+     * On instantiation, MeetingManager contains a list of all Traders that have been flagged for having too many
+     * incomplete (open) transactions at any given time (empty if no traders are flagged).
+     * @param incompleteFlagged List of users with too many incomplete transactions.
+     */
     public MeetingManager(List<Trader> incompleteFlagged){
         this.incompleteFlagged = incompleteFlagged;
     }
 
+    /**
+     * Retrieves the list of users with too many incomplete transactions
+     * @return List object with every trader that has too many outstanding incomplete transactions.
+     */
     public List<Trader> getIncompleteFlagged(){
         return incompleteFlagged;
     }
 
-    // Output of this method will be passed to the controller/presenter upon a user attempting to set/edit a meeting.
-    public String proposeMeeting(Trader setter, Trade trade, String location, String date, String time){
+    /**
+     * Checks whether a Trader is allowed to propose/edit a meeting (each trader gets 3 edits in total).
+     * If both users have used up all of their meeting proposals, then the only options are to confirm or cancel a
+     * trade (no more meeting proposals allowed). Similarly, if one user has used all of their edits, then they can
+     * no longer propose a meeting, and must either confirm a meeting set by the other user, or request to cancel the
+     * trade.
+     * @param setter The trader proposing the meeting.
+     * @param trade The trade that the meeting is being proposed for.
+     * @param location The location of the meeting.
+     * @param date The date of the meeting. <b>Format: "YYYY-MM-DD"</b>
+     * @param time The time of the meeting.
+     */
+    public void proposeMeeting(Trader setter, Trade trade, String location, String date, String time){
         if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
-            return "Both users involved in this trade have used all of their available edits.\n" +
-                    "Would you like to cancel the trade? (Y/N)";
+            System.out.println("Both users involved in this trade have used all of their available edits.\n" +
+                    "Would you like to cancel the trade? (Y/N)");
         }
         else if (setter == trade.getOgTrader()){
             if (trade.getOgEdits() == 0){
-                return "You have no available edits for this trade.\nPlease confirm or cancel the trade.";
+                System.out.println("You have no available edits for this trade.\n" +
+                        "Please confirm the meeting or cancel the trade.");
             }
             else {
                 this.ogScheduleMeet(trade, location, date, time);
-                return "Meeting successfully proposed to " + trade.getOtherTrader().getName() + ".\n" +
-                        "Remaining edits: " + trade.getOgEdits();
+                System.out.println("Meeting successfully proposed to " + trade.getOtherTrader().getName() + ".\n" +
+                        "Remaining edits: " + trade.getOgEdits());
             }
         }
         else { // setter == trade.getOtherTrader
             if (trade.getOtherEdits() == 0){
-                return "You have no available edits for this trade.\nPlease confirm or cancel the trade.";
+                System.out.println("You have no available edits for this trade.\nPlease confirm or cancel the trade.");
             }
             else {
                 this.otherScheduleMeet(trade, location, date, time);
-                return "Meeting successfully proposed to " + trade.getOgTrader().getName() + ".\n" +
-                        "Remaining edits: " + trade.getOtherEdits();
+                System.out.println("Meeting successfully proposed to " + trade.getOgTrader().getName() + ".\n" +
+                        "Remaining edits: " + trade.getOtherEdits());
             }
         }
     }
 
+    /**
+     * Helper method for proposeMeeting that proposes a meeting from the original trader who proposed the trade
+     * (ogTrader) to the other trader involved. Will only be called when ogTrader has remaining edits.
+     * @param trade The trade for which the meeting is being proposed.
+     * @param location The location of the meeting.
+     * @param date The date of the meeting. <b>Format: "YYYY-MM-DD</b>
+     * @param time The time of the meeting.
+     */
     public void ogScheduleMeet(Trade trade, String location, String date, String time){
         Trader sender = trade.getOgTrader();
         Trader receiver = trade.getOtherTrader();
@@ -51,6 +88,14 @@ public class MeetingManager {
         this.sendMeet(sender, receiver, meeting, trade);
     }
 
+    /**
+     * Helper method for proposeMeeting that proposes a meeting from the trader who initially received the trade
+     * (otherTrader) to the trader who originally proposed it. Will only be called when otherTrader has remaining edits.
+     * @param trade The trade for which the meeting is being proposed.
+     * @param location The location of the meeting.
+     * @param date The date of the meeting. <b>Format: "YYYY-MM-DD</b>
+     * @param time The time of the meeting.
+     */
     public void otherScheduleMeet(Trade trade, String location, String date, String time){
         Trader sender = trade.getOtherTrader();
         Trader receiver = trade.getOgTrader();
@@ -96,7 +141,7 @@ public class MeetingManager {
         trade.getReceiver().setGreedyInt(trade.getReceiver().getGreedyInt() + 1);
     }
 
-    // Helper for the above methods - wanted to overload methods, but avoid duplicate code.
+
     public void helperConfirmMeet(Trader confirmer, Trade trade) {
         this.checkIncompleteLimit(trade.getOgTrader());
         this.checkIncompleteLimit(trade.getOtherTrader());
