@@ -22,10 +22,10 @@ public class Admin extends User{
             i++;
         }
     }
-    public void freezeTrader(Trader trader){trader.isFrozen(true);}
+    public void freezeTrader(Trader trader){trader.setFrozen(true);}
     // Setting the frozen status after isGreedy is set to true
 
-    public void unFreezeTrader(Trader trader){trader.isFrozen(false); }
+    public void unFreezeTrader(Trader trader){trader.setFrozen(false); }
     // Lifting the frozen status for a user upon request
 
     public void confirmItem(Item item){item.setConfirm();}
