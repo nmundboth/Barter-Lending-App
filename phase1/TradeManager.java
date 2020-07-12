@@ -12,7 +12,7 @@ import java.util.List;
  * <p>All methods in this class require that the traders are not frozen.</p>
  */
 
-public class TradeManager implements Tradable{
+public class TradeManager {
 
     //This class relies on the input of two traders to the methods, so will need to have something like "current trader"
     //and "desired trader" (person they are interacting with) to be input from the controller - will be possible using
