@@ -14,9 +14,9 @@ public class UserCatalogue {
         ArrayList<Item> items = new ArrayList<Item>();
         for(User trader: userBase){
             if(trader instanceof Trader) {
-                for (Item item : ((Trader) trader).getInventory()) {
-                    if (!items.contains(item)) {
-                        items.add(item);
+                for (Item inv : ((Trader) trader).getInventory()) {
+                    if (!items.contains(inv)) {
+                        items.add(inv);
                     }
                 }
             }

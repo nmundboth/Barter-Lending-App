@@ -204,20 +204,22 @@ public class TradingSystem {
         System.out.println("1: Log in 2: Register");
         int signInOption = userInfo.nextLine();
 
-        if (signInOption == 1) {
+        // what happens after user logs in (could be put in use case class)
+        // if they are registering
+        if (signInOption == 2) {
             System.out.println("Account type: 'trader' or 'admin'");
             int type = userInfo.nextLine();
             ArrayList<Trade> trades = new ArrayList<Trade>();
             ArrayList<String> strings = new ArrayList<String>();
             Inbox inbox = new Inbox(trades, strings, strings);
             User tempUser = new User(username, password, type, inbox);
-            us.userList.append();
+            userSerialization.userList.append();
         }
         else if (signInOption == 2) {
-            us.deserialize();
+            userSerialization.deSerialize();
         }
     }
-*/
+
     /*public static void TradingSystem() {
         Scanner userInfo = new Scanner(System.in);
         System.out.println("Enter username")

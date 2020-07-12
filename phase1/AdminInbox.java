@@ -38,7 +38,10 @@ public class AdminInbox extends Inbox implements Serializable {
 
     // getters for unread messages
 
-    public void getUndoFrozen(int index){
+    public List<Trader> getUndoFrozen(){return this.undoFrozen; }
+    //getter for unfreezing requests
+
+    public void showUndoFrozen(int index){
         Trader temp = this.undoFrozen.get(index);
         this.undoFrozen.remove(index);
         this.undoFrozenUnread -= 1;
@@ -48,7 +51,7 @@ public class AdminInbox extends Inbox implements Serializable {
     }
     // method for undoing frozen status for a user
 
-    public String getAdminNoti(int index){
+    public String showAdminNoti(int index){
         String temp = this.getAdmiNoti().get(index);
         this.getAdmiNoti().remove(index);
         this.admiNotiUnread -= 1;
@@ -56,7 +59,7 @@ public class AdminInbox extends Inbox implements Serializable {
     }
     //method for accessing admin notifications
 
-    public String getTraderNoti(int index){
+    public String showTraderNoti(int index){
         String temp = this.getTraderNoti().get(index);
         this.getTraderNoti().remove(index);
         this.traderUnread -= 1;
