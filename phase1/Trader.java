@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * @author James Veale
  * @author TingRui Zhang
  */
-public class Trader extends User{
+
 public class Trader extends User implements Serializable {
 
     //Might have to create an inventory class?
