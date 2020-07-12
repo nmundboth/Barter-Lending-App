@@ -268,15 +268,15 @@ public class Trader extends User{
     // this method should not be here. this means that the Trader can freeze/unfreeze their account.
     public void setFrozen(boolean b){this.frozen = b;}
 
-    //I feel like those methods below are repetitive.
-    /**
+    /** Checks if the Trader is within the limits of borrowing from other Traders.
      *
-     * @return an integer
+     * @return an integer which checks if Trader has exceeded limit in borrowing.
      */
     public int getGreedyInt(){
         return greedyInt;
     }
 
+    // this method should not be here. this means that the Trader can set limit in borrowing.
     public void setGreedyInt(int greedyInt){
         this.greedyInt = greedyInt;
     }
