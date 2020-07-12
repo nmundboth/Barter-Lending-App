@@ -15,13 +15,33 @@ public class UserCatalogue {
         for(User trader: userBase){
             if(trader instanceof Trader) {
                 for (Item item : ((Trader) trader).getInventory()) {
-                    if ((!items.contains(item)) && item.isConfirmed()) {
+                    if (!items.contains(item)) {
                         items.add(item);
                     }
                 }
             }
         }
         return items;
+    }
+
+    public ArrayList<Item> findUnconfirmed(){
+        ArrayList<Item> unconfirmed = new ArrayList<Item>();
+        for (Item item: findAllItems()){
+            if (!item.isConfirmed()){
+                unconfirmed.add(item);
+            }
+        }
+        return unconfirmed;
+    }
+
+    public ArrayList<Item> findConfirmed(){
+        ArrayList<Item> confirmed = new ArrayList<Item>();
+        for (Item item: findAllItems()){
+            if (item.isConfirmed()){
+                confirmed.add(item);
+            }
+        }
+        return confirmed;
     }
 
     public ArrayList<User> findUserWithItem(Item item){

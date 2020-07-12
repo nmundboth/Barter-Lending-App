@@ -119,6 +119,10 @@ public class Trader extends User implements Serializable {
         System.out.println("Item not found!");
     }
 
+    public void addToInventory(Item item){
+        inventory.add(item);
+    }
+
     public void removeFromInventory(Item item){
         inventory.remove(item);
     }

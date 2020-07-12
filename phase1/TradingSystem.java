@@ -41,7 +41,8 @@ public class TradingSystem {
                 }
                 input = br.readLine();
             }
-        } catch (IOException e) {
+            us.toSerialize(uc.userBase);
+        } catch (Exception e) {
             System.out.println("Something went wrong.");
         }
     }
@@ -82,11 +83,11 @@ public class TradingSystem {
             }
             else{ //Password entered correctly
                 if (currUser.getType().equals("trader")) {
-                    TraderOptions opt = new TraderOptions(currUser, uc);
+                    TraderOptions opt = new TraderOptions(currUser, uc, us);
                     opt.run();
                 }
                 else { //currUser.getType().equals("admin")
-                    AdminOptions opa = new AdminOptions(currUser, uc);
+                    AdminOptions opa = new AdminOptions(currUser, uc, us);
                     opa.run();
                 }
             }
@@ -140,6 +141,7 @@ public class TradingSystem {
                     uc.userBase.add(user);
                     us.toSerialize(uc.userBase);
                     System.out.println("User created!");
+                    us.toSerialize(uc.userBase);
                 }
             }
         }

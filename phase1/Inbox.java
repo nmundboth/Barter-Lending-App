@@ -46,6 +46,10 @@ abstract class Inbox implements Serializable {
         this.tradeUnread -= 1;
     }
 
+    public int getUnaccptedUnread(){
+        return unaccptedUnread;
+    }
+
     public Trade getTrade(int index){
         Trade temp = this.trades.get(index);
         this.trades.remove(index);
