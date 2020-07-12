@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="3b01a81b-c85f-4aaa-982d-8ff8db919e63" name="Default Changelist" comment="" />
+    <list default="true" id="3b01a81b-c85f-4aaa-982d-8ff8db919e63" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/MenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TradingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/TradingSystem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserCatalogue.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserCatalogue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/UserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/UserManager.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,6 +27,9 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="dart.analysis.tool.window.visible" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="show.migrate.to.gradle.popup" value="false" />
   </component>
   <component name="RecentsManager">
@@ -42,14 +51,18 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="448" y="-947" key="#Project_Structure" timestamp="1594517728090">
+      <screen x="0" y="-1057" width="1920" height="1057" />
+    </state>
+    <state x="448" y="-947" key="#Project_Structure/0.23.1440.877/0.-1057.1920.1057@0.-1057.1920.1057" timestamp="1594517728090" />
     <state x="692" y="-720" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1593984981644">
       <screen x="0" y="-1057" width="1920" height="1057" />
     </state>
     <state x="692" y="-720" key="#com.intellij.fileTypes.FileTypeChooser/0.23.1440.877/0.-1057.1920.1057@0.-1057.1920.1057" timestamp="1593984981644" />
-    <state x="625" y="-822" width="670" height="676" key="search.everywhere.popup" timestamp="1594255243408">
+    <state x="625" y="-822" width="670" height="676" key="search.everywhere.popup" timestamp="1594518476324">
       <screen x="0" y="-1057" width="1920" height="1057" />
     </state>
-    <state x="625" y="-822" width="670" height="676" key="search.everywhere.popup/0.23.1440.877/0.-1057.1920.1057@0.-1057.1920.1057" timestamp="1594255243408" />
+    <state x="625" y="-822" width="670" height="676" key="search.everywhere.popup/0.23.1440.877/0.-1057.1920.1057@0.-1057.1920.1057" timestamp="1594518476324" />
     <state x="469" y="218" width="670" height="561" key="search.everywhere.popup/0.23.1440.877/0.-1057.1920.1057@0.23.1440.877" timestamp="1594005117421" />
   </component>
 </project>
