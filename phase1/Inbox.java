@@ -1,9 +1,10 @@
 package phase1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract class Inbox {
+abstract class Inbox implements Serializable {
     //All the trades available to the user
     private List<Trade> trades;
     //Notifications from other Traders
@@ -14,7 +15,7 @@ abstract class Inbox {
     //All unaccepted offers
 
     private int unaccptedUnread;
-    //The number of unread messages for each category
+    //The number of unread trade requests
     private int tradeUnread ;
     //The number of unread messages form other traders
     private int admiNotiUnread;
@@ -38,7 +39,7 @@ abstract class Inbox {
     }
     //Returns the total number of unread messages
 
-    // Returns messages from Traders
+    // Returns number of messages from Traders
     public int getTradersUnread(){return this.tradeUnread; }
 
     public void tradeUnreadMinusOne(){

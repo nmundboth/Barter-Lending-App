@@ -1,17 +1,19 @@
 package phase1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.time.Period;
 import java.time.LocalDateTime;
 
-public class Trader extends User{
+public class Trader extends User implements Serializable {
 
     //Might have to create an inventory class?
     private List<Item> inventory;
     private List<Item> wish_list;
     private String name;
+    private boolean flagged;
     private boolean frozen;
     private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
     private int incomplete;// # of outstanding incomplete trades currently associated with the trader
@@ -22,16 +24,22 @@ public class Trader extends User{
     private int incompleteLimit;
     private int weeklyTransxnLimit;
 
+    //Need empty user as placeholder in UserCatalogue findUserByName method
+    public Trader(){
+
+    }
+
     public Trader(String username, String password, String type, TraderInbox inbox, List<Item> inventory, String name) {
         super(username, password, type, inbox);
         this.inventory = inventory;
         this.wish_list = new ArrayList<Item>();
         this.name = name;
+        this.flagged = false;
         this.frozen = false;
         this.greedyInt = 0;
         this.incomplete = 0;
         this.weeklyTransxns = 0;
-        this.weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1));
+        this.weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1)); // Initial period is one week after creation of account
         this.tradingPartners = new HashMap<Trader, Integer>();
         this.recentItems = new ArrayList<Item>();
         this.incompleteLimit = 3; // Change this to change the limit on incomplete transxns a trader can have
@@ -119,10 +127,6 @@ public class Trader extends User{
         return name;
     }
 
-    //^ Moved this method to TradeManager, but keeping here for now since ChangeMeet uses it.
-    //Can possibly create another UseCase that deals with the Meeting methods
-
-
     // If we want to account for the very small time difference in LocalDateTime.now() between each use, can instead
     // create a temporary variable; LocalDateTime currTime = LocalDateTime.now() and use throughout method
     public void addWeeklyTransxn(){
@@ -174,19 +178,27 @@ public class Trader extends User{
     }
 
     public void addIncomplete(){
-        this.incomplete += 1;
+        incomplete += 1;
     }
 
     public void removeIncomplete(){
-        this.incomplete -= 1;
+        incomplete -= 1;
     }
 
     public boolean overWeeklyLimit(){
-        return this.weeklyTransxns >= weeklyTransxnLimit;
+        return this.weeklyTransxns > weeklyTransxnLimit;
     }
 
     public boolean overIncompleteLimit(){
-        return this.incomplete >= incompleteLimit;
+        return this.incomplete > incompleteLimit;
+    }
+
+    public boolean isFlagged(){
+        return flagged;
+    }
+
+    public void flag(){
+        this.flagged = true;
     }
 
     public boolean isFrozen(){return frozen;}

@@ -1,8 +1,9 @@
 package phase1;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Admin extends User{
+public class Admin extends User implements Serializable {
     private int notifs_count;
     private AdminInbox inbox;
 
@@ -30,4 +31,8 @@ public class Admin extends User{
 
     public void confirmItem(Item item){item.setConfirm();}
     // Confirms a certain item
+
+    public String toString(){
+        return getUsername();
+    }
 }

@@ -23,6 +23,10 @@ public class Item {
         return descrip;
     }
 
+    public boolean isConfirmed(){
+        return status;
+    }
+
     public String toString(){
         return this.name;
     }

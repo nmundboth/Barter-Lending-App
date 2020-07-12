@@ -14,27 +14,12 @@ import java.util.List;
 
 public class TradeManager implements Tradable{
 
-    private List<Trader> transxnFlagged; // Users flagged to be frozen (but not yet frozen) - should be accessed when admin wants to view users to flag
     //This class relies on the input of two traders to the methods, so will need to have something like "current trader"
     //and "desired trader" (person they are interacting with) to be input from the controller - will be possible using
     //UserCatalogue and having the user select which user they want to trade with/borrow from, etc.
 
-    /**
-     * On instantiation, TradeManager contains a list of all Traders that have been flagged for having too many weekly
-     * transactions outstanding (empty if no traders are flagged).
-     * @param transxnFlagged List of all users that have too many weekly transactions (used by admin to determine which
-     *                       users should be frozen).
-     */
-    public TradeManager(List<Trader> transxnFlagged){
-        this.transxnFlagged = transxnFlagged;
-    }
 
-    /**
-     * Returns the list of traders flagged for too many weekly transactions.
-     * @return List of flagged traders.
-     */
-    public List<Trader> getTransxnFlagged(){
-        return transxnFlagged;
+    public TradeManager(){
     }
 
     //TODO: Gate all Trade Request functionality behind whether a trader is frozen (can do in controller)
@@ -174,7 +159,7 @@ public class TradeManager implements Tradable{
     public void checkTransxnLimit(Trader trader){
         trader.addWeeklyTransxn();
         if (trader.overWeeklyLimit()){
-            transxnFlagged.add(trader); // Doesn't automatically freeze trader, just flags them
+            trader.flag(); // Doesn't automatically freeze trader, just flags them
         }
     }
 
@@ -238,7 +223,7 @@ public class TradeManager implements Tradable{
         Trader otherTrader = trade.getOtherTrader();
 
         trade.setOpen(false);
-        ogTrader.removeIncomplete(); // Note this is not removing them from being flagged if completing the trade drops them into an acceptable range
+        ogTrader.removeIncomplete(); // Unflags the user if this puts them in an acceptable range
         otherTrader.removeIncomplete();
 
         ogTrader.addTradingPartner(otherTrader);

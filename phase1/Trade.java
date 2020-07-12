@@ -1,10 +1,11 @@
 package phase1;
 
+import java.io.Serializable;
 import java.time.Period;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class Trade {
+public class Trade implements Serializable {
 
     // og is Original Trader
     protected Trader ogTrader;
@@ -68,6 +69,11 @@ public class Trade {
         return completedMeetings;
     }
 
+    /**
+     * Completes the first meeting of a temporary trade, setting completedMeetings to 1, and setting the second meeting
+     * based on the length of tempTradePeriod (1 month for now) at the same time of day as the first meeting, in the
+     * same location.
+     */
     // Currently does not take time of day into account, just adds one month, and sets the meeting to be at the same
     // time of day as the first one.
     public void completeFirstMeeting(){

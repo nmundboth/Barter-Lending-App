@@ -10,6 +10,11 @@ abstract class User implements Serializable{
     private String type;
     private Inbox inbox;
 
+    //Need empty user as placeholder in UserCatalogue findUserByName method
+    public User(){
+
+    }
+
     public User(String username, String password, String type, Inbox inbox){
         this.username = username;
         this.password = password;
@@ -20,6 +25,10 @@ abstract class User implements Serializable{
 
     public String getUsername(){
         return this.username;
+    }
+
+    public String getPassword(){
+        return this.password;
     }
 
     // Create or change username

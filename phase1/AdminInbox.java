@@ -1,8 +1,9 @@
 package phase1;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class AdminInbox extends Inbox{
+public class AdminInbox extends Inbox implements Serializable {
 
     private List<Trader> undoFrozen;
     // User can request to be unfrozen and then an instance of the user is received inside the sub-inbox undoFrozen

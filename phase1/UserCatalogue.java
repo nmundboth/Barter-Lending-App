@@ -14,9 +14,9 @@ public class UserCatalogue {
         ArrayList<Item> items = new ArrayList<Item>();
         for(User trader: userBase){
             if(trader instanceof Trader) {
-                for (Item inv : ((Trader) trader).getInventory()) {
-                    if (!items.contains(inv)) {
-                        items.add(inv);
+                for (Item item : ((Trader) trader).getInventory()) {
+                    if ((!items.contains(item)) && item.isConfirmed()) {
+                        items.add(item);
                     }
                 }
             }
@@ -47,13 +47,24 @@ public class UserCatalogue {
         return new ArrayList<Item>();
     }
 
-    public boolean availableUsername(String newUsername){
-        for (User users: userBase){
-            if (users.getUsername().equals(newUsername)){
-                return false;
+    public boolean inUserBase(String Username){
+        for (User user: userBase){
+            if (user.getUsername().equals(Username)){
+                return true;
             }
         }
-        return true;
+        return false;
+    }
+
+    //Should only be called once we know a user is in the userBase, otherwise returns empty User.
+    public User getUserByName(String Username){
+       User temp = new Trader();
+       for (User user: userBase){
+           if (user.getUsername().equals(Username)){
+               temp = user;
+           }
+       }
+       return temp;
     }
 
 

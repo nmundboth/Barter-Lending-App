@@ -26,6 +26,7 @@ public class UserSerialization
         catch (IOException ioe)
         {
             System.out.println("IO Error");
+            ioe.printStackTrace(); //Remove once debugged
         }
     }
 
@@ -46,6 +47,7 @@ public class UserSerialization
         catch (IOException ioe)
         {
             System.out.println("IO Error");
+            ioe.printStackTrace(); // Remove once debugged
         }
         catch (ClassNotFoundException c)
         {

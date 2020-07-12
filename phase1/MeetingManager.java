@@ -5,30 +5,12 @@ import java.util.List;
 /**
  * <h1>Meeting Functions</h1>
  * <p>The MeetingManager class contains methods that allow traders to propose meetings for specific trades to each
- * other, and confirm or edit proposed meetings from other traders. MeetingManager also contains a list of users that
- * have been flagged as having too many incomplete (open) transactions at once, to be reviewed by an admin as to
- * whether or not they should be frozen.</p>
+ * other, and confirm or edit proposed meetings from other traders.</p>
  */
 
 public class MeetingManager {
 
-    private List<Trader> incompleteFlagged;
-
-    /**
-     * On instantiation, MeetingManager contains a list of all Traders that have been flagged for having too many
-     * incomplete (open) transactions at any given time (empty if no traders are flagged).
-     * @param incompleteFlagged List of users with too many incomplete transactions.
-     */
-    public MeetingManager(List<Trader> incompleteFlagged){
-        this.incompleteFlagged = incompleteFlagged;
-    }
-
-    /**
-     * Retrieves the list of users with too many incomplete transactions
-     * @return List object with every trader that has too many outstanding incomplete transactions.
-     */
-    public List<Trader> getIncompleteFlagged(){
-        return incompleteFlagged;
+    public MeetingManager(){
     }
 
     /**
@@ -164,7 +146,7 @@ public class MeetingManager {
     public void checkIncompleteLimit(Trader trader){
         trader.addIncomplete();
         if (trader.overIncompleteLimit()){
-            incompleteFlagged.add(trader); // Doesn't automatically freeze trader, just flags them
+            trader.flag(); // Doesn't automatically freeze trader, just flags them
         }
     }
 }
