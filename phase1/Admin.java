@@ -35,4 +35,6 @@ public class Admin extends User implements Serializable {
     public String toString(){
         return getUsername();
     }
+
+    public AdminInbox getInbox() {return this.inbox;}
 }
