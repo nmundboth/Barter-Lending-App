@@ -56,10 +56,28 @@ public class InboxOptions {
 
                 }
                 else if(input.equals("3")){
-
+                    Inbox inbox = curr.getInbox();
+                    System.out.println("You have " + inbox.getTradersUnread() + " unread messages" );
+                    int index = 0;
+                    for (String i: inbox.getTraderNoti()){
+                        System.out.println(index);
+                        index += 1;
+                    }
+                    System.out.println("Choose a message to display:");
+                    String messageNum = br.readLine();
+                    inbox.getTradeNoti(Integer.parseInt(messageNum));
                 }
                 else if (input.equals("4")){
-
+                    Inbox inbox = curr.getInbox();
+                    System.out.println("You have " + inbox.getAdmiNotiUnread() + " unread messages");
+                    int index  = 0;
+                    for (String i: inbox.getAdmiNoti()){
+                        System.out.println(index);
+                        index += 1;
+                    }
+                    System.out.println("Choose a message to display");
+                    String messageNum = br.readLine();
+                    inbox.getAdminNoti(Integer.parseInt(messageNum));
                 }
                 else if (input.equals("5")){
                     viewTR(br);
