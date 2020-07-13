@@ -28,12 +28,12 @@ public class MeetingManager {
     public void proposeMeeting(Trader setter, Trade trade, String location, String date, String time){
         if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
             System.out.println("Both users involved in this trade have used all of their available edits.\n" +
-                    "Please confirm the meeting or cancel the trade.");
+                    "Please accept the meeting or cancel the trade.");
         }
         else if (setter == trade.getOgTrader()){
             if (trade.getOgEdits() == 0){
                 System.out.println("You have no available edits for this trade.\n" +
-                        "Please confirm the meeting or cancel the trade.");
+                        "Please accept the meeting or cancel the trade.");
             }
             else {
                 this.ogScheduleMeet(trade, location, date, time);
@@ -43,7 +43,7 @@ public class MeetingManager {
         }
         else { // setter == trade.getOtherTrader
             if (trade.getOtherEdits() == 0){
-                System.out.println("You have no available edits for this trade.\nPlease confirm or cancel the trade.");
+                System.out.println("You have no available edits for this trade.\nPlease accept or cancel the trade.");
             }
             else {
                 this.otherScheduleMeet(trade, location, date, time);

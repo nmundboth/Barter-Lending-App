@@ -20,8 +20,9 @@ public class AcceptedTradeOptions {
         this.uc = uc;
         this.us = us;
         menuOptions = "To perform an action, type the corresponding number.\n1. Propose a meeting " +
-                "for an unscheduled trade\n2. Edit/confirm proposed meetings\n3. Confirm that a meeting has taken" +
-                " place\n4. Request to cancel a trade\nTo return to inbox, type 'exit'.";
+                "for an unscheduled trade\n2. View and edit/accept proposed meetings\n" +
+                "3. Confirm that a meeting has taken place\n4. Request to cancel a trade\n" +
+                "To return to inbox, type 'exit'.";
         mm = new MeetingManager();
     }
 
@@ -44,7 +45,8 @@ public class AcceptedTradeOptions {
                     System.out.println(menuOptions);
                 }
                 else if (input.equals("2")){
-
+                    viewMeetings(br, acceptedTrades);
+                    System.out.println(menuOptions);
                 }
                 else if (input.equals("3")){
 
@@ -103,6 +105,19 @@ public class AcceptedTradeOptions {
         }
         catch (IOException e){
             System.out.println("Something went wrong.");
+        }
+    }
+
+    public void viewMeetings(BufferedReader br, List<Trade> acceptedTrades){
+        ArrayList<Trade> proposed = new ArrayList<Trade>();
+        for (Trade trade: acceptedTrades){
+            if(!trade.getMeeting().isEmpty() && !(trade.isOpen())){
+                proposed.add(trade);
+            }
+        }
+        for (int i = 0; i < proposed.size(); i++){
+            System.out.println("    " + (i + 1) + ". Trade: " + proposed.get(i));
+            System.out.println("    " + (i + 1) + ". Meeting: " + proposed.get(i).getMeeting());
         }
     }
 
