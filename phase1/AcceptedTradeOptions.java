@@ -116,8 +116,59 @@ public class AcceptedTradeOptions {
             }
         }
         for (int i = 0; i < proposed.size(); i++){
-            System.out.println("    " + (i + 1) + ". Trade: " + proposed.get(i));
-            System.out.println("    " + (i + 1) + ". Meeting: " + proposed.get(i).getMeeting());
+            System.out.println("    " + (i + 1) + ". Trade - " + proposed.get(i));
+            System.out.println("       Meeting - " + proposed.get(i).getMeeting());
+        }
+
+        System.out.println("Enter the number of the trade for which you would like to edit/accept the meeting.");
+        try{
+            String input = br.readLine();
+            while (!input.equals("exit")){
+                if (isInteger(input) && (Integer.parseInt(input)) >= 1 && Integer.parseInt(input) <= proposed.size()){
+                    int index = Integer.parseInt(input) - 1;
+                    Trade trade = proposed.get(index);
+                    System.out.println("Would you like to 'edit' or 'accept' this meeting?");
+                    input = br.readLine();
+                    if (!input.equals("exit")){
+                        if (input.equals("edit")){
+                            System.out.println("Enter the location you would like to meet: ");
+                            input = br.readLine();
+                            if (!input.equals("exit")){
+                                String location = input;
+                                System.out.println("Enter the date you would like to meet (YYYY-MM-DD): ");
+                                input = br.readLine();
+                                if(!input.equals("exit")){
+                                    String date = input;
+                                    System.out.println("Enter the time you would like to meet (24h clock, xx:xx)");
+                                    input = br.readLine();
+                                    if(!input.equals("exit")){
+                                        String time = input;
+                                        mm.proposeMeeting(((Trader) curr), trade, location, date, time);
+                                    }
+                                }
+                            }
+                        }
+                        else if (input.equals("accept") &&
+                                !(((Trader) curr).equals(trade.getMeeting().getProposedBy()))){
+                            if (trade instanceof TwoWayTrade){
+                                mm.confirmMeet(((Trader) curr), ((TwoWayTrade) trade));
+                            }
+                            else if (trade instanceof OneWayTrade){
+                                mm.confirmMeet(((Trader) curr), ((OneWayTrade) trade));
+                            }
+                        }
+                        else if (input.equals("accept") && ((Trader) curr).equals(trade.getMeeting().getProposedBy())){
+                            System.out.println("You can not confirm a meeting that you proposed!");
+                        }
+                    }
+                }
+                System.out.println("Enter the number of the trade for which you would " +
+                        "like to edit/accept the meeting.");
+                input = br.readLine();
+            }
+        }
+        catch (IOException e){
+            System.out.println("Something went wrong.");
         }
     }
 

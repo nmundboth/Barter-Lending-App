@@ -9,6 +9,7 @@ public class Admin extends User implements Serializable {
 
     public Admin(String username, String password, String type, AdminInbox inbox) {
         super(username, password, type, inbox);
+        this.inbox = inbox;
         this.notifs_count = 0;
     }
 
@@ -36,5 +37,5 @@ public class Admin extends User implements Serializable {
         return getUsername();
     }
 
-    public AdminInbox getInbox() {return this.inbox;}
+    public AdminInbox getAdminInbox() {return this.inbox;}
 }

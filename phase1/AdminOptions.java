@@ -53,7 +53,7 @@ public class AdminOptions {
 
                         switch (inboxNum) {
                             case "1":
-                                AdminInbox inbox = ((Admin)curr).getInbox();
+                                AdminInbox inbox = ((Admin) curr).getAdminInbox();
                                 if(inbox.getUndoFrozenUnread() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
@@ -72,7 +72,7 @@ public class AdminOptions {
                                     System.out.println(menuOptions);
                                 }
                             case "2":
-                                AdminInbox inbox1 = ((Admin)curr).getInbox();
+                                AdminInbox inbox1 = ((Admin)curr).getAdminInbox();
                                 if(inbox1.getAdmiNotiUnread() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
@@ -90,7 +90,7 @@ public class AdminOptions {
                                     System.out.println(menuOptions);
                                 }
                             case "3":
-                                AdminInbox inbox2 = ((Admin)curr).getInbox();
+                                AdminInbox inbox2 = ((Admin)curr).getAdminInbox();
                                 if(inbox2.getTradersUnread() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);

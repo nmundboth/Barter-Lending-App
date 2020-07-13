@@ -68,6 +68,6 @@ public class Meeting implements Serializable {
     }
 
     public String toString(){
-        return "Location: " + this.location + "\n" + "Date: " + this.date + "\n" + "Time: " + this.time;
+        return "Location: " + this.location + ", " + "Date: " + this.date + ", " + "Time: " + this.time;
     }
 }
