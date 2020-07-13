@@ -6,8 +6,6 @@ package phase1;
 // 3. View trade notifications
 // 4. View system (admin) notifications
 // 5. View trade requests from other users --> Accept a trade | Reject a trade
-// 6. Request to cancel a trade
-// 7. Confirm that a transaction (meeting) has happened
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -53,7 +51,9 @@ public class InboxOptions {
                     System.out.println(menuOptions);
                 }
                 else if (input.equals("2")){
-
+                    AcceptedTradeOptions ato = new AcceptedTradeOptions(curr, uc, us);
+                    ato.run();
+                    System.out.println(menuOptions);
                 }
                 else if(input.equals("3")){
                     Inbox inbox = curr.getInbox();
@@ -96,12 +96,6 @@ public class InboxOptions {
                 else if (input.equals("5")){
                     viewTR(br);
                     System.out.println(menuOptions);
-                }
-                else if (input.equals("6")){
-
-                }
-                else if (input.equals("7")){
-
                 }
                 input = br.readLine();
             }

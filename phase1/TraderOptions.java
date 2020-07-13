@@ -86,9 +86,9 @@ public class TraderOptions {
                 if (!descrip.equals("exit")){
                     Item item = new Item(itemName, descrip);
                     ((Trader) curr).addToInventory(item);
-                    System.out.println(((Trader)curr).getInventory());
+                    System.out.println("Updated Inventory:\n" + ((Trader)curr).getInventory() + "\n");
                     System.out.println("Item submitted for confirmation by admin.\n" +
-                            "Returning to options menu...");
+                            "Returning to options menu...\n");
 
 
                 }

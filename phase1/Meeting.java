@@ -18,6 +18,14 @@ public class Meeting implements Serializable {
         this.time = time;
     }
 
+    /**
+     * Checks if a meeting has been proposed (if it is empty, no meeting has been proposed)
+     * @return Whether the meeting is empty (hasn't been proposed)
+     */
+    public boolean isEmpty(){
+        return (location.equals("") && date.equals("") && time.equals(""));
+    }
+
     public String getDate() {
         return date;
     }

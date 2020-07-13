@@ -28,7 +28,7 @@ public class MeetingManager {
     public void proposeMeeting(Trader setter, Trade trade, String location, String date, String time){
         if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
             System.out.println("Both users involved in this trade have used all of their available edits.\n" +
-                    "Would you like to cancel the trade? (Y/N)");
+                    "Please confirm the meeting or cancel the trade.");
         }
         else if (setter == trade.getOgTrader()){
             if (trade.getOgEdits() == 0){
@@ -101,7 +101,7 @@ public class MeetingManager {
     }
 
     /**
-     * Allows a trader that has received a meeting proposal to confirm a trade.
+     * Allows a trader that has received a meeting proposal to confirm a meeting time.
      * Sets available edits to 0, so that neither user can edit the meeting after it is confirmed.
      * Sets the trade to open, adjusting amount of incomplete trades for each user, since this trade is now
      * considered incomplete (open).
