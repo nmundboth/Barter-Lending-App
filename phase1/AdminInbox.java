@@ -34,7 +34,7 @@ public class AdminInbox extends Inbox implements Serializable {
     public int getTradersUnread(){return this.traderUnread;}
     public int getAdmiNotiUnread(){return this.admiNotiUnread;}
     public int getUndoFrozenUnread(){return this.undoFrozenUnread;}
-    public int getTotalUnread(){return this.traderUnread + this.admiNotiUnread + undoFrozenUnread;}
+    public int getTotalUnread(){return this.traderUnread + this.admiNotiUnread + this.undoFrozenUnread;}
 
     // getters for unread messages
 
