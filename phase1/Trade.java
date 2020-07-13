@@ -1,13 +1,15 @@
 package phase1;
 
+import java.io.Serializable;
 import java.time.Period;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
 /** Represents a Trade object.
  * @author Navnee Mundboth
  * @author James Veale
  */
-public class Trade {
+public class Trade implements Serializable {
 
     // og is Original Trader
     protected Trader ogTrader;

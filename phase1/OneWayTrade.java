@@ -1,6 +1,8 @@
 package phase1;
 
-public class OneWayTrade extends Trade{
+import java.io.Serializable;
+
+public class OneWayTrade extends Trade implements Serializable {
 
     private Item item;
     private Trader lender;

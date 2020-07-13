@@ -1,6 +1,8 @@
 package phase1;
 
-public class TwoWayTrade extends Trade{
+import java.io.Serializable;
+
+public class TwoWayTrade extends Trade implements Serializable {
 
     private Item ogItem;
     private Item otherItem;

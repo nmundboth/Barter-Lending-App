@@ -1,6 +1,8 @@
 package phase1;
 
-public class Meeting {
+import java.io.Serializable;
+
+public class Meeting implements Serializable {
 
     private String location = "";
     private String date = ""; // Format should be "YYYY-MM-DD" -> NEED TO HAVE TRY/CATCH BLOCK IN CONTROLLER

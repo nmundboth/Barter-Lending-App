@@ -23,10 +23,10 @@ public class Admin extends User implements Serializable {
             i++;
         }
     }
-    public void freezeTrader(Trader trader){trader.setFrozen(true);}
+    public void freezeTrader(Trader trader){trader.frozen = true;}
     // Setting the frozen status after isGreedy is set to true
 
-    public void unFreezeTrader(Trader trader){trader.setFrozen(false); }
+    public void unFreezeTrader(Trader trader){trader.frozen = false; }
     // Lifting the frozen status for a user upon request
 
     public void confirmItem(Item item){item.setConfirm();}

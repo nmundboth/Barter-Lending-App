@@ -94,17 +94,16 @@ abstract class Inbox implements Serializable {
     // Traders accepting a Trade
     public void addTrade(Trade trade, Trader trader){
         this.trades.add(trade);
+        this.unaccptedUnread -= 1;
         trader.getInbox().trades.add(trade);
         trader.getInbox().tradeUnread += 1;
         this.unacceptedTrades.remove(trade);
-        trader.getInbox().unacceptedTrades.remove(trade);
     }
 
     // Decline an unaccepted trade
     public void refuseUnaccepted(Trade trade, Trader trader){
         this.unacceptedTrades.remove(trade);
-        trader.getInbox().unacceptedTrades.remove(trade);
-        trader.getInbox().unaccptedUnread += 1;
+        trader.getInbox().tradeUnread += 1;
     }
 
     // Traders successfully cancel the Trade
@@ -122,7 +121,6 @@ abstract class Inbox implements Serializable {
     public void addTraderNoti(String text){ this.traderNoti.add(text);}
 
     public void addUnaccepted(Trade trade, Trader trader){
-        this.unacceptedTrades.add(trade);
         // Trader gets a notification about a pending Trade request
         trader.getInbox().unacceptedTrades.add(trade);
         trader.getInbox().unaccptedUnread += 1;

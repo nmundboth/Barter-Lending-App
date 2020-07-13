@@ -56,6 +56,18 @@ public class UserCatalogue {
         return users;
     }
 
+    public ArrayList<User> findUserWantsItem(Item item){
+        ArrayList<User> users = new ArrayList<User>();
+        for (User trader: userBase){
+            if(trader instanceof Trader){
+                if (((Trader) trader).getWishList().contains(item)){
+                    users.add(trader);
+                }
+            }
+        }
+        return users;
+    }
+
     public ArrayList<Item> findUserItem(User user){
         for(User trader: userBase) {
             if (trader instanceof Trader) {

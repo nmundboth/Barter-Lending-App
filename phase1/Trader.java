@@ -15,12 +15,13 @@ import java.time.LocalDateTime;
 
 public class Trader extends User implements Serializable {
 
-    //Might have to create an inventory class?
+    static int greedLimit = -1;
+
     private List<Item> inventory;
     private List<Item> wish_list;
     private String name;
     private boolean flagged;
-    private boolean frozen;
+    public boolean frozen;
     private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
     private int incomplete;// # of outstanding incomplete trades currently associated with the trader
     private int weeklyTransxns;
@@ -50,6 +51,14 @@ public class Trader extends User implements Serializable {
         this.recentItems = new ArrayList<Item>();
         this.incompleteLimit = 3; // Change this to change the limit on incomplete transxns a trader can have
         this.weeklyTransxnLimit = 10; // Change this to change the weekly transxn limit
+    }
+
+    /**
+     * Checks whether this user has borrowed more than they have lent.
+     * @return a boolean indicating whether the trader has borrowed more than they lent.
+     */
+    public boolean isGreedy(){
+        return this.greedyInt > greedLimit;
     }
 
     /** Returns all Trades from the Trader's Inbox.
@@ -282,9 +291,6 @@ public class Trader extends User implements Serializable {
      */
     public boolean isFrozen(){return frozen;}
 
-    // this method should not be here. this means that the Trader can freeze/unfreeze their account.
-    public void setFrozen(boolean b){this.frozen = b;}
-
     /** Checks if the Trader is within the limits of borrowing from other Traders.
      *
      * @return an integer which checks if Trader has exceeded limit in borrowing.
@@ -293,7 +299,10 @@ public class Trader extends User implements Serializable {
         return greedyInt;
     }
 
-    // this method should not be here. this means that the Trader can set limit in borrowing.
+    /**
+     * Used to track the lend/borrow ratio of users (higher = more borrows than lends = greedier)
+     * @param greedyInt The integer tracking how greedy a user is (how much more they have borrowed than lent)
+     */
     public void setGreedyInt(int greedyInt){
         this.greedyInt = greedyInt;
     }

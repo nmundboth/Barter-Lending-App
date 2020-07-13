@@ -33,5 +33,6 @@ public class Item implements Serializable {
         return this.name;
     }
 
-    public void setConfirm(){this.status = true; }
+    public void setConfirm(){this.status = true;
+    }
 }

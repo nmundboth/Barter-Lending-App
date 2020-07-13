@@ -46,7 +46,7 @@ public class AdminInbox extends Inbox implements Serializable {
         this.undoFrozen.remove(index);
         this.undoFrozenUnread -= 1;
         if(temp.isFrozen()){
-            temp.setFrozen(true);
+            temp.frozen = true;
         }
     }
     // method for undoing frozen status for a user

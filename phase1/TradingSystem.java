@@ -15,10 +15,13 @@ public class TradingSystem {
 
     private UserSerialization us;
     private UserCatalogue uc;
+    private String menuOptions;
 
     public TradingSystem() throws Exception {
         us = new UserSerialization();
         uc = new UserCatalogue(us.deserialize());
+        menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n" +
+                "To exit, type 'exit'.";
     }
 
     public void run() {
@@ -26,24 +29,24 @@ public class TradingSystem {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 
-        System.out.println("To perform an action, type the corresponding number.\n1. Login\n2. Register\n" +
-                "To exit, type 'exit'.");
+        System.out.println(menuOptions);
         try {
             String input = br.readLine();
             while (!input.equals("exit")){
                 if (input.equals("1")){
                     login(br);
-                    break;
+                    System.out.println(menuOptions);
                 }
                 else if (input.equals("2")){
                     register(br);
-                    break;
+                    System.out.println(menuOptions);
                 }
                 input = br.readLine();
             }
             us.toSerialize(uc.userBase);
         } catch (Exception e) {
             System.out.println("Something went wrong.");
+            e.printStackTrace();
         }
     }
 
@@ -60,15 +63,19 @@ public class TradingSystem {
                         checkPW(currUser, input, br);
                         break;
                     }
+                    else {// input.equals("exit")
+                        System.out.println("Please enter your Username: ");
+                    }
                 }
-
-                System.out.println("User not found, please try again.");
+                else if (!uc.inUserBase(input)){
+                    System.out.println("User not found, please try again.");
+                }
                 input = br.readLine();
             }
-            run();
         }
         catch (IOException e){
             System.out.println("Something went wrong.");
+            e.printStackTrace();
         }
     }
 
@@ -78,10 +85,7 @@ public class TradingSystem {
                 System.out.println("Incorrect password, please try again or type 'exit' to return to the main menu.");
                 input = br.readLine();
             }
-            if (input.equals("exit")){
-                run();
-            }
-            else{ //Password entered correctly
+            if (input.equals(currUser.getPassword())){ // Password entered correctly
                 if (currUser.getType().equals("trader")) {
                     TraderOptions opt = new TraderOptions(currUser, uc, us);
                     opt.run();
@@ -91,6 +95,7 @@ public class TradingSystem {
                     opa.run();
                 }
             }
+            // else input.equals("exit"), so do nothing which ends method and returns to main menu
         }
         catch (IOException e){
             System.out.println("Something went wrong");
@@ -112,7 +117,6 @@ public class TradingSystem {
                     input = br.readLine();
                 }
             }
-            run();
         }
         catch (IOException e){
             System.out.println("Something went wrong");

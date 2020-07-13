@@ -12,7 +12,7 @@ import java.util.List;
  * <p>All methods in this class require that the traders are not frozen.</p>
  */
 
-public class TradeManager implements Tradable{
+public class TradeManager {
 
     //This class relies on the input of two traders to the methods, so will need to have something like "current trader"
     //and "desired trader" (person they are interacting with) to be input from the controller - will be possible using
@@ -33,7 +33,6 @@ public class TradeManager implements Tradable{
      * @param item The item being requested.
      * @param isPermanent Whether the borrow transaction is permanent.
      */
-    //TODO: Gate borrow functionality behind GreedyUser integer of receiver (can be done in controller level)
     public void sendBorrowRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent){
         OneWayTrade trade = new OneWayTrade(ogTrader, otherTrader, item);
         trade.setReceiver(ogTrader);
@@ -52,7 +51,6 @@ public class TradeManager implements Tradable{
      * @param item The item that is being lent.
      * @param isPermanent Whether the lend transaction is permanent.
      */
-    //TODO: Gate lend functionality behind GreedyUser integer of receiver (can be done in controller level)
     public void sendLendRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent){
         OneWayTrade trade = new OneWayTrade(ogTrader, otherTrader, item);
         trade.setLender(ogTrader);

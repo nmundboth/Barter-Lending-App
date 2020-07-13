@@ -10,11 +10,16 @@ public class TraderOptions {
     private User curr;
     private UserCatalogue uc;
     private UserSerialization us;
+    private String menuOptions;
 
     public TraderOptions(User curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
         this.uc = uc;
         this.us = us;
+        this.menuOptions = "To perform an action, type the corresponding number.\n1. View Inbox\n" +
+                "2. Add an item to your inventory\n3. Add an item to your wishlist (browse all items)\n" +
+                "4. View recently traded items\n5. View frequent trading partners\n" +
+                "To logout, type 'logout'.";
     }
 
     public void run(){
@@ -39,25 +44,22 @@ public class TraderOptions {
         }
         System.out.println();
 
-        System.out.println("To perform an action, type the corresponding number.\n1. View Inbox\n" +
-                "2. Add an item to your inventory\n3. Add an item to your wishlist (browse all items)\n" +
-                "4. View recently traded items\n5. View frequent trading partners\n" +
-                "To logout, type 'logout'.");
+        System.out.println(menuOptions);
         try{
             String input = br.readLine();
             while(!input.equals("logout")){
                 if (input.equals("1")){
                     InboxOptions iopt = new InboxOptions(curr, uc, us);
                     iopt.run();
-                    break;
+                    System.out.println(menuOptions);
                 }
                 else if (input.equals("2")){
                     addToInventory(br);
-                    break;
+                    System.out.println(menuOptions);
                 }
                 else if (input.equals("3")){
                     addtoWishlist(br);
-                    break;
+                    System.out.println(menuOptions);
                 }
                 else if (input.equals("4")){
 
@@ -91,7 +93,6 @@ public class TraderOptions {
 
                 }
             }
-            run();
         }
         catch(IOException e){
             System.out.println("Something went wrong.");
@@ -102,14 +103,16 @@ public class TraderOptions {
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         ArrayList<Item> confirmed = uc.findConfirmed();
         for (int i = 0; i < confirmed.size(); i++){
-            System.out.println((i + 1) + ". " + confirmed.get(i) + " - " + confirmed.get(i).getDescrip() + "\n");
+            if (!((Trader) curr).getInventory().contains(confirmed.get(i))){
+                System.out.println((i + 1) + ". " + confirmed.get(i) + " - " + confirmed.get(i).getDescrip() + "\n");
+            }
         }
         System.out.println("To add an item to your wishlist, enter the number associated with that item from above." +
                 "\nTo go back, type 'exit'.");
         try{
             String input = br.readLine();
             while(!input.equals("exit")){
-                if (isNumeric(input) && (Integer.parseInt(input) >= 1 &&
+                if (isInteger(input) && (Integer.parseInt(input) >= 1 &&
                         Integer.parseInt(input) <= confirmed.size())){
                     ((Trader) curr).add_wish(confirmed.get((Integer.parseInt(input) - 1)));
                     System.out.println("Item added to wishlist!");
@@ -118,7 +121,6 @@ public class TraderOptions {
                 }
                 input = br.readLine();
             }
-            run();
         }
         catch (Exception e){
             System.out.println("Something went wrong.");
@@ -127,12 +129,12 @@ public class TraderOptions {
 
     // Template taken from
     // https://www.baeldung.com/java-check-string-number
-    public boolean isNumeric(String strNum) {
+    public boolean isInteger(String strNum) {
         if (strNum == null) {
             return false;
         }
         try {
-            double d = Double.parseDouble(strNum);
+            int i = Integer.parseInt(strNum);
         } catch (NumberFormatException nfe) {
             return false;
         }
