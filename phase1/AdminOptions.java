@@ -57,6 +57,7 @@ public class AdminOptions {
                                 if(inbox.getUndoFrozenUnread() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
+                                    break;
                                 }
                                 else {
                                     int index = 0;
@@ -70,12 +71,14 @@ public class AdminOptions {
                                     inbox.showUndoFrozen(Integer.parseInt(messageNum));
                                     System.out.println("User has been unfrozen");
                                     System.out.println(menuOptions);
+                                    break;
                                 }
                             case "2":
                                 AdminInbox inbox1 = ((Admin)curr).getInbox();
                                 if(inbox1.getAdmiNotiUnread() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
+                                    break;
                                 }
                                 else {
                                     int index1 = 0;
@@ -88,12 +91,14 @@ public class AdminOptions {
                                     String messageNum1 = br.readLine();
                                     inbox1.showAdminNoti(Integer.parseInt(messageNum1));
                                     System.out.println(menuOptions);
+                                    break;
                                 }
                             case "3":
                                 AdminInbox inbox2 = ((Admin)curr).getInbox();
                                 if(inbox2.getTradersUnread() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
+                                    break;
                                 }
                                 else {
                                     int index2 = 0;
@@ -106,6 +111,7 @@ public class AdminOptions {
                                     String messageNum2 = br.readLine();
                                     inbox2.showAdminNoti(Integer.parseInt(messageNum2));
                                     System.out.println(menuOptions);
+                                    break;
                                 }
                         }
 
