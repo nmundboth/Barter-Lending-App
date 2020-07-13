@@ -18,6 +18,8 @@ abstract class Inbox implements Serializable {
     //The number of unread trade requests
     private int tradeUnread ;
     //The number of unread messages form other traders
+    private int traderNotiUnread;
+    // The number of Traders notification unread
     private int admiNotiUnread;
     //The number of unread messages form admins
     //<trades> for admin user should be empty
@@ -28,6 +30,7 @@ abstract class Inbox implements Serializable {
         this.admiNotiUnread = 0;
         this.trades = trades;
         this.unaccptedUnread = 0;
+        this.traderNotiUnread = 0;
         this.unacceptedTrades = new ArrayList<Trade>();
     }
 
@@ -58,6 +61,14 @@ abstract class Inbox implements Serializable {
     }
     // Returns a certain Trade from the list. I'm not sure if we are keeping a message after being accessed
     // For now I'm assuming we are removing it instantly from the list, feel free to change
+
+    public String getTradeNoti(int index){
+        String temp = this.traderNoti.get(index);
+        this.traderNoti.remove(index);
+        this.traderNotiUnread -= 1;
+        return temp;
+    }
+
 
     public String getAdminNoti(int index){
         String temp = this.admiNoti.get(index);
