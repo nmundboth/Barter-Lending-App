@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AdminOptions {
 
@@ -28,7 +29,8 @@ public class AdminOptions {
 
         System.out.println("To perform an action, type the corresponding number.\n1. View flagged traders\n" +
                 "2. View unconfirmed items\n3. View inbox\n" +
-                "4. Change how many times a user must lend before they can borrow\n" + "To logout, type 'logout'.");
+                "4. Change how many times a user must lend before they can borrow\n5. Admin Builder\n" +
+                "To logout, type 'logout'.");
         try{
             String input = br.readLine();
             while(!input.equals("logout")){
@@ -110,7 +112,7 @@ public class AdminOptions {
                                     int i = 0;
                                     try{
                                         i = Integer.parseInt(messageNum1);
-                                    } catch (NumberFormatException e){
+                                    } catch (NumberFormatException | IndexOutOfBoundsException e){
                                         System.out.println("Invalid input");
                                         System.out.println(menuOptions);
                                         break;
@@ -138,7 +140,7 @@ public class AdminOptions {
                                     int i = 0;
                                     try{
                                         i = Integer.parseInt(messageNum2);
-                                    } catch (NumberFormatException e){
+                                    } catch (NumberFormatException | IndexOutOfBoundsException e){
                                         System.out.println("Invalid input");
                                         System.out.println(menuOptions);
                                         break;
@@ -167,6 +169,26 @@ public class AdminOptions {
                         }
                         System.out.println(menuOptions);
                         break;
+
+                    case "5":
+                        System.out.println("To create an Admin, start by typing the user name");
+                        String userName = br.readLine();
+                        System.out.println("Create a passwords");
+                        String password = br.readLine();
+                        List<Trader> undoFrozen = null;
+                        List<String> adminNoti = null;
+                        List<String> traderNoti = null;
+                        List<Trade> tradeNoti = null;
+                        AdminInbox newAdminInbox = new AdminInbox(tradeNoti, traderNoti, adminNoti, undoFrozen);
+                        Admin newAdmin = new Admin(userName, password, "Admin", newAdminInbox);
+                        uc.userBase.add(newAdmin);
+                        System.out.println("New Admin created successfully");
+                        System.out.println(menuOptions);
+                        break;
+
+                    default:
+                        System.out.println("Invalid input");
+                        System.out.println(menuOptions);
                 }
                 input = br.readLine();
             }
