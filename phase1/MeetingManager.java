@@ -1,7 +1,5 @@
 package phase1;
 
-import java.util.List;
-
 /**
  * <h1>Meeting Functions</h1>
  * <p>The MeetingManager class contains methods that allow traders to propose meetings for specific trades to each
@@ -53,47 +51,25 @@ public class MeetingManager {
         }
     }
 
-    /**
-     * Helper method for proposeMeeting that proposes a meeting from the original trader who proposed the trade
-     * (ogTrader) to the other trader involved. Will only be called when ogTrader has remaining edits.
-     * @param trade The trade for which the meeting is being proposed.
-     * @param location The location of the meeting.
-     * @param date The date of the meeting. <b>Format: "YYYY-MM-DD</b>
-     * @param time The time of the meeting.
-     */
-    public void ogScheduleMeet(Trade trade, String location, String date, String time){
+    private void ogScheduleMeet(Trade trade, String location, String date, String time){
         Trader sender = trade.getOgTrader();
         Trader receiver = trade.getOtherTrader();
         Meeting meeting = trade.getMeeting();
-        meeting.setAll(location, date, time, sender); //TODO: Change setAll if we decide to not use proposedBy variable
+        meeting.setAll(location, date, time, sender);
         trade.setOgEdits(trade.getOgEdits() - 1);
         this.sendMeet(sender, receiver, meeting, trade);
     }
 
-    /**
-     * Helper method for proposeMeeting that proposes a meeting from the trader who initially received the trade
-     * (otherTrader) to the trader who originally proposed it. Will only be called when otherTrader has remaining edits.
-     * @param trade The trade for which the meeting is being proposed.
-     * @param location The location of the meeting.
-     * @param date The date of the meeting. <b>Format: "YYYY-MM-DD</b>
-     * @param time The time of the meeting.
-     */
-    public void otherScheduleMeet(Trade trade, String location, String date, String time){
+    private void otherScheduleMeet(Trade trade, String location, String date, String time){
         Trader sender = trade.getOtherTrader();
         Trader receiver = trade.getOgTrader();
         Meeting meeting = trade.getMeeting();
-        meeting.setAll(location, date, time, sender); //TODO: Change setAll if we decide to not use proposedBy variable
+        meeting.setAll(location, date, time, sender);
         trade.setOtherEdits(trade.getOtherEdits() - 1);
         this.sendMeet(sender, receiver, meeting, trade);
     }
 
-    /**
-     * Helper method for ogScheduleMeet and otherScheduleMeet that sends a meeting request to the inbox of the receiver.
-     * @param sender Trader proposing the meeting proposal.
-     * @param receiver Trader receiving the meeting proposal.
-     * @param meeting The meeting that is being proposed.
-     */
-    public void sendMeet(Trader sender, Trader receiver, Meeting meeting, Trade trade){
+    private void sendMeet(Trader sender, Trader receiver, Meeting meeting, Trade trade){
         receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
         receiver.getInbox().addTraderNoti("Hey " + receiver.getName() + "! Can you meet " + sender.getName() +
                 " at " + meeting.getTime() + " on " + meeting.getDate() + " at " + meeting.getLocation() +
@@ -108,10 +84,6 @@ public class MeetingManager {
      * Adjust greedy user integers if the meeting is for a One-Way Trade.
      * @param trade The trade for which the meeting is being confirmed.
      */
-    // In controller method that interacts with this, need to make sure that the meeting is not being confirmed by the
-    // person that proposed it (confirmer != meeting.getProposedBy())
-    // Or, we just rely on the sending user not being able to confirm meetings since they won't get a notification in their inbox
-    // Then we can remove the requirement for the proposedBy variable
 
     public void confirmMeet(Trader confirmer, TwoWayTrade trade){
         this.helperConfirmMeet(confirmer, trade);
@@ -124,7 +96,7 @@ public class MeetingManager {
     }
 
 
-    public void helperConfirmMeet(Trader confirmer, Trade trade) {
+    private void helperConfirmMeet(Trader confirmer, Trade trade) {
         this.checkIncompleteLimit(trade.getOgTrader());
         this.checkIncompleteLimit(trade.getOtherTrader());
         trade.setOpen(true);
@@ -143,7 +115,7 @@ public class MeetingManager {
                 " to conduct the following trade:\n" + trade);
     }
 
-    public void checkIncompleteLimit(Trader trader){
+    private void checkIncompleteLimit(Trader trader){
         trader.addIncomplete();
         if (trader.overIncompleteLimit()){
             trader.flag(); // Doesn't automatically freeze trader, just flags them
