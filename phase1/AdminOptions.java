@@ -68,7 +68,15 @@ public class AdminOptions {
                                     }
                                     System.out.println("Enter the corresponding number for a user to unfeeze:");
                                     String messageNum = br.readLine();
-                                    inbox.showUndoFrozen(Integer.parseInt(messageNum));
+                                    int i = 0;
+                                    try{
+                                        i = Integer.parseInt(messageNum);
+                                    } catch (NumberFormatException e){
+                                        System.out.println("Invalid input");
+                                        System.out.println(menuOptions);
+                                        break;
+                                    }
+                                    inbox.showUndoFrozen(i);
                                     System.out.println("User has been unfrozen");
                                     System.out.println(menuOptions);
                                     break;
@@ -89,7 +97,15 @@ public class AdminOptions {
                                     }
                                     System.out.println("Enter the corresponding number for a message to display:");
                                     String messageNum1 = br.readLine();
-                                    inbox1.showAdminNoti(Integer.parseInt(messageNum1));
+                                    int i = 0;
+                                    try{
+                                        i = Integer.parseInt(messageNum1);
+                                    } catch (NumberFormatException e){
+                                        System.out.println("Invalid input");
+                                        System.out.println(menuOptions);
+                                        break;
+                                    }
+                                    inbox1.showAdminNoti(i);
                                     System.out.println(menuOptions);
                                     break;
                                 }
@@ -109,10 +125,22 @@ public class AdminOptions {
                                     }
                                     System.out.println("Enter the corresponding number for a message to display:");
                                     String messageNum2 = br.readLine();
-                                    inbox2.showAdminNoti(Integer.parseInt(messageNum2));
+                                    int i = 0;
+                                    try{
+                                        i = Integer.parseInt(messageNum2);
+                                    } catch (NumberFormatException e){
+                                        System.out.println("Invalid input");
+                                        System.out.println(menuOptions);
+                                        break;
+                                    }
+                                    inbox2.showAdminNoti(i);
                                     System.out.println(menuOptions);
                                     break;
                                 }
+                            default:
+                                System.out.println("Invalid input");
+                                System.out.println(menuOptions);
+
                         }
 
                         break;
