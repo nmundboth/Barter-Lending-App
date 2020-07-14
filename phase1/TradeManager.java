@@ -164,17 +164,16 @@ public class TradeManager {
     /**
      * Allows a user to confirm that a transaction has taken place, that is, the items have been exchanged in real life.
      * If both users have confirmed the trade, then it confirms the trade.
-     * @see #confirm(Trader, Trader, Trade) .
+     * @see #confirm(Trade) .
      * @param confirming Trader that is confirming the transaction took place.
-     * @param other Other trader with whom the transaction took place.
      * @param trade The trade that is being confirmed.
      */
     // Can add an else block (outer layer) that prints "You have already confirmed the trade!" if the trader has already confirmed.
-    public void confirmTrade(Trader confirming, Trader other, Trade trade){
+    public void confirmTrade(Trader confirming, Trade trade){
         if (!trade.getConfirmations().contains(confirming)){
             trade.addConfirmation(confirming);
             if(trade.getConfirmations().size() == 2){
-                this.confirm(confirming, other, trade);
+                this.confirm(trade);
             }
         }
     }
@@ -187,11 +186,9 @@ public class TradeManager {
      * @see #completeTrade(Trade).
      * If it is the first meeting of a temporary trade, the second meeting is set and the confirmations are cleared so
      * that the second meeting can be confirmed after it has happened.
-     * @param confirming Trader confirming the trade.
-     * @param other Other trader with whom the transaction took place.
      * @param trade The trade that is being confirmed.
      */
-    public void confirm(Trader confirming, Trader other, Trade trade){
+    public void confirm(Trade trade){
         if (trade.isPermanent()){
             trade.removeItems();
             this.completeTrade(trade);
@@ -237,11 +234,17 @@ public class TradeManager {
      * (the trade must be cancelled before setting a meeting). Once the trade is cancelled, removes it from the traders'
      * lists of active trades, and sends an appropriate notification to both traders' inboxes.
      * @param cancelling The trader who is requesting to cancel the trade.
-     * @param other The other trader involved in the trade.
      * @param trade The trade that is requesting to be cancelled.
      */
     // Similar to confirmTrade, but else block would read: "You have already requested to cancel the trade, or are trying to cancel an open trade!"
-    public void cancelTrade(Trader cancelling, Trader other, Trade trade){
+    public void cancelTrade(Trader cancelling, Trade trade){
+        Trader other;
+        if (cancelling == trade.getOgTrader()){
+            other = trade.getOtherTrader();
+        }
+        else {
+            other = trade.getOgTrader();
+        }
         if ((!trade.getCancellations().contains(cancelling)) && !trade.isOpen()){
             trade.addCancellation(cancelling);
             if(trade.getCancellations().size() == 2){

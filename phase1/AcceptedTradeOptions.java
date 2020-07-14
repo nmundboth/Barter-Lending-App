@@ -14,6 +14,7 @@ public class AcceptedTradeOptions {
     private UserSerialization us;
     private MeetingManager mm;
     private String menuOptions;
+    private TradeManager tm;
 
     public AcceptedTradeOptions(User curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
@@ -24,6 +25,7 @@ public class AcceptedTradeOptions {
                 "3. Confirm that a meeting has taken place\n4. Request to cancel a trade\n" +
                 "To return to inbox, type 'exit'.";
         mm = new MeetingManager();
+        tm = new TradeManager();
     }
 
     public void run(){
@@ -49,10 +51,12 @@ public class AcceptedTradeOptions {
                     System.out.println(menuOptions);
                 }
                 else if (input.equals("3")){
-
+                    confirmMeeting(br, acceptedTrades);
+                    System.out.println(menuOptions);
                 }
                 else if (input.equals("4")){
-
+                    cancelTrade(br, acceptedTrades);
+                    System.out.println(menuOptions);
                 }
 
                 input = br.readLine();
@@ -170,6 +174,71 @@ public class AcceptedTradeOptions {
         catch (IOException e){
             System.out.println("Something went wrong.");
         }
+    }
+
+    public void confirmMeeting(BufferedReader br, List<Trade> acceptedTrades){
+        ArrayList<Trade> openTrades = new ArrayList<Trade>();
+        for (Trade trade: acceptedTrades){
+            if (trade.isOpen()){
+                openTrades.add(trade);
+            }
+        }
+        for (int i = 0; i < openTrades.size(); i++){
+            System.out.println("    " + (i + 1) + ". Trade - " + openTrades.get(i));
+            System.out.println("       Meeting - " + openTrades.get(i).getMeeting());
+        }
+        System.out.println("Enter the number of the trade for which you would like to confirm that the meeting has" +
+                " happened.");
+        try {
+            String input = br.readLine();
+            while (!input.equals("exit")) {
+                if (isInteger(input) && (Integer.parseInt(input)) >= 1 &&
+                        Integer.parseInt(input) <= openTrades.size()) {
+                    int index = Integer.parseInt(input) - 1;
+                    Trade trade = openTrades.get(index);
+                    tm.confirmTrade(((Trader) curr), trade);
+                    System.out.println("You have confirmed the trade!");
+                }
+                input = br.readLine();
+            }
+        }
+        catch (IOException e){
+            System.out.println("Something went wrong.");
+        }
+    }
+
+    public void cancelTrade(BufferedReader br, List<Trade> acceptedTrades){
+        ArrayList<Trade> unscheduled = new ArrayList<Trade>();
+        for (Trade trade: acceptedTrades){
+            if (!trade.isOpen()){
+                unscheduled.add(trade);
+            }
+        }
+        for (int i = 0; i < acceptedTrades.size(); i++){
+            System.out.println("    " + (i + 1) + ". Trade - " + unscheduled.get(i));
+            System.out.println("       Meeting - " + unscheduled.get(i).getMeeting());
+        }
+        System.out.println("Enter the number of the trade that you would like to request to cancel." +
+                " If both traders have requested to cancel, the trade will be canceled.");
+
+        try{
+            String input = br.readLine();
+            while (!input.equals("exit")){
+                if (isInteger(input) && (Integer.parseInt(input)) >= 1 &&
+                        Integer.parseInt(input) <= unscheduled.size()) {
+                    int index = Integer.parseInt(input) - 1;
+                    Trade trade = unscheduled.get(index);
+                    tm.cancelTrade(((Trader) curr), trade);
+                    System.out.println("You have requested to cancel the trade!");
+                }
+                input = br.readLine();
+            }
+
+        }
+        catch (IOException e){
+            System.out.println("Something went wrong.");
+        }
+
     }
 
     // Template taken from
