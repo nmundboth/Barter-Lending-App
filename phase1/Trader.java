@@ -7,7 +7,8 @@ import java.util.List;
 import java.time.Period;
 import java.time.LocalDateTime;
 
-/** Represents a Trader.
+/** <h1>Trader</h1>
+ * <p>Represents a trader.</p>
  * @author Navnee Mundboth
  * @author James Veale
  * @author TingRui Zhang
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 
 public class Trader extends User implements Serializable {
 
-    static int greedLimit = -1;
+    static int greedLimit = -1; // The lower this limit, the more a trader must lend before they can borrow.
 
     private List<Item> inventory;
     private List<Item> wish_list;
@@ -36,6 +37,14 @@ public class Trader extends User implements Serializable {
 
     }
 
+    /**
+     * @param username The trader's username
+     * @param password The trader's password
+     * @param type The type of User ("trader")
+     * @param inbox The trader's inbox
+     * @param inventory The trader's inventory
+     * @param name The trader's first name
+     */
     public Trader(String username, String password, String type, TraderInbox inbox, List<Item> inventory, String name) {
         super(username, password, type, inbox);
         this.inventory = inventory;
@@ -173,6 +182,11 @@ public class Trader extends User implements Serializable {
         System.out.println("Item not found!");
     }
 
+    /**
+     * Adds an item to the trader's inventory
+     *
+     * @param item the Item object that the trader wants to add to their inventory.
+     */
     public void addToInventory(Item item){
         inventory.add(item);
     }
@@ -193,8 +207,11 @@ public class Trader extends User implements Serializable {
         return name;
     }
 
-    // If we want to account for the very small time difference in LocalDateTime.now() between each use, can instead
-    // create a temporary variable; LocalDateTime currTime = LocalDateTime.now() and use throughout method
+    /**
+     * Adds a weekly transaction to the trader's number of weekly transactions conducted.
+     * Every time a transaction is added, checks to see if the current week has ended. If it has, then the
+     * weekly transaction period resets, and so the added trade would be the trader's first transaction of the week.
+     */
     public void addWeeklyTransxn(){
         if (LocalDateTime.now().isAfter(weeklyEnd) || LocalDateTime.now().isEqual(weeklyEnd)){
             weeklyTransxns = 1;
@@ -218,6 +235,11 @@ public class Trader extends User implements Serializable {
         }
     }
 
+    /**
+     * Gets the trader's three most frequent trading partners.
+     *
+     * @return an ArrayList representing the trader's three most frequent trading partners.
+     */
     public ArrayList<Trader> frequentPartners(){
         HashMap<Trader, Integer> threeMostFrequent = new HashMap<Trader, Integer>();
         for (Trader t : tradingPartners.keySet()){
@@ -238,6 +260,8 @@ public class Trader extends User implements Serializable {
         return frequentPartners;
     }
 
+    // Removes the trader from a trader's three most frequent if they are the least frequently traded with in that list.
+    // Called when deciding which trader to remove from the trader's most frequent trading partner list.
     private void removeLeastFrequent(HashMap<Trader, Integer> frequentPartners){
         int leastTrades = Integer.MAX_VALUE;
         Trader leastFrequent = new Trader();
@@ -251,6 +275,12 @@ public class Trader extends User implements Serializable {
 
     }
 
+    /**
+     * Adds an item to the list of this trader's most recently traded items (items they have most recently offered in
+     * trades).
+     *
+     * @param item an Item object representing the item that this trader has recently traded.
+     */
     public void addRecentItemToList(Item item){
         if (recentItems.size() < 3){
             recentItems.add(item);

@@ -1,22 +1,24 @@
 package phase1;
 
-//import UserSerialization;
-//import User;
-//import Inbox;
-//import Trade;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1>Main Menu</h1>
+ * <p>The first menu that a user sees upon starting the program.</p>
+ */
 public class TradingSystem {
 
     private UserSerialization us;
     private UserCatalogue uc;
     private String menuOptions;
 
+    /**
+     * Has an instance of UserSerialization (for saving) and UserCatalogue (for tracking all user data).
+     */
     public TradingSystem() throws Exception {
         us = new UserSerialization();
         uc = new UserCatalogue(us.deserialize());
@@ -24,6 +26,10 @@ public class TradingSystem {
                 "To exit, type 'exit'.";
     }
 
+    /**
+     * Presents the user with the option to either login or register an account. User can type 'exit' toe xit the
+     * program.
+     */
     public void run() {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -50,7 +56,9 @@ public class TradingSystem {
         }
     }
 
-    public void login(BufferedReader br){
+    // Takes user input, and checks it against the user catalogue, then logs the user in if the user exists and the pw
+    // is correct.
+    private void login(BufferedReader br){
         try{
             System.out.println("Please enter your Username: ");
             String input = br.readLine();
@@ -79,7 +87,8 @@ public class TradingSystem {
         }
     }
 
-    public void checkPW(User currUser, String input, BufferedReader br){
+    // Checks the user's password, and if it is correct, directs the user to the next menu (TraderOptions).
+    private void checkPW(User currUser, String input, BufferedReader br){
         try{
             while ((!input.equals(currUser.getPassword())) && (!input.equals("exit"))){
                 System.out.println("Incorrect password, please try again or type 'exit' to return to the main menu.");
@@ -102,7 +111,9 @@ public class TradingSystem {
         }
     }
 
-    public void register(BufferedReader br){
+    // Prompts the user for a username, and checks whether that user already exists.
+    // If the user does not exist, then creates a user via NewUser
+    private void register(BufferedReader br){
         try{
             System.out.println("What would you like your username to be?");
             String input = br.readLine();
@@ -123,7 +134,8 @@ public class TradingSystem {
         }
     }
 
-    // Called once verified that user with username doesn't already exist
+    // Called once verified that user with username doesn't already exist.
+    // Creates a new user with the specified username, and the first name & password that the user inputs.
     public void newUser(BufferedReader br, String username){
         //Need to get name and password for user
         try{

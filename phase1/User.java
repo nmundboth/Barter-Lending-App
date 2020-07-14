@@ -19,6 +19,12 @@ abstract class User implements Serializable{
 
     }
 
+    /**
+     * @param username the user's username
+     * @param password the user's password
+     * @param type the type of the user
+     * @param inbox the user's inbox
+     */
     public User(String username, String password, String type, Inbox inbox){
         this.username = username;
         this.password = password;
@@ -43,28 +49,12 @@ abstract class User implements Serializable{
         return this.password;
     }
 
-    /** Sets a username for the User.
-     *
-     * @param username
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     /** Says if User is a Trader or Admin.
      *
      * @return a String which states the type of User.
      */
     public String getType() {
         return type;
-    }
-
-    /** Sets a password for User.
-     *
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     /** Gets the User's Inbox.

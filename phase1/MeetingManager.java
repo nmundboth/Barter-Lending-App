@@ -51,6 +51,8 @@ public class MeetingManager {
         }
     }
 
+    // Schedules a meeting from the perspective of the original trader, and sets all appropriate variables within
+    // the meeting. Also removes an edit from the trader's available edits.
     private void ogScheduleMeet(Trade trade, String location, String date, String time){
         Trader sender = trade.getOgTrader();
         Trader receiver = trade.getOtherTrader();
@@ -60,6 +62,7 @@ public class MeetingManager {
         this.sendMeet(sender, receiver, meeting, trade);
     }
 
+    // Similar to above, but from the perspective of the trader that initially received the trade (otherTrader).
     private void otherScheduleMeet(Trade trade, String location, String date, String time){
         Trader sender = trade.getOtherTrader();
         Trader receiver = trade.getOgTrader();
@@ -69,6 +72,7 @@ public class MeetingManager {
         this.sendMeet(sender, receiver, meeting, trade);
     }
 
+    // Sends the meeting information to the appropriate trader's inbox.
     private void sendMeet(Trader sender, Trader receiver, Meeting meeting, Trade trade){
         receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
         receiver.getInbox().addTraderNoti("Hey " + receiver.getName() + "! Can you meet " + sender.getName() +
@@ -95,7 +99,8 @@ public class MeetingManager {
         trade.getReceiver().setGreedyInt(trade.getReceiver().getGreedyInt() + 1);
     }
 
-
+    // Modifies the incomplete trades of the traders involved in a meeting, since the trade will be considered open
+    // at this point, and sets remaining meeting edits to 0 for both traders. Also sends notifications to the inbox.
     private void helperConfirmMeet(Trader confirmer, Trade trade) {
         this.checkIncompleteLimit(trade.getOgTrader());
         this.checkIncompleteLimit(trade.getOtherTrader());
@@ -115,6 +120,8 @@ public class MeetingManager {
                 " to conduct the following trade:\n" + trade);
     }
 
+    // Adds a trade to a trader's incomplete trade list, and checks if this puts them over the allowed limit (if it does
+    // then they are flagged).
     private void checkIncompleteLimit(Trader trader){
         trader.addIncomplete();
         if (trader.overIncompleteLimit()){

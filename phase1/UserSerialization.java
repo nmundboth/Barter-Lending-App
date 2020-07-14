@@ -10,8 +10,16 @@ import java.util.ArrayList;
 // Serialization template taken from
 //https://howtodoinjava.com/java/collections/arraylist/serialize-deserialize-arraylist/
 
+/**
+ * <h1>User Serialization</h1>
+ * <p>UserSerialization is used for serializing and deserializing a file that contains all User data.</p>
+ */
 public class UserSerialization
 {
+    /**
+     * Takes an ArrayList of users (userBase from userCatalogue) and converts it to a serialized file called 'UserData'.
+     * @param users the list of users to be serialized.
+     */
     public void toSerialize(ArrayList<User> users) throws Exception
     {
         ArrayList<User> userList = new ArrayList<User>(users);
@@ -30,6 +38,11 @@ public class UserSerialization
         }
     }
 
+    /**
+     * Deserializes a file, and converts it to an ArrayList of users for use in UserCatalogue
+     * @return an ArrayList representing all users that have been registered to the system, as determined by the
+     * serialized file.
+     */
     public ArrayList<User> deserialize() throws Exception
     {
         ArrayList<User> userList = new ArrayList<User>();
