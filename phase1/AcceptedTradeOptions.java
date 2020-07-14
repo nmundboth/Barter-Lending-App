@@ -7,6 +7,11 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1>Options for Accepted Trades</h1>
+ * <p>AcceptedTradeOptions contains options that traders should be able to perform only on trades that have been
+ * accepted.</p>
+ */
 public class AcceptedTradeOptions {
 
     private User curr;
@@ -16,6 +21,11 @@ public class AcceptedTradeOptions {
     private String menuOptions;
     private TradeManager tm;
 
+    /**
+     * @param curr the trader that is currently logged in
+     * @param uc the UserCatalogue that contains all of the currently registered users
+     * @param us UserSerialization used for saving
+     */
     public AcceptedTradeOptions(User curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
         this.uc = uc;
@@ -28,6 +38,11 @@ public class AcceptedTradeOptions {
         tm = new TradeManager();
     }
 
+    /**
+     * Presents the user with a list of actions to choose from to perform on a trade which they are involved in that has
+     * been accepted. Includes proposing meetings, viewing/editing/accepting meetings, confirming that meeting(s) have
+     * taken place, and requesting to cancel a trade.
+     */
     public void run(){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -67,7 +82,9 @@ public class AcceptedTradeOptions {
         }
     }
 
-    public void proposeMeeting(BufferedReader br, List<Trade> acceptedTrades){
+    // Allows a trader to propose a meeting for a trade that they have accepted, which does not currently contain a
+    // meeting (meeting is empty)
+    private void proposeMeeting(BufferedReader br, List<Trade> acceptedTrades){
         ArrayList<Trade> unproposed = new ArrayList<Trade>();
         for (Trade trade: acceptedTrades){
             if (trade.getMeeting().isEmpty() && !(trade.isOpen())){
@@ -112,7 +129,11 @@ public class AcceptedTradeOptions {
         }
     }
 
-    public void viewMeetings(BufferedReader br, List<Trade> acceptedTrades){
+    // Allows a trader to view the meetings for their trades that they have not yet accepted, and then edit a meeting
+    // or accept a meeting (can only accept a meeting if they are not the ones that proposed it). They also only have
+    // 3 edits each to a meeting, and proposing a meeting counts as an edit.
+    // Accepting a meeting sets the trade to open (incomplete).
+    private void viewMeetings(BufferedReader br, List<Trade> acceptedTrades){
         ArrayList<Trade> proposed = new ArrayList<Trade>();
         for (Trade trade: acceptedTrades){
             if(!trade.getMeeting().isEmpty() && !(trade.isOpen())){
@@ -176,7 +197,8 @@ public class AcceptedTradeOptions {
         }
     }
 
-    public void confirmMeeting(BufferedReader br, List<Trade> acceptedTrades){
+    // Allows a user to confirm that a meeting (transaction) has happened in real life.
+    private void confirmMeeting(BufferedReader br, List<Trade> acceptedTrades){
         ArrayList<Trade> openTrades = new ArrayList<Trade>();
         for (Trade trade: acceptedTrades){
             if (trade.isOpen()){
@@ -207,7 +229,8 @@ public class AcceptedTradeOptions {
         }
     }
 
-    public void cancelTrade(BufferedReader br, List<Trade> acceptedTrades){
+    // Allows a trader to request to cancel a trade
+    private void cancelTrade(BufferedReader br, List<Trade> acceptedTrades){
         ArrayList<Trade> unscheduled = new ArrayList<Trade>();
         for (Trade trade: acceptedTrades){
             if (!trade.isOpen()){
@@ -243,7 +266,8 @@ public class AcceptedTradeOptions {
 
     // Template taken from
     // https://www.baeldung.com/java-check-string-number
-    public boolean isInteger(String strNum) {
+    // Checks whether a String is an integer.
+    private boolean isInteger(String strNum) {
         if (strNum == null) {
             return false;
         }
