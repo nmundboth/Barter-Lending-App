@@ -3,6 +3,12 @@ package phase1;
 import java.io.Serializable;
 import java.util.List;
 
+/** Reference from: https://www.dummies.com/programming/java/how-to-use-javadoc-to-document-your-classes/
+ * Represents the Inbox of an Admin
+ * @author Navnee Mundboth
+ * @author James Veale
+ * @author Sasan Makvandi
+ */
 public class AdminInbox extends Inbox implements Serializable {
 
     static List<Trader> undoFrozen;
@@ -29,17 +35,40 @@ public class AdminInbox extends Inbox implements Serializable {
     }
     // Returns messages from Traders
 
-
+    /** Gets the amount of unread notifications from other Traders to Admin.
+     *
+     * @return an integer which shows the amount of unread notifications from other Traders.
+     */
     public int getTradersUnread(){return this.traderUnread;}
+
+    /** Gets the amount of unread notifications from other Admins to Admin.
+     *
+     * @return an integer which shows the amount of unread notifications from other Admins.
+     */
     public int getAdmiNotiUnread(){return this.admiNotiUnread;}
+
+    /** Gets the amount of unread unfreezing notifications from other Traders to Admin.
+     *
+     * @return an integer which shows the amount of unread unfreezing notifications from other Traders.
+     */
     public int getUndoFrozenUnread(){return this.undoFrozenUnread;}
+
+    /** Gets the total amount of unread notifications to Admin.
+     *
+     * @return an integer which shows the total amount of unread notifications.
+     */
     public int getTotalUnread(){return this.traderUnread + this.admiNotiUnread + this.undoFrozenUnread;}
 
-    // getters for unread messages
-
+    /** Gets a list of Traders who requested to have their accounts unfrozen.
+     *
+     * @return a list of Traders who requested to have their accounts unfrozen.
+     */
     public List<Trader> getUndoFrozen(){return undoFrozen; }
-    //getter for unfreezing requests
 
+    /** Unfreezes all Traders who requested to have their accounts unfrozen.
+     *
+     * @param index
+     */
     public void showUndoFrozen(int index){
         Trader temp = undoFrozen.get(index);
         undoFrozen.remove(index);
@@ -48,22 +77,29 @@ public class AdminInbox extends Inbox implements Serializable {
             temp.frozen = false;
         }
     }
-    // method for undoing frozen status for a user
 
+    /** Shows Admins' notifications.
+     *
+     * @param index
+     * @return a String which shows Admins' notifications.
+     */
     public String showAdminNoti(int index){
         String temp = this.getAdmiNoti().get(index);
         this.getAdmiNoti().remove(index);
         this.admiNotiUnread -= 1;
         return temp;
     }
-    //method for accessing admin notifications
 
+    /** Shows Traders' notifications.
+     *
+     * @param index
+     * @return a String which shows Traders' notifications.
+     */
     public String showTraderNoti(int index){
         String temp = this.getTraderNoti().get(index);
         this.getTraderNoti().remove(index);
         this.traderUnread -= 1;
         return temp;
     }
-    // method for accessing trader notification
 
 }
