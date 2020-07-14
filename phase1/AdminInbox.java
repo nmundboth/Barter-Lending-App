@@ -101,7 +101,6 @@ public class AdminInbox extends Inbox implements Serializable {
         return temp;
     }
 
-<<<<<<< HEAD
     /**
      * This method serves as a tool for an Admin to access a message within the TraderNoti sub-inbox
      * Admin is represented with a list of messages in AdminOptions from which Admin can choose one to open and read
