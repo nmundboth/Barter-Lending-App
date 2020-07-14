@@ -40,62 +40,84 @@ public class InboxOptions {
 
         try{
             String input = br.readLine();
-            while(!input.equals("exit")){
-                if (input.equals("1") && !(((Trader) curr).isFrozen())){
-                    sendTrnsxnRequest(br);
-                    System.out.println(menuOptions);
-                }
-                else if (input.equals("1") && (((Trader) curr).isFrozen())){
-                    System.out.println("Your account is frozen and can not currently send transaction requests. " +
-                            "Please select 'request unfreeze' from this menu to ask an admin to review your account.");
-                    System.out.println(menuOptions);
-                }
-                else if (input.equals("2")){
-                    AcceptedTradeOptions ato = new AcceptedTradeOptions(curr, uc, us);
-                    ato.run();
-                    System.out.println(menuOptions);
-                }
-                else if(input.equals("3")){
-                    Inbox inbox = curr.getInbox();
-                    if(inbox.getTradersUnread() == 0){
-                        System.out.println("Sub-inbox empty");
-                        System.out.println(menuOptions);
-                    }
-                    else {
-                        System.out.println("You have " + inbox.getTradersUnread() + " unread messages");
-                        int index = 0;
-                        for (String i : inbox.getTraderNoti()) {
-                            System.out.println(index);
-                            index += 1;
+            while (!input.equals("exit")) {
+                switch (input) {
+                    case "1":
+                        if (!(((Trader) curr).isFrozen())) {
+                            sendTrnsxnRequest(br);
+                            System.out.println(menuOptions);
+                        } else if ((((Trader) curr).isFrozen())) {
+                            System.out.println("Your account is frozen and can not currently send transaction requests. " +
+                                    "Please select 'request unfreeze' from this menu to ask an admin to review your account.");
+                            System.out.println(menuOptions);
                         }
-                        System.out.println("Choose a message to display:");
-                        String messageNum = br.readLine();
-                        inbox.getTradeNoti(Integer.parseInt(messageNum));
+                        break;
+                    case "2":
+                        AcceptedTradeOptions ato = new AcceptedTradeOptions(curr, uc, us);
+                        ato.run();
                         System.out.println(menuOptions);
-                    }
-                }
-                else if (input.equals("4")){
-                    Inbox inbox = curr.getInbox();
-                    if(inbox.getAdmiNotiUnread() == 0){
-                        System.out.println("Sub-inbox empty");
-                        System.out.println(menuOptions);
-                    }
-                    else {
-                        System.out.println("You have " + inbox.getAdmiNotiUnread() + " unread messages");
-                        int index = 0;
-                        for (String i : inbox.getAdmiNoti()) {
-                            System.out.println(index);
-                            index += 1;
+                        break;
+                    case "3":
+                        Inbox inbox = curr.getInbox();
+                        if (inbox.getTradersUnread() == 0) {
+                            System.out.println("Sub-inbox empty");
+                            System.out.println(menuOptions);
+                            break;
+                        } else {
+                            System.out.println("You have " + inbox.getTradersUnread() + " unread messages");
+                            int index = 0;
+                            for (String i : inbox.getTraderNoti()) {
+                                System.out.println(index);
+                                index += 1;
+                            }
+                            System.out.println("Choose a message to display:");
+                            String messageNum = br.readLine();
+                            int i = 0;
+                            try {
+                                i = Integer.parseInt(messageNum);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input");
+                                System.out.println(menuOptions);
+                                break;
+                            }
+                            inbox.getTradeNoti(i);
+                            System.out.println(menuOptions);
+                            break;
                         }
-                        System.out.println("Choose a message to display");
-                        String messageNum = br.readLine();
-                        inbox.getAdminNoti(Integer.parseInt(messageNum));
+                    case "4":
+                        Inbox inbox1 = curr.getInbox();
+                        if (inbox1.getAdmiNotiUnread() == 0) {
+                            System.out.println("Sub-inbox empty");
+                            System.out.println(menuOptions);
+                            break;
+                        } else {
+                            System.out.println("You have " + inbox1.getAdmiNotiUnread() + " unread messages");
+                            int index = 0;
+                            for (String i : inbox1.getAdmiNoti()) {
+                                System.out.println(index);
+                                index += 1;
+                            }
+                            System.out.println("Choose a message to display");
+                            String messageNum = br.readLine();
+                            int j = 0;
+                            try {
+                                j = Integer.parseInt(messageNum);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Invalid input");
+                                System.out.println(menuOptions);
+                                break;
+                            }
+                            inbox1.getAdminNoti(j);
+                            System.out.println(menuOptions);
+                            break;
+                        }
+                    case "5":
+                        viewTR(br);
                         System.out.println(menuOptions);
-                    }
-                }
-                else if (input.equals("5")){
-                    viewTR(br);
-                    System.out.println(menuOptions);
+                        break;
+                    default:
+                        System.out.println("Invalid Response");
+                        System.out.println(menuOptions);
                 }
                 input = br.readLine();
             }
