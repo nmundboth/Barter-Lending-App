@@ -21,7 +21,7 @@ public class AdminInbox extends Inbox implements Serializable {
     private int undoFrozenUnread;
     //The number of unread unfreezing requests from traders
 
-    public AdminInbox(List<Trade> trades, List<String> traderNoti, List<String> adminNotifs, List<Trader> undoFrozen){
+    public AdminInbox(List<Trade> trades, List<String> traderNoti, List<String> adminNotifs){
         super(trades, traderNoti, adminNotifs);
         this.admiNotiUnread = 0;
         this.traderUnread = 0;

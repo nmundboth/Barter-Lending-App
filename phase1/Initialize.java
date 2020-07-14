@@ -9,8 +9,7 @@ public class Initialize {
         List<Trade> trades = new ArrayList<Trade>();
         List<String> traderNoti = new ArrayList<String>();
         List<String> adminNotifs = new ArrayList<String>();
-        List<Trader> undoFrozen = new ArrayList<Trader>();
-        AdminInbox inbox = new AdminInbox(trades, traderNoti, adminNotifs, undoFrozen);
+        AdminInbox inbox = new AdminInbox(trades, traderNoti, adminNotifs);
         User admin = new Admin("admin", "admin", "admin", inbox);
         UserSerialization us = new UserSerialization();
         ArrayList<User> users = new ArrayList<User>();

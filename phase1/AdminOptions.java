@@ -46,7 +46,7 @@ public class AdminOptions {
                         String toFreeze = br.readLine();
                         if (isInteger(toFreeze) && Integer.parseInt(toFreeze) >= 1 &&
                             Integer.parseInt(toFreeze) <= uc.findFlagged().size()){
-                            ((Trader) uc.findFlagged().get(Integer.parseInt(toFreeze) - 1)).frozen = true;
+                            ((Admin) curr).freezeTrader((Trader) uc.findFlagged().get(Integer.parseInt(toFreeze) - 1));
                             System.out.println("User has been frozen.");
                         }
                         else {
@@ -171,15 +171,14 @@ public class AdminOptions {
                         break;
 
                     case "5":
-                        System.out.println("To create an Admin, start by typing the user name");
+                        System.out.println("To create an Admin, start by typing the user name:");
                         String userName = br.readLine();
-                        System.out.println("Create a passwords");
+                        System.out.println("Create a password:");
                         String password = br.readLine();
-                        List<Trader> undoFrozen = null;
-                        List<String> adminNoti = null;
-                        List<String> traderNoti = null;
-                        List<Trade> tradeNoti = null;
-                        AdminInbox newAdminInbox = new AdminInbox(tradeNoti, traderNoti, adminNoti, undoFrozen);
+                        List<String> adminNoti = new ArrayList<String>();
+                        List<String> traderNoti = new ArrayList<String>();
+                        List<Trade> tradeNoti = new ArrayList<Trade>();
+                        AdminInbox newAdminInbox = new AdminInbox(tradeNoti, traderNoti, adminNoti);
                         Admin newAdmin = new Admin(userName, password, "Admin", newAdminInbox);
                         uc.userBase.add(newAdmin);
                         System.out.println("New Admin created successfully");
