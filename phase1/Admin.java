@@ -1,41 +1,56 @@
 package phase1;
 
 import java.io.Serializable;
-import java.util.List;
+
+/**
+ * <h1>Administrative User</h1>
+ * <p>The Admin class represents an administrative user. Each admin has an inbox, where they can view which traders
+ * have requested to be unfrozen. Admin also contains methods to confirm items proposed by users, and freeze a user
+ * that has been flagged.</p>
+ */
 
 public class Admin extends User implements Serializable {
-    private int notifs_count;
     private AdminInbox inbox;
 
+    /**
+     * @param username The username of the admin
+     * @param password The password of the admin
+     * @param type The account type of the admin ("admin")
+     * @param inbox The admin's inbox
+     */
     public Admin(String username, String password, String type, AdminInbox inbox) {
         super(username, password, type, inbox);
         this.inbox = inbox;
-        this.notifs_count = 0;
     }
 
-    public int getNotifs_count(){return this.notifs_count;}
-
-    public void readNotifs(){
-        this.notifs_count = 0;
-        //Reads notifications line by line
-        int i = 0;
-        while (i < this.getInbox().getAdmiNoti().size()){
-            System.out.println(this.getInbox().getAdmiNoti().get(i));
-            i++;
-        }
-    }
+    /**
+     * Allows the admin to freeze a specified trader.
+     *
+     * @param trader The trader that the admin wishes to freeze
+     */
     public void freezeTrader(Trader trader){trader.frozen = true;}
-    // Setting the frozen status after isGreedy is set to true
 
-    public void unFreezeTrader(Trader trader){trader.frozen = false; }
-    // Lifting the frozen status for a user upon request
-
+    /**
+     * Allows an admin to confirm an item.
+     *
+     * @param item The item that the admin wishes to confirm
+     */
     public void confirmItem(Item item){item.setConfirm();}
-    // Confirms a certain item
 
+    /**
+     * Gets this admin's inbox.
+     *
+     * @return an AdminInbox object representing the admin's inbox.
+     */
+    public AdminInbox getAdminInbox() {return this.inbox;}
+
+    /**
+     * Returns a string representation of an Admin object, which will be their username.
+     *
+     * @return a string of the admin's username.
+     */
     public String toString(){
         return getUsername();
     }
 
-    public AdminInbox getAdminInbox() {return this.inbox;}
 }

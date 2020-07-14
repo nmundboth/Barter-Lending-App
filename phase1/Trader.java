@@ -21,7 +21,7 @@ public class Trader extends User implements Serializable {
     private List<Item> wish_list;
     private String name;
     private boolean flagged;
-    public boolean frozen;
+    protected boolean frozen;
     private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
     private int incomplete;// # of outstanding incomplete trades currently associated with the trader
     private int weeklyTransxns;

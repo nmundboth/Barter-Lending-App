@@ -4,7 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
+
+/**
+ * <h1>Trader Options</h1>
+ * <p>The TraderOptions class shows options to a Trader after they have logged in, and allows them to perform
+ * actions based on those options.</p>
+ */
 
 public class TraderOptions {
 
@@ -13,6 +18,11 @@ public class TraderOptions {
     private UserSerialization us;
     private String menuOptions;
 
+    /**
+     * @param curr The User currently logged in.
+     * @param uc The UserCatalogue associated with all currently registered Users.
+     * @param us UserSerialization, for saving information.
+     */
     public TraderOptions(User curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
         this.uc = uc;
@@ -23,6 +33,10 @@ public class TraderOptions {
                 "To logout, type 'logout'.";
     }
 
+    /**
+     * Method which sets up the TraderOptions menu, and presents the trader with a list of available actions (which are
+     * listed in the menuOptions variable).
+     */
     public void run(){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -83,7 +97,8 @@ public class TraderOptions {
         }
     }
 
-    public void addToInventory(BufferedReader br){
+    // Allows a trader to create a new item, and add it to their inventory.
+    private void addToInventory(BufferedReader br){
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         System.out.println("Enter the name of the item you would like to add to your inventory: ");
         try{
@@ -107,7 +122,9 @@ public class TraderOptions {
         }
     }
 
-    public void addtoWishlist(BufferedReader br){
+    // Allows a trader to add an existing, confirmed item to their wishlist.
+    // A trader can not add an item to their wishlist that is in their inventory.
+    private void addtoWishlist(BufferedReader br){
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         ArrayList<Item> confirmed = uc.findConfirmed();
         for (int i = 0; i < confirmed.size(); i++){
@@ -137,7 +154,8 @@ public class TraderOptions {
 
     // Template taken from
     // https://www.baeldung.com/java-check-string-number
-    public boolean isInteger(String strNum) {
+    // Checks whether a given string is an integer.
+    private boolean isInteger(String strNum) {
         if (strNum == null) {
             return false;
         }

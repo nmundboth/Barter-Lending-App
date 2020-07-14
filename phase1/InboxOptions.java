@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+/**
+ * <h1>Inbox Options</h1>
+ * <p>The InboxOptions class shows options to a Trader after they have requested to view their inbox. This is where
+ * all trade functionality (sending/receiving/proposing meetings/confirming, etc.) is based out of.</p>
+ */
 public class InboxOptions {
 
     private User curr;
@@ -13,6 +18,11 @@ public class InboxOptions {
     private TradeManager tm;
     private String menuOptions;
 
+    /**
+     * @param curr The user currently logged in.
+     * @param uc The UserCatalogue associated with all currently registered Users.
+     * @param us UserSerialization, for saving information.
+     */
     public InboxOptions(User curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
         this.uc = uc;
@@ -24,6 +34,11 @@ public class InboxOptions {
                 "To return to options menu, type 'exit'.";
     }
 
+    /**
+     * Method which sets up the InboxOptions menu, and presents the trader with a list of available actions (which are
+     * listed in the menuOptions variable). Checks that a trader is not frozen before allowing them to send a
+     * transaction request.
+     */
     public void run(){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
@@ -135,7 +150,9 @@ public class InboxOptions {
         }
     }
 
-    public void sendTrnsxnRequest(BufferedReader br){
+    // Presents a trader with the different kinds of transactions that they can send, and upon option selection, makes
+    // sure that the trader's account is eligible for that type of trade
+    private void sendTrnsxnRequest(BufferedReader br){
         String trnsxnOptions = "To perform an action, type the corresponding number.\n1. Request to borrow " +
                 "an item from a user\n2. Request to lend an item to a user\n3. Request to trade an item with a user." +
                 "\nType 'exit' to go back to your inbox menu.";
@@ -167,7 +184,9 @@ public class InboxOptions {
         }
     }
 
-    public void borrowItem(BufferedReader br){
+    // Allows a trader to borrow an item from another trader.
+    // In order to borrow an item, it must be on the current trader's wishlist, and in the other trader's inventory.
+    private void borrowItem(BufferedReader br){
         for (int i = 0; i < ((Trader) curr).getWishList().size(); i++) {
             System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().get(i));
         }
@@ -232,7 +251,9 @@ public class InboxOptions {
 
     }
 
-    public void lendItem(BufferedReader br){
+    // Allows a trader to lend an item to another user.
+    // In order to lend an item, it must be in the current trader's inventory and on the other trader's wishlist.
+    private void lendItem(BufferedReader br){
         for (int i = 0; i < ((Trader) curr).getInventory().size(); i++) {
             System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().get(i));
         }
@@ -296,11 +317,14 @@ public class InboxOptions {
         }
     }
 
-    public void tradeItem(BufferedReader br){
+    // Allows a trader to trade an item with another trader.
+    // This method initiates that process, by asking the trader which item from their wishlist that they would like
+    // to receive in a trade.
+    private void tradeItem(BufferedReader br){
         for (int i = 0; i < ((Trader) curr).getWishList().size(); i++) {
             System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().get(i));
         }
-        String tradePrompt = "Select the item from your wishlist that you would like to trade with a user, " +
+        String tradePrompt = "Select the item from your wishlist that you would like to trade for, " +
                 "or type 'exit' to go back: ";
         System.out.println(tradePrompt);
 
@@ -322,7 +346,9 @@ public class InboxOptions {
         }
     }
 
-    public void selectTrader(Item item, ArrayList<User> userWithItem, BufferedReader br){
+    // Finds trader(s) that has the selected item (see tradeItem method) in their inventory that the initial trader
+    // wanted to trade for (if any), and lists them to the user
+    private void selectTrader(Item item, ArrayList<User> userWithItem, BufferedReader br){
         for (int i = 0; i < userWithItem.size(); i++){
             if (!((Trader) userWithItem.get(i)).isFrozen()){
                 System.out.println("    " + (i + 1) + ". " +
@@ -330,7 +356,7 @@ public class InboxOptions {
             }
         }
         String selectPrompt = "Enter the number associated with the user you would like to trade with.\n" +
-                "If no users are listed above, then no user currently has your item, or the user(s) that " +
+                "If no users are listed above, then no user currently has your desired item, or the user(s) that " +
                 "do is frozen and can not currently lend items.";
         System.out.println(selectPrompt);
         try{
@@ -356,7 +382,8 @@ public class InboxOptions {
         }
     }
 
-    public boolean checkCompatibility(User other){
+    // Checks whether a user that has an item wants anything that the other user has.
+    private boolean checkCompatibility(User other){
         for (int i = 0; i < ((Trader)curr).getInventory().size(); i++){
             if (((Trader) other).getWishList().contains(((Trader)curr).getInventory().get(i))){
                 return true;
@@ -365,7 +392,9 @@ public class InboxOptions {
         return false;
     }
 
-    public void selectItem(BufferedReader br, User other, Item theirItem){
+    // Once confirmed that the users are eligible to trade with one another, initiates the 'making' of a trade.
+    // Asks users for whether the trade should be permanent, then proposes a trade.
+    private void selectItem(BufferedReader br, User other, Item theirItem){
         ArrayList<Item> tradableItems = new ArrayList<Item>();
         for (int i = 0; i < ((Trader) other).getWishList().size(); i++){
             if (((Trader) curr).getInventory().contains(((Trader) other).getWishList().get(i))){
@@ -409,7 +438,8 @@ public class InboxOptions {
 
     }
 
-    public void viewTR(BufferedReader br){
+    // Allows trader to view unaccepted trade requests from other users, and then accept or reject those trade offers.
+    private void viewTR(BufferedReader br){
         System.out.println("Unaccepted trade offers from other users: ");
         for (int i = 0; i < curr.getInbox().getUnacceptedTrades().size(); i++){
             System.out.println("    " + (i + 1) + ". " + curr.getInbox().getUnacceptedTrades().get(i));
@@ -466,7 +496,8 @@ public class InboxOptions {
 
     // Template taken from
     // https://www.baeldung.com/java-check-string-number
-    public boolean isInteger(String strNum) {
+    // Checks whether a given string is an integer.
+    private boolean isInteger(String strNum) {
         if (strNum == null) {
             return false;
         }

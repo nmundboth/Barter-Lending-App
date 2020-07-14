@@ -1,6 +1,5 @@
 package phase1;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UserCatalogue {
@@ -66,17 +65,6 @@ public class UserCatalogue {
             }
         }
         return users;
-    }
-
-    public ArrayList<Item> findUserItem(User user){
-        for(User trader: userBase) {
-            if (trader instanceof Trader) {
-                if (user == trader) {
-                    return (ArrayList<Item>) ((Trader) trader).getInventory();
-                }
-            }
-        }
-        return new ArrayList<Item>();
     }
 
     public boolean inUserBase(String Username){

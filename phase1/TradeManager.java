@@ -9,7 +9,6 @@ package phase1;
  * should be frozen.</p>
  * <p>All methods in this class require that the traders are not frozen.</p>
  */
-
 public class TradeManager {
 
     public TradeManager(){
@@ -150,7 +149,6 @@ public class TradeManager {
     /**
      * Allows a user to confirm that a transaction has taken place, that is, the items have been exchanged in real life.
      * If both users have confirmed the trade, then it confirms the trade.
-     * @see #confirm(Trade) .
      * @param confirming Trader that is confirming the transaction took place.
      * @param trade The trade that is being confirmed.
      */
