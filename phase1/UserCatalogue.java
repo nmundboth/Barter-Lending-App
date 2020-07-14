@@ -99,5 +99,17 @@ public class UserCatalogue {
        return temp;
     }
 
+    public ArrayList<User> findFlagged(){
+        ArrayList<User> flagged = new ArrayList<User>();
+        for (User user: userBase){
+            if (user instanceof Trader){
+                if (((Trader) user).isFlagged()){
+                    flagged.add(user);
+                }
+            }
+        }
+        return flagged;
+    }
+
 
 }

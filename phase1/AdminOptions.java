@@ -1,11 +1,5 @@
 package phase1;
 
-//TODO: Admin Options should include:
-// 1. View flagged traders
-// 2. View unconfirmed items
-// 3. View inbox (right now is only unfreeze requests)
-// 4. Change borrow limit
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -40,7 +34,23 @@ public class AdminOptions {
             while(!input.equals("logout")){
                 switch (input) {
                     case "1":
-
+                        System.out.println("Flagged Users:\n");
+                        for (int i = 0; i < uc.findFlagged().size(); i++){
+                            System.out.println("    " + (i + 1) + uc.findFlagged().get(i).getUsername() + " - " +
+                                    "Incomplete Transactions: " + ((Trader) uc.findFlagged().get(i)).getIncomplete() +
+                                    ", Weekly Transactions: " + ((Trader) uc.findFlagged().get(i)).getWeeklyTransxns());
+                        }
+                        System.out.println("Enter the number associated with the trader you would like to freeze:");
+                        String toFreeze = br.readLine();
+                        if (isInteger(toFreeze) && Integer.parseInt(toFreeze) >= 1 &&
+                            Integer.parseInt(toFreeze) <= uc.findFlagged().size()){
+                            ((Trader) uc.findFlagged().get(Integer.parseInt(toFreeze) - 1)).frozen = true;
+                            System.out.println("User has been frozen.");
+                        }
+                        else {
+                            System.out.println("Invalid Input\nReturning to Options Menu...\n");
+                        }
+                        System.out.println(menuOptions);
                         break;
                     case "2":
                         viewUnconfirmed(br);
@@ -66,7 +76,7 @@ public class AdminOptions {
                                         System.out.println(index + " " + i.getUsername());
                                         index += 1;
                                     }
-                                    System.out.println("Enter the corresponding number for a user to unfeeze:");
+                                    System.out.println("Enter the corresponding number for a user to unfreeze:");
                                     String messageNum = br.readLine();
                                     int i = 0;
                                     try{

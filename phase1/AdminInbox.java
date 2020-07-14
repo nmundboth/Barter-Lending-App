@@ -5,7 +5,7 @@ import java.util.List;
 
 public class AdminInbox extends Inbox implements Serializable {
 
-    private List<Trader> undoFrozen;
+    static List<Trader> undoFrozen;
     // User can request to be unfrozen and then an instance of the user is received inside the sub-inbox undoFrozen
     // I figured this is the easiest way to do it
 //    private List<String> adminNoti;
@@ -23,7 +23,6 @@ public class AdminInbox extends Inbox implements Serializable {
 
     public AdminInbox(List<Trade> trades, List<String> traderNoti, List<String> adminNotifs, List<Trader> undoFrozen){
         super(trades, traderNoti, adminNotifs);
-        this.undoFrozen = undoFrozen;
         this.admiNotiUnread = 0;
         this.traderUnread = 0;
         this.undoFrozenUnread = 0;
@@ -38,15 +37,15 @@ public class AdminInbox extends Inbox implements Serializable {
 
     // getters for unread messages
 
-    public List<Trader> getUndoFrozen(){return this.undoFrozen; }
+    public List<Trader> getUndoFrozen(){return undoFrozen; }
     //getter for unfreezing requests
 
     public void showUndoFrozen(int index){
-        Trader temp = this.undoFrozen.get(index);
-        this.undoFrozen.remove(index);
+        Trader temp = undoFrozen.get(index);
+        undoFrozen.remove(index);
         this.undoFrozenUnread -= 1;
         if(temp.isFrozen()){
-            temp.frozen = true;
+            temp.frozen = false;
         }
     }
     // method for undoing frozen status for a user

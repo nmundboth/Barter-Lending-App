@@ -315,6 +315,15 @@ public class Trader extends User implements Serializable {
         return this.incomplete;
     }
 
+    /**
+     * Gets the number of transactions that a trader has conducted this week.
+     *
+     * @return an integer representing number of weekly transactions.
+     */
+    public int getWeeklyTransxns(){
+        return this.weeklyTransxns;
+    }
+
     // method already written up. Choose which one to use and delete the other.
     public String toString(){
         return this.name;

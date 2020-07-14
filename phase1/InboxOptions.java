@@ -1,16 +1,8 @@
 package phase1;
 
-//TODO: Options should include:
-// 1. Send trade/borrow/lend request
-// 2. View accepted trades --> view open trades | view unscheduled trades --> Propose a meeting for an unscheduled trade
-// 3. View trade notifications
-// 4. View system (admin) notifications
-// 5. View trade requests from other users --> Accept a trade | Reject a trade
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class InboxOptions {
@@ -27,10 +19,9 @@ public class InboxOptions {
         this.us = us;
         this.tm = new TradeManager();
         this.menuOptions = "To perform an action, type the corresponding number.\n1. Send transaction request\n" +
-                "2. View accepted trades\n3. View trade notifications (" + curr.getInbox().getTradersUnread() + ")\n" +
-                "4. View system notifications (" + curr.getInbox().getAdmiNotiUnread() +
-                ")\n5. View trade requests (" + curr.getInbox().getUnaccptedUnread() +
-                ")\nTo return to options menu, type 'exit'.";
+                "2. View accepted trades\n3. View trade notifications\n" +
+                "4. View system notifications\n5. View trade requests\n6. Request to be unfrozen by admin\n" +
+                "To return to options menu, type 'exit'.";
     }
 
     public void run(){
@@ -115,6 +106,23 @@ public class InboxOptions {
                         viewTR(br);
                         System.out.println(menuOptions);
                         break;
+
+                    case "6":
+                        if (((Trader) curr).isFrozen()){
+                            if (!(AdminInbox.undoFrozen.contains((Trader) curr))){
+                                AdminInbox.undoFrozen.add((Trader) curr);
+                                System.out.println("You have requested to be unfrozen.");
+                            }
+                            else{ // undoFrozen.contains(Trader)
+                                System.out.println("You have already requested that you be unfrozen.");
+                            }
+                        }
+                        else{
+                            System.out.println("Your account is not frozen!");
+                        }
+                        System.out.println(menuOptions);
+                        break;
+
                     default:
                         System.out.println("Invalid Response");
                         System.out.println(menuOptions);
