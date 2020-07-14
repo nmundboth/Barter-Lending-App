@@ -75,12 +75,12 @@ public class InboxOptions {
                             int i = 0;
                             try {
                                 i = Integer.parseInt(messageNum);
-                            } catch (NumberFormatException e) {
+                            } catch (NumberFormatException | IndexOutOfBoundsException e) {
                                 System.out.println("Invalid input");
                                 System.out.println(menuOptions);
                                 break;
                             }
-                            inbox.getTradeNoti(i);
+                            System.out.println(inbox.getTradeNoti(i));
                             System.out.println(menuOptions);
                             break;
                         }
@@ -102,12 +102,12 @@ public class InboxOptions {
                             int j = 0;
                             try {
                                 j = Integer.parseInt(messageNum);
-                            } catch (NumberFormatException e) {
+                            } catch (NumberFormatException | IndexOutOfBoundsException e) {
                                 System.out.println("Invalid input");
                                 System.out.println(menuOptions);
                                 break;
                             }
-                            inbox1.getAdminNoti(j);
+                            System.out.println(inbox1.getAdminNoti(j));
                             System.out.println(menuOptions);
                             break;
                         }
@@ -127,7 +127,6 @@ public class InboxOptions {
         }
     }
 
-    //WIP
     public void sendTrnsxnRequest(BufferedReader br){
         String trnsxnOptions = "To perform an action, type the corresponding number.\n1. Request to borrow " +
                 "an item from a user\n2. Request to lend an item to a user\n3. Request to trade an item with a user." +
