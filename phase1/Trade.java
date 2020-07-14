@@ -5,13 +5,13 @@ import java.time.Period;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-/** Represents a Trade object.
+/** <h1>Trade</h1>
+ * <p>Represents a trade object.</p>
  * @author Navnee Mundboth
  * @author James Veale
  */
 public class Trade implements Serializable {
 
-    // og is Original Trader
     protected Trader ogTrader;
     protected Trader otherTrader;
     private int ogEdits;
@@ -24,6 +24,10 @@ public class Trade implements Serializable {
     private int completedMeetings; // For temporary trades only -> tracks whether this is the first or second meeting.
     private Period tempTradePeriod;
 
+    /**
+     * @param ogTrader the trader that originally proposed this trade
+     * @param otherTrader the trader that originally received this trade request
+     */
     public Trade(Trader ogTrader, Trader otherTrader){
         this.ogTrader = ogTrader;
         this.otherTrader = otherTrader;
@@ -71,6 +75,11 @@ public class Trade implements Serializable {
         return otherEdits;
     }
 
+    /**
+     * Gets the users that have confirmed that a trade has taken place.
+     *
+     * @return an ArrayList representing the users that have confirmed the trade.
+     */
     public ArrayList<Trader> getConfirmations(){
         return confirmations;
     }
@@ -99,7 +108,7 @@ public class Trade implements Serializable {
         return meeting;
     }
 
-    /** Gets the number of all meetings completed between the two Traders.
+    /** Gets whether 0 or 1 meetings have happened for the current trade (only used by temporary trades).
      *
      * @return an integer which shows the number of completed meetings.
      */
@@ -107,8 +116,9 @@ public class Trade implements Serializable {
         return completedMeetings;
     }
 
-    // Currently does not take time of day into account, just adds one month, and sets the meeting to be at the same
-    // time of day as the first one.
+    /**
+     * Completes the first meeting of the trade, and automatically sets the second one according to tempTradePeriod.
+     */
     public void completeFirstMeeting(){
         completedMeetings = 1;
         LocalDate currMeeting = LocalDate.parse(meeting.getDate());
@@ -121,7 +131,7 @@ public class Trade implements Serializable {
 
     /** Sets the number of edits available to the original Trader.
      *
-     * @param ogEdits
+     * @param ogEdits integer representation of the number of edits available to the original trader.
      */
     public void setOgEdits(int ogEdits) {
         this.ogEdits = ogEdits;
@@ -129,38 +139,42 @@ public class Trade implements Serializable {
 
     /** Sets the number of edits available to the other Trader.
      *
-     * @param otherEdits
+     * @param otherEdits integer representation of the number of edits available to the other trader.
      */
     public void setOtherEdits(int otherEdits) {
         this.otherEdits = otherEdits;
     }
 
     /**
+     * Adds a trader to the ArrayList of traders that have requested to cancel the trade.
      *
-     * @param trader
+     * @param trader the trader that has requested to cancel this trade.
      */
     public void addCancellation(Trader trader){
         cancellations.add(trader);
     }
 
     /**
+     * Gets the traders that have requested to cancel this trade.
      *
-     * @return
+     * @return an ArrayList representing the Trader(s) that have requested to cancel this trade.
      */
     public ArrayList<Trader> getCancellations(){
         return cancellations;
     }
 
     /**
+     * Adds a user to the list of traders that have confirmed that this trade has happened (user must be involved in
+     * trade to be added to this list).
      *
-     * @param trader
+     * @param trader a Trader object representing the trader that confirmed that the trade has happened.
      */
     public void addConfirmation(Trader trader){
         confirmations.add(trader);
     }
 
     /**
-     *
+     * Removes the traders (if any) from the list of traders that have confirmed the trader.
      */
     public void clearConfirmations(){
         confirmations.clear();
@@ -168,7 +182,7 @@ public class Trade implements Serializable {
 
     /** Sets a Trade as open or closed. true is open and closed is false.
      *
-     * @param open
+     * @param open a boolean representing whether the trade is open.
      */
     public void setOpen(boolean open) {
         this.open = open;
@@ -176,15 +190,21 @@ public class Trade implements Serializable {
 
     /** Sets a Trade as permanent or temporary. true is permanent and false is temporary.
      *
-     * @param permanent
+     * @param permanent a boolean representing whether the trade is open.
      */
     public void setPermanent(boolean permanent) {
         this.permanent = permanent;
     }
 
+    /**
+     * Method that has varying implementation depending on whether the trade is a OneWayTrade or TwoWayTrade.
+     */
     public void addRecentItem(){
     }
 
+    /**
+     * Method that has varying implementation depending on whether the trade is a OneWayTrade or TwoWayTrade.
+     */
     public void removeItems(){
     }
 }

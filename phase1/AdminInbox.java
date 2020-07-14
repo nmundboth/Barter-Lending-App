@@ -3,6 +3,12 @@ package phase1;
 import java.io.Serializable;
 import java.util.List;
 
+/** Reference from: https://www.dummies.com/programming/java/how-to-use-javadoc-to-document-your-classes/
+ * Represents the Inbox of an Admin
+ * @author Navnee Mundboth
+ * @author James Veale
+ * @author Sasan Makvandi
+ */
 public class AdminInbox extends Inbox implements Serializable {
 
     /**
@@ -37,43 +43,41 @@ public class AdminInbox extends Inbox implements Serializable {
         this.traderUnread = 0;
         this.undoFrozenUnread = 0;
     }
+    // Returns messages from Traders
 
-    /**
-     * Getter for traderUnread
-     * @return returns the number of unread trader notification
+    /** Gets the amount of unread notifications from other Traders to Admin.
+     *
+     * @return an integer which shows the amount of unread notifications from other Traders.
      */
     public int getTradersUnread(){return this.traderUnread;}
 
-    /**
-     * Getter for AdmiNotiUnread
-     * @return returns the number of unread Admin/System notification
+    /** Gets the amount of unread notifications from other Admins to Admin.
+     *
+     * @return an integer which shows the amount of unread notifications from other Admins.
      */
     public int getAdmiNotiUnread(){return this.admiNotiUnread;}
 
-    /**
-     * getter for UndoFrozenUnread
-     * @return returns the number of unread user unfreezing requests
+    /** Gets the amount of unread unfreezing notifications from other Traders to Admin.
+     *
+     * @return an integer which shows the amount of unread unfreezing notifications from other Traders.
      */
     public int getUndoFrozenUnread(){return this.undoFrozenUnread;}
 
-    /**
-     * Getter for all three unread sub inbox messages
-     * @return returns the total number of unread messages
+    /** Gets the total amount of unread notifications to Admin.
+     *
+     * @return an integer which shows the total amount of unread notifications.
      */
     public int getTotalUnread(){return this.traderUnread + this.admiNotiUnread + this.undoFrozenUnread;}
 
-
-    /**
-     * Getter for undoFrozen list
-     * @return a list of frozen users
+    /** Gets a list of Traders who requested to have their accounts unfrozen.
+     *
+     * @return a list of Traders who requested to have their accounts unfrozen.
      */
     public List<Trader> getUndoFrozen(){return undoFrozen; }
 
-    /**
-     * Method for accessing a frozen user from the request sub-inbox
-     * Admin is represented with a list of these users in AdminOptions
-     * Admin can then chose a user to unfreeze using this method
-     * @param index is the position of a chosen user inside the undoFrozen inbox
+    /** Unfreezes all Traders who requested to have their accounts unfrozen.
+     *
+     * @param index is the position of a specific message within the sub-inbox
      */
     public void showUndoFrozen(int index){
         Trader temp = undoFrozen.get(index);
@@ -97,6 +101,7 @@ public class AdminInbox extends Inbox implements Serializable {
         return temp;
     }
 
+<<<<<<< HEAD
     /**
      * This method serves as a tool for an Admin to access a message within the TraderNoti sub-inbox
      * Admin is represented with a list of messages in AdminOptions from which Admin can choose one to open and read
@@ -109,6 +114,5 @@ public class AdminInbox extends Inbox implements Serializable {
         this.traderUnread -= 1;
         return temp;
     }
-    // method for accessing trader notification
 
 }

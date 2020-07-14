@@ -3,6 +3,9 @@ package phase1;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * RUN THIS BEFORE RUNNING TradingMain FOR THE FIRST TIME
+ */
 public class Initialize {
 
     public static void main(String[] args) throws Exception {
