@@ -23,6 +23,13 @@ abstract class Inbox implements Serializable {
     private int admiNotiUnread;
     //The number of unread messages form admins
     //<trades> for admin user should be empty
+
+    /**
+     * Constructor for the Inbox class
+     * @param trades A List representing the Trades sub-inbox
+     * @param traderNotifs A List representing the other Trader notification sub-inbox
+     * @param adminNotifs A list representing the Admin/System notifications sub-inbox
+     */
     public Inbox(List<Trade> trades, List<String> traderNotifs, List<String> adminNotifs){
         this.traderNoti = traderNotifs;
         this.admiNoti = adminNotifs;
@@ -34,9 +41,16 @@ abstract class Inbox implements Serializable {
         this.unacceptedTrades = new ArrayList<Trade>();
     }
 
+    /**
+     * Getter for the AdminNoti sub-inbox
+     * @return AdminNoti List
+     */
     public List<String> getAdmiNoti() { return admiNoti; }
-        //getter for adminNoti
 
+    /**
+     *
+     * @return
+     */
     public int getTotalUnread(){
         return this.tradeUnread + this.admiNotiUnread + this.unaccptedUnread;
     }
