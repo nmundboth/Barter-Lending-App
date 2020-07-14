@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 abstract class User implements Serializable{
 
-    private String username;
+    protected String username;
     private String password;
     private String type;
     private Inbox inbox;

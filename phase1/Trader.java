@@ -205,9 +205,9 @@ public class Trader extends User implements Serializable {
         }
     }
 
-    /** Adds other Traders to Trade with.
+    /** Tracks which other traders this trader has traded with, and how many times they have traded with them.
      *
-     * @param partner
+     * @param partner the other trader with whom this trader conducted a transaction
      */
     public void addTradingPartner(Trader partner){
         if (tradingPartners.containsKey(partner)){
@@ -227,14 +227,28 @@ public class Trader extends User implements Serializable {
             else{ // Size of threeMostFrequent >= 3
                 for (Trader ft : threeMostFrequent.keySet()){
                     if (tradingPartners.get(t) > threeMostFrequent.get(ft)){
-                        threeMostFrequent.remove(ft);
+                        removeLeastFrequent(threeMostFrequent);
                         threeMostFrequent.put(t, tradingPartners.get(t));
+                        break;
                     }
                 }
             }
         }
         ArrayList<Trader> frequentPartners = new ArrayList<Trader>(threeMostFrequent.keySet());
         return frequentPartners;
+    }
+
+    private void removeLeastFrequent(HashMap<Trader, Integer> frequentPartners){
+        int leastTrades = Integer.MAX_VALUE;
+        Trader leastFrequent = new Trader();
+        for (Trader t: frequentPartners.keySet()){
+            if (frequentPartners.get(t) < leastTrades){
+                leastTrades = frequentPartners.get(t);
+                leastFrequent = t;
+            }
+        }
+        frequentPartners.remove(leastFrequent);
+
     }
 
     public void addRecentItemToList(Item item){
@@ -277,10 +291,20 @@ public class Trader extends User implements Serializable {
         return this.incomplete > incompleteLimit;
     }
 
+    /**
+     * Checks whether the trader has been automatically flagged for having too many incomplete transactions, or too
+     * many weekly transactions. Flagged traders are sent to admins, who can then decide whether or not to freeze a
+     * trader.
+     *
+     * @return a boolean representing whether the user has been flagged.
+     */
     public boolean isFlagged(){
         return flagged;
     }
 
+    /**
+     * Flags a trader - indicates too many outstanding incomplete transactions, or too many weekly transactions.
+     */
     public void flag(){
         this.flagged = true;
     }
@@ -324,8 +348,21 @@ public class Trader extends User implements Serializable {
         return this.weeklyTransxns;
     }
 
-    // method already written up. Choose which one to use and delete the other.
+    /**
+     * Gets the items that this trader has most recently traded to others (max. 3 items)
+     *
+     * @return a list of the trader's most recently traded items
+     */
+    public ArrayList<Item> getRecentItems(){
+        return this.recentItems;
+    }
+
+    /**
+     * String representation of a trader will be their username
+     *
+     * @return a string of the trader's username
+     */
     public String toString(){
-        return this.name;
+        return this.username;
     }
 }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class TraderOptions {
 
@@ -62,10 +63,17 @@ public class TraderOptions {
                     System.out.println(menuOptions);
                 }
                 else if (input.equals("4")){
-
+                    for (int i = 0; i < ((Trader) curr).getRecentItems().size(); i++){
+                        System.out.println("    " + (i + 1) + ((Trader) curr).getRecentItems().get(i));
+                    }
+                    System.out.println("\n" + menuOptions);
                 }
                 else if (input.equals("5")){
-
+                    ArrayList<Trader> frequent = ((Trader) curr).frequentPartners();
+                    for (int i =0; i < frequent.size(); i++){
+                        System.out.println("    " + (i + 1) + frequent.get(i));
+                    }
+                    System.out.println("\n" + menuOptions);
                 }
                 input = br.readLine();
             }
