@@ -1,7 +1,5 @@
 package phase1;
 
-import java.util.List;
-
 /**
  * <h1>Trade Functions</h1>
  * <p>The TradeManager class contains methods that allow traders to send/receive trades, accept/reject trade requests,
@@ -14,15 +12,8 @@ import java.util.List;
 
 public class TradeManager {
 
-    //This class relies on the input of two traders to the methods, so will need to have something like "current trader"
-    //and "desired trader" (person they are interacting with) to be input from the controller - will be possible using
-    //UserCatalogue and having the user select which user they want to trade with/borrow from, etc.
-
-
     public TradeManager(){
     }
-
-    //TODO: Gate all Trade Request functionality behind whether a trader is frozen (can do in controller)
 
     /**
      * Sends a transaction request from ogTrader to borrow an item from otherTrader.
@@ -149,12 +140,7 @@ public class TradeManager {
         }
     }
 
-    /**
-     * Helper method for acceptTrade that adds a transaction to the involved traders' weekly transactions, and flags
-     * the user if this puts them at or over the weekly limit.
-     * @param trader Trader that is being checked.
-     */
-    public void checkTransxnLimit(Trader trader){
+    private void checkTransxnLimit(Trader trader){
         trader.addWeeklyTransxn();
         if (trader.overWeeklyLimit()){
             trader.flag(); // Doesn't automatically freeze trader, just flags them
@@ -168,7 +154,6 @@ public class TradeManager {
      * @param confirming Trader that is confirming the transaction took place.
      * @param trade The trade that is being confirmed.
      */
-    // Can add an else block (outer layer) that prints "You have already confirmed the trade!" if the trader has already confirmed.
     public void confirmTrade(Trader confirming, Trade trade){
         if (!trade.getConfirmations().contains(confirming)){
             trade.addConfirmation(confirming);
@@ -178,17 +163,7 @@ public class TradeManager {
         }
     }
 
-    /**
-     * Helper method for confirmTrade method, that executes upon both users confirming that a transaction has taken
-     * place in real life. If the trade is permanent, or if this was the first meeting of a temporary transaction, then
-     * the items are removed from the traders' inventories. If it is a permanent trade, or the second meeting of a temporary trade,
-     * then the trade is marked as complete.
-     * @see #completeTrade(Trade).
-     * If it is the first meeting of a temporary trade, the second meeting is set and the confirmations are cleared so
-     * that the second meeting can be confirmed after it has happened.
-     * @param trade The trade that is being confirmed.
-     */
-    public void confirm(Trade trade){
+    private void confirm(Trade trade){
         if (trade.isPermanent()){
             trade.removeItems();
             this.completeTrade(trade);
@@ -204,16 +179,7 @@ public class TradeManager {
 
     }
 
-    /**
-     * Completes a trade, which marks it as closed (removes it from a trader's list of incomplete transactions),
-     * and removes the trade from the list of active trades in the traders' inboxes. Also sends appropriate
-     * notifications to both traders' inboxes.
-     * For each trader, adds their trading partner for this trade to their list of trading partners, so that their most
-     * frequent trading partners can be retrieved.
-     * Also adds the item that trader(s) gave to their list of the most recent three items they have offered in trades.
-     * @param trade The trade that is being completed.
-     */
-    public void completeTrade(Trade trade){
+    private void completeTrade(Trade trade){
         Trader ogTrader = trade.getOgTrader();
         Trader otherTrader = trade.getOtherTrader();
 
@@ -236,7 +202,6 @@ public class TradeManager {
      * @param cancelling The trader who is requesting to cancel the trade.
      * @param trade The trade that is requesting to be cancelled.
      */
-    // Similar to confirmTrade, but else block would read: "You have already requested to cancel the trade, or are trying to cancel an open trade!"
     public void cancelTrade(Trader cancelling, Trade trade){
         Trader other;
         if (cancelling == trade.getOgTrader()){
