@@ -10,7 +10,8 @@ import java.util.ArrayList;
  * <p>The InboxOptions class shows options to a Trader after they have requested to view their inbox. This is where
  * all trade functionality (sending/receiving/proposing meetings/confirming, etc.) is based out of.</p>
  */
-public class InboxOptions {
+public class
+InboxOptions {
 
     private User curr;
     private UserCatalogue uc;
