@@ -55,23 +55,6 @@ into it's own class
 Inbox methods in Trader class:
 
 //does Inbox need methods readTrades till totalUnreadNotifs?
-    /** Returns all Trades from the Trader's Inbox.
-     *
-     * @return a list of all Trades.
-     */
-    public List<Trade> readTrades(){
-        TraderInbox traderInbox = (TraderInbox) this.getInbox();
-        return traderInbox.getTrades();
-    }
-
-    /** Returns all unaccepted Trades from the Trader's Inbox.
-     *
-     * @return a list of all Trades.
-     */
-    public List<Trade> readUnacceptedTrades(){
-        TraderInbox traderInbox = (TraderInbox) this.getInbox();
-        return traderInbox.getUnacceptedTrades();
-    }
 
     /** Prints all Admin's notifications from Trader's Inbox.
      *
@@ -101,29 +84,3 @@ Inbox methods in Trader class:
             System.out.println(this.getInbox().getTraderNoti().get(i));
             i++;
         }
-
-    }
-
-    /** Tells how many unread notifications the Trader has from other Traders.
-     *
-     * @return an integer which says how many unread notifications the Trader has from other Traders.
-     */
-    public int unreadTraderNotifs(){
-        return this.getInbox().getTradersUnread();
-    }
-
-    /** Tells how many unread notifications the Trader has from Admin/s.
-     *
-     * @return an integer which says how many unread notifications the Trader has from Admin/s.
-     */
-    public int unreadAdminNotifs(){
-        return this.getInbox().getAdmiNotiUnread();
-    }
-
-    /** Tells how many unread notifications the Trader has.
-     *
-     * @return an integer which gives the total number of unread notifications.
-     */
-    public int totalUnreadNotifs(){
-        return this.getInbox().getTotalUnread();
-    }
