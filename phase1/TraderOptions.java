@@ -42,20 +42,20 @@ public class TraderOptions {
 
         //Print trader's inventory
         System.out.println("Inventory (C = Confirmed item, U = Unconfirmed item):");
-        for (int i = 0; i < ((Trader) curr).getInventory().size(); i++){
-            if (((Trader) curr).getInventory().get(i).isConfirmed()){
-                System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().get(i) + " (C)");
+        for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++){
+            if (((Trader) curr).getInventory().getInv().get(i).isConfirmed()){
+                System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i) + " (C)");
             }
             else { // Item is unconfirmed
-                System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().get(i) + " (U)");
+                System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i) + " (U)");
             }
         }
         System.out.println();
 
         //Print trader's wishlist
         System.out.println("Wishlist: ");
-        for (int i = 0; i < ((Trader) curr).getWishList().size(); i++){
-            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().get(i));
+        for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++){
+            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
         }
         System.out.println();
 
@@ -108,7 +108,7 @@ public class TraderOptions {
                 String descrip = br.readLine();
                 if (!descrip.equals("exit")){
                     Item item = new Item(itemName, descrip);
-                    ((Trader) curr).addToInventory(item);
+                    ((Trader) curr).getInventory().addItem(item);
                     System.out.println("Updated Inventory:\n" + ((Trader)curr).getInventory() + "\n");
                     System.out.println("Item submitted for confirmation by admin.\n" +
                             "Returning to options menu...\n");
@@ -128,7 +128,7 @@ public class TraderOptions {
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         ArrayList<Item> confirmed = uc.findConfirmed();
         for (int i = 0; i < confirmed.size(); i++){
-            if (!((Trader) curr).getInventory().contains(confirmed.get(i))){
+            if (!((Trader) curr).getInventory().getInv().contains(confirmed.get(i))){
                 System.out.println((i + 1) + ". " + confirmed.get(i) + " - " + confirmed.get(i).getDescrip() + "\n");
             }
         }
@@ -139,7 +139,7 @@ public class TraderOptions {
             while(!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input) >= 1 &&
                         Integer.parseInt(input) <= confirmed.size())){
-                    ((Trader) curr).add_wish(confirmed.get((Integer.parseInt(input) - 1)));
+                    ((Trader) curr).getWishList().addItem(confirmed.get(Integer.parseInt(input) - 1));
                     System.out.println("Item added to wishlist!");
                     us.toSerialize(uc.userBase);
                     break;

@@ -50,10 +50,10 @@ InboxOptions {
             while (!input.equals("exit")) {
                 switch (input) {
                     case "1":
-                        if (!(((Trader) curr).isFrozen())) {
+                        if (!(((Trader) curr).getTraderStatus().isFrozen())) {
                             sendTrnsxnRequest(br);
                             System.out.println(menuOptions);
-                        } else if ((((Trader) curr).isFrozen())) {
+                        } else if ((((Trader) curr).getTraderStatus().isFrozen())) {
                             System.out.println("Your account is frozen and can not currently send transaction requests. " +
                                     "Please select 'request unfreeze' from this menu to ask an admin to review your account.");
                             System.out.println(menuOptions);
@@ -124,7 +124,7 @@ InboxOptions {
                         break;
 
                     case "6":
-                        if (((Trader) curr).isFrozen()){
+                        if (((Trader) curr).getTraderStatus().isFrozen()){
                             if (!(AdminInbox.undoFrozen.contains((Trader) curr))){
                                 AdminInbox.undoFrozen.add((Trader) curr);
                                 System.out.println("You have requested to be unfrozen.");
@@ -161,11 +161,11 @@ InboxOptions {
         try{
             String input = br.readLine();
             while(!input.equals("exit")){
-                if (input.equals("1") && !(((Trader) curr).isGreedy())){
+                if (input.equals("1") && !(((Trader) curr).getTraderStatus().isGreedy())){
                     borrowItem(br);
                     System.out.println(trnsxnOptions);
                 }
-                else if(input.equals("1") && ((Trader) curr).isGreedy()){
+                else if(input.equals("1") && ((Trader) curr).getTraderStatus().isGreedy()){
                     System.out.println("Please lend more items before you attempt to borrow!\n");
                     System.out.println(trnsxnOptions);
                 }
@@ -202,7 +202,7 @@ InboxOptions {
                     Item item = ((Trader) curr).getWishList().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWithItem = uc.findUserWithItem(item);
                     for (int i = 0; i < userWithItem.size(); i++){
-                        if (!((Trader) userWithItem.get(i)).isFrozen()){
+                        if (!((Trader) userWithItem.get(i)).getTraderStatus().isFrozen()){
                             System.out.println("    " + (i + 1) + ". " +
                                     uc.findUserWithItem(item).get(i).getUsername());
                         }
@@ -270,7 +270,7 @@ InboxOptions {
                     Item item = ((Trader) curr).getInventory().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWantsItem = uc.findUserWantsItem(item);
                     for (int i = 0; i < userWantsItem.size(); i++){
-                        if (!((Trader) userWantsItem.get(i)).isFrozen()){
+                        if (!((Trader) userWantsItem.get(i)).getTraderStatus().isFrozen()){
                             System.out.println("    " + (i + 1) + ". " +
                                     uc.findUserWithItem(item).get(i).getUsername());
                         }
@@ -351,7 +351,7 @@ InboxOptions {
     // wanted to trade for (if any), and lists them to the user
     private void selectTrader(Item item, ArrayList<User> userWithItem, BufferedReader br){
         for (int i = 0; i < userWithItem.size(); i++){
-            if (!((Trader) userWithItem.get(i)).isFrozen()){
+            if (!((Trader) userWithItem.get(i)).getTraderStatus().isFrozen()){
                 System.out.println("    " + (i + 1) + ". " +
                         uc.findUserWithItem(item).get(i).getUsername());
             }

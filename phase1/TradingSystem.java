@@ -22,7 +22,7 @@ public class TradingSystem {
     public TradingSystem() throws Exception {
         us = new UserSerialization();
         uc = new UserCatalogue(us.deserialize());
-        menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n" +
+        menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n3. Guest\n" +
                 "To exit, type 'exit'.";
     }
 
@@ -55,6 +55,24 @@ public class TradingSystem {
             e.printStackTrace();
         }
     }
+//
+//    //Enters guest mode
+//    private void guestMode(BufferedReader br){
+//
+//        try{
+//            String input = br.readLine();
+//            while (!input.equals("exit")){
+//                ArrayList<Item> items = uc.findAllItems();
+//
+//                input = br.readLine();
+//            }
+//        }
+//        catch (IOException e){
+//            System.out.println("Something went wrong.");
+//            e.printStackTrace();
+//        }
+//
+//    }
 
     // Takes user input, and checks it against the user catalogue, then logs the user in if the user exists and the pw
     // is correct.
@@ -152,8 +170,10 @@ public class TradingSystem {
                     List<String> traderNotifs = new ArrayList<String>();
                     List<String>adminNotifs = new ArrayList<String>();
                     TraderInbox inbox = new TraderInbox(trades, traderNotifs, adminNotifs);
-                    List<Item> inventory = new ArrayList<Item>();
-                    User user = new Trader(username, password, type, inbox, inventory, name);
+                    Inventory inventory = new Inventory(new ArrayList<Item>(), "inventory");
+                    Inventory wishlist = new Inventory(new ArrayList<Item>(), "wishlist");
+                    TraderStatus status = new TraderStatus();
+                    User user = new Trader(username, password, type, inbox, inventory, wishlist, name, status);
                     uc.userBase.add(user);
                     us.toSerialize(uc.userBase);
                     System.out.println("User created!");
