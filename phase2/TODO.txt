@@ -50,3 +50,80 @@ Fixes that need to be done:
 - Change isInteger option into it's own class, it is in AdminOptions, InboxOptions, AcceptedTradeOptions, TradeOptions)
 into it's own class
 
+
+
+Inbox methods in Trader class:
+
+//does Inbox need methods readTrades till totalUnreadNotifs?
+    /** Returns all Trades from the Trader's Inbox.
+     *
+     * @return a list of all Trades.
+     */
+    public List<Trade> readTrades(){
+        TraderInbox traderInbox = (TraderInbox) this.getInbox();
+        return traderInbox.getTrades();
+    }
+
+    /** Returns all unaccepted Trades from the Trader's Inbox.
+     *
+     * @return a list of all Trades.
+     */
+    public List<Trade> readUnacceptedTrades(){
+        TraderInbox traderInbox = (TraderInbox) this.getInbox();
+        return traderInbox.getUnacceptedTrades();
+    }
+
+    /** Prints all Admin's notifications from Trader's Inbox.
+     *
+     */
+    public void readAdminNotifs(){
+        this.getInbox().setAdmiNotiUnread(0);
+
+        //Reads notifications line by line
+        int i = 0;
+        while (i < this.getInbox().getAdmiNoti().size()){
+            System.out.println(this.getInbox().getAdmiNoti().get(i));
+            i++;
+        }
+
+    }
+
+    /**
+     * Prints all other Traders' notifications from Trader's Inbox.
+     */
+    public void readTraderNotifs(){
+        this.getInbox().setUnaccptedUnread(0);
+        this.getInbox().setTradeUnread(0);
+
+        //Reads notifications line by line
+        int i = 0;
+        while (i < this.getInbox().getTraderNoti().size()){
+            System.out.println(this.getInbox().getTraderNoti().get(i));
+            i++;
+        }
+
+    }
+
+    /** Tells how many unread notifications the Trader has from other Traders.
+     *
+     * @return an integer which says how many unread notifications the Trader has from other Traders.
+     */
+    public int unreadTraderNotifs(){
+        return this.getInbox().getTradersUnread();
+    }
+
+    /** Tells how many unread notifications the Trader has from Admin/s.
+     *
+     * @return an integer which says how many unread notifications the Trader has from Admin/s.
+     */
+    public int unreadAdminNotifs(){
+        return this.getInbox().getAdmiNotiUnread();
+    }
+
+    /** Tells how many unread notifications the Trader has.
+     *
+     * @return an integer which gives the total number of unread notifications.
+     */
+    public int totalUnreadNotifs(){
+        return this.getInbox().getTotalUnread();
+    }
