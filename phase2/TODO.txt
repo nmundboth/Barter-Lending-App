@@ -45,7 +45,8 @@ Fixes that need to be done:
 - Add a method that can create an admin in the same class
 - TraderInbox should be fixed to do something else, because it only implements the abstract class
 - (Jeff) Fix the menu so it's more comprehensive and less cluttered
-- Add to a return to main menu option, in every menu option
+- (tingrui)Add to a return to main menu option, in every menu option
+- (tingrui)Add more method to Inbox
 - Change necessary methods to private or package protected, too many methods are public
 - Change isInteger option into it's own class, it is in AdminOptions, InboxOptions, AcceptedTradeOptions, TradeOptions)
 into it's own class
