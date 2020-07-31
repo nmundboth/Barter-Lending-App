@@ -25,7 +25,7 @@ public class TradingSystem {
         uc = new UserCatalogue(us.deserialize());
         menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n3. Guest\n" +
                 "To exit, type 'exit'.";
-        returnmain = "Return to main menu, type 'rtmain'.";
+        returnmain = "To cancel registration and return to main menu, type 'rtmain'.";
     }
 
     /**
@@ -100,6 +100,7 @@ public class TradingSystem {
                     System.out.println("User not found, please try again.");
                 }
                 else if(input.equals("rtmain")){
+                    System.out.println("\n");
                     run();
                     break;
                 }
@@ -141,9 +142,10 @@ public class TradingSystem {
     private void register(BufferedReader br){
         try{
             System.out.println("What would you like your username to be?");
+            System.out.println(returnmain);
             String input = br.readLine();
             while (!input.equals("exit")) {
-                if (!uc.inUserBase(input)) {
+                if (!uc.inUserBase(input) && !input.equals("rtmain")){
                     newUser(br, input);
                     break;
                 }
@@ -151,6 +153,11 @@ public class TradingSystem {
                     System.out.println("A user with that username is already registered.\nPlease enter a different" +
                             "username");
                     input = br.readLine();
+                }
+                else if(input.equals("rtmain")){
+                    System.out.println("\n");
+                    run();
+                    break;
                 }
             }
         }
@@ -165,12 +172,22 @@ public class TradingSystem {
         //Need to get name and password for user
         try{
             System.out.println("Please enter your first name: ");
+            System.out.println(returnmain);
             String input = br.readLine();
+            if(input.equals("rtmain")){
+                System.out.println("\n");
+                run();
+            }
             if (!input.equals("exit")){
                 String name = input;
                 System.out.println("Please enter a password: ");
+                System.out.println(returnmain);
                 input = br.readLine();
-                if(!input.equals("exit")){
+                if(input.equals("rtmain")){
+                    System.out.println("\n");
+                    run();
+                }
+                else if(!input.equals("exit")){
                     String password = input;
                     String type = "trader"; // Can't register an admin this way, so must be a trader
                     List<Trade> trades = new ArrayList<Trade>();
