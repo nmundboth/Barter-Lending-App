@@ -15,6 +15,7 @@ public class TradingSystem {
     private UserSerialization us;
     private UserCatalogue uc;
     private String menuOptions;
+    private String returnmain;
 
     /**
      * Has an instance of UserSerialization (for saving) and UserCatalogue (for tracking all user data).
@@ -24,6 +25,7 @@ public class TradingSystem {
         uc = new UserCatalogue(us.deserialize());
         menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n3. Guest\n" +
                 "To exit, type 'exit'.";
+        returnmain = "Return to main menu, type 'rtmain'.";
     }
 
     /**
@@ -79,6 +81,7 @@ public class TradingSystem {
     private void login(BufferedReader br){
         try{
             System.out.println("Please enter your Username: ");
+            System.out.println(returnmain);
             String input = br.readLine();
             while(!input.equals("exit")) {
                 if (uc.inUserBase(input)) {
@@ -95,6 +98,10 @@ public class TradingSystem {
                 }
                 else if (!uc.inUserBase(input)){
                     System.out.println("User not found, please try again.");
+                }
+                else if(input.equals("rtmain")){
+                    run();
+                    break;
                 }
                 input = br.readLine();
             }
