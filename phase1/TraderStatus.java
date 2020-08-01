@@ -1,10 +1,11 @@
 package phase1;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 
-public class TraderStatus {
+public class TraderStatus implements Serializable {
 
     static int greedLimit = -1; // The lower this limit, the more a trader must lend before they can borrow.
 
