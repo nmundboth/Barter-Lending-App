@@ -6,10 +6,10 @@ public class Message {
     private String content;
 
     // The user sending this message
-    private User sender;
+    public User sender;
 
     // The user receiving this message
-    private User recipient;
+    public User recipient;
 
     public boolean read = false;
 
@@ -19,8 +19,6 @@ public class Message {
         this.sender = sender;
         this.recipient = recipient;
     }
-
-    public String getContent(){return this.content;}
 
     public User getSender(){return this.sender;}
 

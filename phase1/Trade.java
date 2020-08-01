@@ -125,6 +125,8 @@ public class Trade implements Serializable {
         LocalDate secondMeeting = currMeeting.plus(tempTradePeriod);
         meeting.setDate(secondMeeting.toString());
 
+        TradeMessage message = new TradeMessage("" + secondMeeting.toString(),
+                this.ogTrader, this.otherTrader, this);
         ogTrader.getInbox().tradeConfirmed(otherTrader, "First meeting for the trade:\n" + this +
                 "\nhas been completed. Second meeting set for " + secondMeeting.toString());
     }

@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class AcceptedTradeOptions {
 
-    private User curr;
+    private Trader curr;
     private UserCatalogue uc;
     private UserSerialization us;
     private MeetingManager mm;
@@ -26,7 +26,7 @@ public class AcceptedTradeOptions {
      * @param uc the UserCatalogue that contains all of the currently registered users
      * @param us UserSerialization used for saving
      */
-    public AcceptedTradeOptions(User curr, UserCatalogue uc, UserSerialization us){
+    public AcceptedTradeOptions(Trader curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
         this.uc = uc;
         this.us = us;
@@ -46,7 +46,7 @@ public class AcceptedTradeOptions {
     public void run(){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        List<Trade> acceptedTrades = curr.getInbox().getTrades();
+        List<TradeMessage> acceptedTrades = curr.getInbox().getTrades();
         System.out.println("Accepted Trades: ");
         for (int i = 0; i < acceptedTrades.size(); i++){
             System.out.println("    " + (i + 1) + ". " + acceptedTrades.get(i));
@@ -84,10 +84,10 @@ public class AcceptedTradeOptions {
 
     // Allows a trader to propose a meeting for a trade that they have accepted, which does not currently contain a
     // meeting (meeting is empty)
-    private void proposeMeeting(BufferedReader br, List<Trade> acceptedTrades){
-        ArrayList<Trade> unproposed = new ArrayList<Trade>();
-        for (Trade trade: acceptedTrades){
-            if (trade.getMeeting().isEmpty() && !(trade.isOpen())){
+    private void proposeMeeting(BufferedReader br, List<TradeMessage> acceptedTrades){
+        ArrayList<TradeMessage> unproposed = new ArrayList<TradeMessage>();
+        for (TradeMessage trade: acceptedTrades){
+            if (trade.getTrade().getMeeting().isEmpty() && !(trade.getTrade().isOpen())){
                 unproposed.add(trade);
             }
         }
@@ -101,7 +101,7 @@ public class AcceptedTradeOptions {
             while(!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input)) >= 1 && Integer.parseInt(input) <= unproposed.size()){
                     int index = Integer.parseInt(input) - 1;
-                    Trade trade = unproposed.get(index);
+                    TradeMessage trade = unproposed.get(index);
                     System.out.println("Enter the location you would like to meet: ");
                     input = br.readLine();
                     if (!input.equals("exit")){
@@ -114,7 +114,7 @@ public class AcceptedTradeOptions {
                             input = br.readLine();
                             if(!input.equals("exit")){
                                 String time = input;
-                                mm.proposeMeeting(((Trader) curr), trade, location, date, time);
+                                mm.proposeMeeting(((Trader) curr), trade.getTrade(), location, date, time);
                             }
                         }
                     }
@@ -133,16 +133,16 @@ public class AcceptedTradeOptions {
     // or accept a meeting (can only accept a meeting if they are not the ones that proposed it). They also only have
     // 3 edits each to a meeting, and proposing a meeting counts as an edit.
     // Accepting a meeting sets the trade to open (incomplete).
-    private void viewMeetings(BufferedReader br, List<Trade> acceptedTrades){
-        ArrayList<Trade> proposed = new ArrayList<Trade>();
-        for (Trade trade: acceptedTrades){
-            if(!trade.getMeeting().isEmpty() && !(trade.isOpen())){
+    private void viewMeetings(BufferedReader br, List<TradeMessage> acceptedTrades){
+        ArrayList<TradeMessage> proposed = new ArrayList<TradeMessage>();
+        for (TradeMessage trade: acceptedTrades){
+            if(!trade.getTrade().getMeeting().isEmpty() && !(trade.getTrade().isOpen())){
                 proposed.add(trade);
             }
         }
         for (int i = 0; i < proposed.size(); i++){
-            System.out.println("    " + (i + 1) + ". Trade - " + proposed.get(i));
-            System.out.println("       Meeting - " + proposed.get(i).getMeeting());
+            System.out.println("    " + (i + 1) + ". Trade - " + proposed.get(i).getTrade());
+            System.out.println("       Meeting - " + proposed.get(i).getTrade().getMeeting());
         }
 
         System.out.println("Enter the number of the trade for which you would like to edit/accept the meeting.");
@@ -151,7 +151,7 @@ public class AcceptedTradeOptions {
             while (!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input)) >= 1 && Integer.parseInt(input) <= proposed.size()){
                     int index = Integer.parseInt(input) - 1;
-                    Trade trade = proposed.get(index);
+                    TradeMessage trade = proposed.get(index);
                     System.out.println("Would you like to 'edit' or 'accept' this meeting?");
                     input = br.readLine();
                     if (!input.equals("exit")){
@@ -168,21 +168,21 @@ public class AcceptedTradeOptions {
                                     input = br.readLine();
                                     if(!input.equals("exit")){
                                         String time = input;
-                                        mm.proposeMeeting(((Trader) curr), trade, location, date, time);
+                                        mm.proposeMeeting(((Trader) curr), trade.getTrade(), location, date, time);
                                     }
                                 }
                             }
                         }
                         else if (input.equals("accept") &&
-                                !(((Trader) curr).equals(trade.getMeeting().getProposedBy()))){
-                            if (trade instanceof TwoWayTrade){
-                                mm.confirmMeet(((Trader) curr), ((TwoWayTrade) trade));
+                                !(((Trader) curr).equals(trade.getTrade().getMeeting().getProposedBy()))){
+                            if (trade.getTrade() instanceof TwoWayTrade){
+                                mm.confirmMeet(((Trader) curr), ((TwoWayTrade) trade.getTrade()));
                             }
-                            else if (trade instanceof OneWayTrade){
-                                mm.confirmMeet(((Trader) curr), ((OneWayTrade) trade));
+                            else if (trade.getTrade() instanceof OneWayTrade){
+                                mm.confirmMeet(((Trader) curr), ((OneWayTrade) trade.getTrade()));
                             }
                         }
-                        else if (input.equals("accept") && ((Trader) curr).equals(trade.getMeeting().getProposedBy())){
+                        else if (input.equals("accept") && ((Trader) curr).equals(trade.getTrade().getMeeting().getProposedBy())){
                             System.out.println("You can not confirm a meeting that you proposed!");
                         }
                     }
@@ -198,16 +198,16 @@ public class AcceptedTradeOptions {
     }
 
     // Allows a user to confirm that a meeting (transaction) has happened in real life.
-    private void confirmMeeting(BufferedReader br, List<Trade> acceptedTrades){
-        ArrayList<Trade> openTrades = new ArrayList<Trade>();
-        for (Trade trade: acceptedTrades){
-            if (trade.isOpen()){
+    private void confirmMeeting(BufferedReader br, List<TradeMessage> acceptedTrades){
+        ArrayList<TradeMessage> openTrades = new ArrayList<TradeMessage>();
+        for (TradeMessage trade: acceptedTrades){
+            if (trade.getTrade().isOpen()){
                 openTrades.add(trade);
             }
         }
         for (int i = 0; i < openTrades.size(); i++){
             System.out.println("    " + (i + 1) + ". Trade - " + openTrades.get(i));
-            System.out.println("       Meeting - " + openTrades.get(i).getMeeting());
+            System.out.println("       Meeting - " + openTrades.get(i).getTrade().getMeeting());
         }
         System.out.println("Enter the number of the trade for which you would like to confirm that the meeting has" +
                 " happened.");
@@ -217,8 +217,8 @@ public class AcceptedTradeOptions {
                 if (isInteger(input) && (Integer.parseInt(input)) >= 1 &&
                         Integer.parseInt(input) <= openTrades.size()) {
                     int index = Integer.parseInt(input) - 1;
-                    Trade trade = openTrades.get(index);
-                    tm.confirmTrade(((Trader) curr), trade);
+                    TradeMessage trade = openTrades.get(index);
+                    tm.confirmTrade(((Trader) curr), trade.getTrade());
                     System.out.println("You have confirmed the trade!");
                 }
                 input = br.readLine();
@@ -230,16 +230,16 @@ public class AcceptedTradeOptions {
     }
 
     // Allows a trader to request to cancel a trade
-    private void cancelTrade(BufferedReader br, List<Trade> acceptedTrades){
-        ArrayList<Trade> unscheduled = new ArrayList<Trade>();
-        for (Trade trade: acceptedTrades){
-            if (!trade.isOpen()){
+    private void cancelTrade(BufferedReader br, List<TradeMessage> acceptedTrades){
+        ArrayList<TradeMessage> unscheduled = new ArrayList<TradeMessage>();
+        for (TradeMessage trade: acceptedTrades){
+            if (!trade.getTrade().isOpen()){
                 unscheduled.add(trade);
             }
         }
         for (int i = 0; i < acceptedTrades.size(); i++){
             System.out.println("    " + (i + 1) + ". Trade - " + unscheduled.get(i));
-            System.out.println("       Meeting - " + unscheduled.get(i).getMeeting());
+            System.out.println("       Meeting - " + unscheduled.get(i).getTrade().getMeeting());
         }
         System.out.println("Enter the number of the trade that you would like to request to cancel." +
                 " If both traders have requested to cancel, the trade will be canceled.");
@@ -250,8 +250,8 @@ public class AcceptedTradeOptions {
                 if (isInteger(input) && (Integer.parseInt(input)) >= 1 &&
                         Integer.parseInt(input) <= unscheduled.size()) {
                     int index = Integer.parseInt(input) - 1;
-                    Trade trade = unscheduled.get(index);
-                    tm.cancelTrade(((Trader) curr), trade);
+                    TradeMessage trade = unscheduled.get(index);
+                    tm.cancelTrade(((Trader) curr), trade.getTrade());
                     System.out.println("You have requested to cancel the trade!");
                 }
                 input = br.readLine();

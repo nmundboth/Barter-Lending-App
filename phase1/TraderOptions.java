@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class TraderOptions {
 
-    private User curr;
+    private Trader curr;
     private UserCatalogue uc;
     private UserSerialization us;
     private String menuOptions;
@@ -23,7 +23,7 @@ public class TraderOptions {
      * @param uc The UserCatalogue associated with all currently registered Users.
      * @param us UserSerialization, for saving information.
      */
-    public TraderOptions(User curr, UserCatalogue uc, UserSerialization us){
+    public TraderOptions(Trader curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
         this.uc = uc;
         this.us = us;

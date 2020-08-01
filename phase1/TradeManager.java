@@ -28,8 +28,11 @@ public class TradeManager {
         trade.setReceiver(ogTrader);
         trade.setLender(otherTrader);
         trade.setPermanent(isPermanent);
-        ogTrader.getInbox().addUnaccepted(trade, otherTrader);
-        otherTrader.getInbox().addTraderNoti(ogTrader.getName() + " wants to borrow " + item + " from you.");
+        TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
+        ogTrader.getInbox().addUnaccepted(message);
+        Message text = new Message(ogTrader.getName() + " wants to borrow " + item + " from you.",
+                ogTrader, otherTrader);
+        otherTrader.getInbox().addTraderNoti(text);
     }
 
     /**
@@ -46,8 +49,10 @@ public class TradeManager {
         trade.setLender(ogTrader);
         trade.setReceiver(otherTrader);
         trade.setPermanent(isPermanent);
-        ogTrader.getInbox().addUnaccepted(trade, otherTrader);
-        otherTrader.getInbox().addTraderNoti(ogTrader.getName() + " wants to lend you " + item + ".");
+        TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
+        ogTrader.getInbox().addUnaccepted(message);
+        Message text = new Message(ogTrader.getName() + " wants to lend you " + item + ".", ogTrader, otherTrader);
+        otherTrader.getInbox().addTraderNoti(text);
     }
 
     /**
@@ -63,9 +68,11 @@ public class TradeManager {
                                    boolean isPermanent){
         TwoWayTrade trade = new TwoWayTrade(ogTrader, otherTrader, ogItem, otherItem);
         trade.setPermanent(isPermanent);
-        ogTrader.getInbox().addUnaccepted(trade, otherTrader);
-        otherTrader.getInbox().addTraderNoti(ogTrader.getName() + " wants to trade their " + ogItem +
-                " for your " + otherItem + ".");
+        TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
+        ogTrader.getInbox().addUnaccepted(message);
+        Message text = new Message(ogTrader.getName() + " wants to trade their " + ogItem +
+                " for your " + otherItem + ".", ogTrader, otherTrader);
+        otherTrader.getInbox().addTraderNoti(text);
     }
 
     /**
@@ -77,25 +84,25 @@ public class TradeManager {
      * @param trade The trade that is being rejected.
      */
     public void rejectUnaccepted(Trader rejecting, Trader rejected, OneWayTrade trade){
-        rejecting.getInbox().refuseUnaccepted(trade, rejected);
+        rejecting.getInbox().refuseUnaccepted(new TradeMessage("", rejecting, rejected, trade));
         if (rejecting == trade.getLender()){
-            rejected.getInbox().addTraderNoti(rejecting.getName() + " can't lend " +
-                    trade.getItem() + " to you.");
+            rejected.getInbox().addTraderNoti(new Message(rejecting.getName() + " can't lend " +
+                    trade.getItem() + " to you.", rejecting, rejected));
         }
         else { // (rejecting == trade.getReceiver())
-            rejected.getInbox().addTraderNoti(rejecting.getName() + "doesn't want to borrow " +
-                    trade.getItem() + "from you.");
+            rejected.getInbox().addTraderNoti(new Message(rejecting.getName() + "doesn't want to borrow " +
+                    trade.getItem() + "from you.", rejecting, rejected));
         }
     }
 
     public void rejectUnaccepted(Trader rejecting, Trader rejected, TwoWayTrade trade){
-        rejecting.getInbox().refuseUnaccepted(trade, rejected);
+        rejecting.getInbox().refuseUnaccepted(new TradeMessage("", rejecting, rejected, trade));
         if (rejecting == trade.getOgTrader()) {
-            rejected.getInbox().addTraderNoti(rejecting.getName() + " doesn't want to trade their " +
-                    trade.getOgItem() + " for your " + trade.getOtherItem() + ".");
+            rejected.getInbox().addTraderNoti(new Message(rejecting.getName() + " doesn't want to trade their " +
+                    trade.getOgItem() + " for your " + trade.getOtherItem() + ".", rejecting, rejected));
         } else { // (rejecting == trade.getOtherTrader())
-            rejected.getInbox().addTraderNoti(rejecting.getName() + " doesn't want to trade their " +
-                    trade.getOtherItem() + " for your " + trade.getOgItem() + ".");
+            rejected.getInbox().addTraderNoti(new Message(rejecting.getName() + " doesn't want to trade their " +
+                    trade.getOtherItem() + " for your " + trade.getOgItem() + ".", rejecting, rejected));
         }
     }
 
@@ -112,30 +119,30 @@ public class TradeManager {
      * @param trade The trade that is being accepted.
      */
     public void acceptTrade(Trader accepting, Trader accepted, OneWayTrade trade){
-        accepting.getInbox().addTrade(trade, accepted);
+        accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
         this.checkTransxnLimit(accepting);
         this.checkTransxnLimit(accepted);
         if (accepting == trade.getLender()){
-            accepted.getInbox().addTraderNoti(accepting.getName() + " will lend you their " +
-                    trade.getItem() + ".");
+            accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " will lend you their " +
+                    trade.getItem() + ".", accepting, accepted));
         }
         else { // (accepting == trade.getReceiver())
-            accepted.getInbox().addTraderNoti(accepting.getName() + " will borrow your " +
-                    trade.getItem() + ".");
+            accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " will borrow your " +
+                    trade.getItem() + ".", accepting, accepted));
         }
     }
 
     public void acceptTrade(Trader accepting, Trader accepted, TwoWayTrade trade){
-        accepting.getInbox().addTrade(trade, accepted);
+        accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
         this.checkTransxnLimit(accepting);
         this.checkTransxnLimit(accepted);
         if (accepting == trade.getOgTrader()){
-            accepted.getInbox().addTraderNoti(accepting.getName() + " accepts the trade for their " +
-                    trade.getOgItem() + " and your " + trade.getOtherItem() + ".");
+            accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " accepts the trade for their " +
+                    trade.getOgItem() + " and your " + trade.getOtherItem() + ".", accepting, accepted));
         }
         else { // (accepting == trade.getOtherTrader())
-            accepted.getInbox().addTraderNoti(accepting.getName() + " accepts the trade for their " +
-                    trade.getOtherItem() + " and your" + trade.getOgItem() + ".");
+            accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " accepts the trade for their " +
+                    trade.getOtherItem() + " and your" + trade.getOgItem() + ".", accepting, accepted));
         }
     }
 

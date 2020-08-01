@@ -75,9 +75,10 @@ public class MeetingManager {
     // Sends the meeting information to the appropriate trader's inbox.
     private void sendMeet(Trader sender, Trader receiver, Meeting meeting, Trade trade){
         receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
-        receiver.getInbox().addTraderNoti("Hey " + receiver.getName() + "! Can you meet " + sender.getName() +
+        Message message = new Message("Hey " + receiver.getName() + "! Can you meet " + sender.getName() +
                 " at " + meeting.getTime() + " on " + meeting.getDate() + " at " + meeting.getLocation() +
-                " to conduct the following trade?\n" + trade);
+                " to conduct the following trade?\n" + trade, sender, receiver);
+        receiver.getInbox().addTraderNoti(message);
     }
 
     /**
@@ -115,9 +116,10 @@ public class MeetingManager {
             receiver = trade.getOgTrader();
         }
         receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
-        receiver.getInbox().addTraderNoti("Meeting with " + confirmer.getName() + " confirmed for "
+        Message message = new Message("Meeting with " + confirmer.getName() + " confirmed for "
                 + meeting.getTime() + " on " + meeting.getDate() + " at " + meeting.getLocation() +
-                " to conduct the following trade:\n" + trade);
+                " to conduct the following trade:\n" + trade, receiver, confirmer);
+        receiver.getInbox().addTraderNoti(message);
     }
 
     // Adds a trade to a trader's incomplete trade list, and checks if this puts them over the allowed limit (if it does

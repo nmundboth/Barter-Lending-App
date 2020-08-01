@@ -103,7 +103,7 @@ public class AdminOptions {
                                 else {
                                     int index1 = 0;
                                     System.out.println("You have " + inbox1.getAdmiNotiUnread() + " unread messages");
-                                    for (String i : inbox1.getAdmiNoti()) {
+                                        for (Message i : inbox1.getAdmiNoti()) {
                                         System.out.println(index1);
                                         index1 += 1;
                                     }
@@ -117,21 +117,21 @@ public class AdminOptions {
                                         System.out.println(menuOptions);
                                         break;
                                     }
-                                    inbox1.showAdminNoti(i);
+                                    inbox1.getAdminNoti(i);
                                     System.out.println(menuOptions);
                                     break;
                                 }
                             case "3":
                                 AdminInbox inbox2 = ((Admin)curr).getAdminInbox();
-                                if(inbox2.getTradersUnread() == 0){
+                                if(inbox2.getTraderNotiUnread() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
                                     break;
                                 }
                                 else {
                                     int index2 = 0;
-                                    System.out.println("You have " + inbox2.getTradersUnread() + " unread messages");
-                                    for (String i : inbox2.getTraderNoti()) {
+                                    System.out.println("You have " + inbox2.getTraderNotiUnread() + " unread messages");
+                                    for (Message i : inbox2.getTraderNoti()) {
                                         System.out.println(index2);
                                         index2 += 1;
                                     }
@@ -145,7 +145,7 @@ public class AdminOptions {
                                         System.out.println(menuOptions);
                                         break;
                                     }
-                                    inbox2.showAdminNoti(i);
+                                    inbox2.getTradeNoti(i);
                                     System.out.println(menuOptions);
                                     break;
                                 }
@@ -175,11 +175,11 @@ public class AdminOptions {
                         String userName = br.readLine();
                         System.out.println("Create a password:");
                         String password = br.readLine();
-                        List<String> adminNoti = new ArrayList<String>();
-                        List<String> traderNoti = new ArrayList<String>();
-                        List<Trade> tradeNoti = new ArrayList<Trade>();
-                        AdminInbox newAdminInbox = new AdminInbox(tradeNoti, traderNoti, adminNoti);
+                        List<Message> adminNoti = new ArrayList<Message>();
+                        List<Message> traderNoti = new ArrayList<Message>();
+                        AdminInbox newAdminInbox = new AdminInbox(traderNoti, adminNoti);
                         Admin newAdmin = new Admin(userName, password, "Admin", newAdminInbox);
+                        newAdminInbox.setOwner(newAdmin);
                         uc.userBase.add(newAdmin);
                         System.out.println("New Admin created successfully");
                         System.out.println(menuOptions);

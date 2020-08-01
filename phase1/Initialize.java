@@ -9,11 +9,11 @@ import java.util.List;
 public class Initialize {
 
     public static void main(String[] args) throws Exception {
-        List<Trade> trades = new ArrayList<Trade>();
-        List<String> traderNoti = new ArrayList<String>();
-        List<String> adminNotifs = new ArrayList<String>();
-        AdminInbox inbox = new AdminInbox(trades, traderNoti, adminNotifs);
+        List<Message> traderNoti = new ArrayList<Message>();
+        List<Message> adminNotifs = new ArrayList<Message>();
+        AdminInbox inbox = new AdminInbox(traderNoti, adminNotifs);
         User admin = new Admin("admin", "admin", "admin", inbox);
+        inbox.setOwner(admin);
         UserSerialization us = new UserSerialization();
         ArrayList<User> users = new ArrayList<User>();
         users.add(admin);

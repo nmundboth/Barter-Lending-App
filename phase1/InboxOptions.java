@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class
 InboxOptions {
 
-    private User curr;
+    private Trader curr;
     private UserCatalogue uc;
     private UserSerialization us;
     private TradeManager tm;
@@ -24,7 +24,7 @@ InboxOptions {
      * @param uc The UserCatalogue associated with all currently registered Users.
      * @param us UserSerialization, for saving information.
      */
-    public InboxOptions(User curr, UserCatalogue uc, UserSerialization us){
+    public InboxOptions(Trader curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
         this.uc = uc;
         this.us = us;
@@ -66,14 +66,14 @@ InboxOptions {
                         break;
                     case "3":
                         Inbox inbox = curr.getInbox();
-                        if (inbox.getTradersUnread() == 0) {
+                        if (inbox.getTraderNotiUnread() == 0) {
                             System.out.println("Sub-inbox empty");
                             System.out.println(menuOptions);
                             break;
                         } else {
-                            System.out.println("You have " + inbox.getTradersUnread() + " unread messages");
+                            System.out.println("You have " + inbox.getTraderNotiUnread() + " unread messages");
                             int index = 0;
-                            for (String i : inbox.getTraderNoti()) {
+                            for (Message i : inbox.getTraderNoti()) {
                                 System.out.println(index);
                                 index += 1;
                             }
@@ -87,7 +87,7 @@ InboxOptions {
                                 System.out.println(menuOptions);
                                 break;
                             }
-                            System.out.println(inbox.getTradeNoti(i));
+                            inbox.getTradeNoti(i);
                             System.out.println(menuOptions);
                             break;
                         }
@@ -100,7 +100,7 @@ InboxOptions {
                         } else {
                             System.out.println("You have " + inbox1.getAdmiNotiUnread() + " unread messages");
                             int index = 0;
-                            for (String i : inbox1.getAdmiNoti()) {
+                            for (Message i : inbox1.getAdmiNoti()) {
                                 System.out.println(index);
                                 index += 1;
                             }
@@ -114,7 +114,7 @@ InboxOptions {
                                 System.out.println(menuOptions);
                                 break;
                             }
-                            System.out.println(inbox1.getAdminNoti(j));
+                            inbox1.getAdminNoti(j);
                             System.out.println(menuOptions);
                             break;
                         }
@@ -453,7 +453,7 @@ InboxOptions {
                 if (isInteger(input) && Integer.parseInt((input)) >= 1 &&
                         Integer.parseInt(input) <= curr.getInbox().getUnacceptedTrades().size()){
                     int index = Integer.parseInt(input) - 1;
-                    Trade trade = curr.getInbox().getUnacceptedTrades().get(index);
+                    Trade trade = curr.getInbox().getUnacceptedTrades().get(index).getTrade();
                     System.out.println("Type 'accept' to accept this offer, or 'reject' to reject this offer.");
                     input = br.readLine();
                     if (input.equals("exit")){
