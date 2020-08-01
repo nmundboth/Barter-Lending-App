@@ -60,7 +60,9 @@ public class TraderStatus {
      * @param greedyInt The integer tracking how greedy a user is (how much more they have borrowed than lent)
      */
     public void setGreedyInt(int greedyInt){
-        this.limitList.remove(0);
+        if (this.limitList.size() != 0) {
+            this.limitList.remove(0);
+        }
         this.limitList.add(0, greedyInt);
     }
 
