@@ -41,7 +41,7 @@ public class Initialize {
         TraderStatus traderStatus2 = new TraderStatus();
         User trader2 = new Trader("trader2", "trader2", "trader2", traderInbox2,
                 inventory2, inventory2, "trader2", traderStatus2, "trader2");
-        traderInbox.setOwner(trader2);
+        traderInbox2.setOwner(trader2);
 
         UserSerialization us = new UserSerialization();
         ArrayList<User> users = new ArrayList<User>();
