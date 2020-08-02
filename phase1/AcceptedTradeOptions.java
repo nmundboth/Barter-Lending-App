@@ -51,7 +51,7 @@ public class AcceptedTradeOptions {
         //List<TradeMessage> acceptedTrades = curr.getInbox().getTrades();
         System.out.println("Accepted Trades: ");
         for (int i = 0; i < acceptedTrades.size(); i++){
-            System.out.println("    " + (i + 1) + ". " + acceptedTrades.get(i));
+            System.out.println("    " + (i + 1) + ". " + acceptedTrades.get(i).getTrade().getOgTrader().getName());
         }
 
         System.out.println("\n" + menuOptions);

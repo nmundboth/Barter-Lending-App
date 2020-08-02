@@ -128,7 +128,8 @@ public class TraderOptions {
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         ArrayList<Item> confirmed = uc.findConfirmed();
         for (int i = 0; i < confirmed.size(); i++){
-            if (!((Trader) curr).getInventory().getInv().contains(confirmed.get(i))){
+            if (!((Trader) curr).getInventory().getInv().contains(confirmed.get(i)) &&
+                    !((Trader) curr).getWishList().getInv().contains(confirmed.get(i))){
                 System.out.println((i + 1) + ". " + confirmed.get(i) + " - " + confirmed.get(i).getDescrip() + "\n");
             }
         }
