@@ -22,7 +22,7 @@ public class TradingSystem {
     public TradingSystem() throws Exception {
         us = new UserSerialization();
         uc = new UserCatalogue(us.deserialize());
-        menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n" +
+        menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n3. Guest\n" +
                 "To exit, type 'exit'.";
     }
 
@@ -47,6 +47,10 @@ public class TradingSystem {
                     register(br);
                     System.out.println(menuOptions);
                 }
+                else if (input.equals("3")){
+                    guestMode(br);
+                    System.out.println(menuOptions);
+                }
                 input = br.readLine();
             }
             us.toSerialize(uc.userBase);
@@ -54,6 +58,25 @@ public class TradingSystem {
             System.out.println("Something went wrong.");
             e.printStackTrace();
         }
+    }
+
+    //Enters guest mode
+    private void guestMode(BufferedReader br){
+
+        try{
+            System.out.println("Press any key and hit 'Enter' to access the Trade Catalogue.");
+            String input = br.readLine();
+            while (!input.equals("exit")){
+                GuestOptions guest = new GuestOptions(uc, us);
+                guest.run();
+                input = br.readLine();
+            }
+        }
+        catch (IOException e){
+            System.out.println("Something went wrong.");
+            e.printStackTrace();
+        }
+
     }
 
     // Takes user input, and checks it against the user catalogue, then logs the user in if the user exists and the pw
