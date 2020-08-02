@@ -74,7 +74,7 @@ public class Trader extends User implements Serializable {
      *
      * @return a list of all Trades.
      */
-    public List<Trade> readTrades(){
+    public List<Message> readTrades(){
         TraderInbox traderInbox = (TraderInbox) this.getInbox();
         return traderInbox.getTrades();
     }
@@ -83,7 +83,7 @@ public class Trader extends User implements Serializable {
      *
      * @return a list of all Trades.
      */
-    public List<Trade> readUnacceptedTrades(){
+    public List<Message> readUnacceptedTrades(){
         TraderInbox traderInbox = (TraderInbox) this.getInbox();
         return traderInbox.getUnacceptedTrades();
     }

@@ -96,7 +96,7 @@ public class TradingSystem {
             }
             if (input.equals(currUser.getPassword())){ // Password entered correctly
                 if (currUser.getType().equals("trader")) {
-                    TraderOptions opt = new TraderOptions(currUser, uc, us);
+                    TraderOptions opt = new TraderOptions((Trader)currUser, uc, us);
                     opt.run();
                 }
                 else { //currUser.getType().equals("admin")
@@ -148,12 +148,13 @@ public class TradingSystem {
                 if(!input.equals("exit")){
                     String password = input;
                     String type = "trader"; // Can't register an admin this way, so must be a trader
-                    List<Trade> trades = new ArrayList<Trade>();
-                    List<String> traderNotifs = new ArrayList<String>();
-                    List<String>adminNotifs = new ArrayList<String>();
+                    List<TradeMessage> trades = new ArrayList<TradeMessage>();
+                    List<Message> traderNotifs = new ArrayList<Message>();
+                    List<Message>adminNotifs = new ArrayList<Message>();
                     TraderInbox inbox = new TraderInbox(trades, traderNotifs, adminNotifs);
                     List<Item> inventory = new ArrayList<Item>();
                     User user = new Trader(username, password, type, inbox, inventory, name);
+                    inbox.setOwner(user);
                     uc.userBase.add(user);
                     us.toSerialize(uc.userBase);
                     System.out.println("User created!");
