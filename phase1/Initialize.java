@@ -25,7 +25,7 @@ public class Initialize {
         Inventory inventory = new Inventory(list1, "inventory");
         TraderStatus traderStatus = new TraderStatus();
         User trader = new Trader("trader", "trader", "trader", traderInbox,
-                inventory, inventory, "trader", traderStatus);
+                inventory, inventory, "trader", traderStatus, "trader");
         traderInbox.setOwner(trader);
 
         List<TradeMessage> tradeMessages2 = new ArrayList<TradeMessage>();
@@ -38,7 +38,7 @@ public class Initialize {
         Inventory inventory2 = new Inventory(list2, "inventory");
         TraderStatus traderStatus2 = new TraderStatus();
         User trader2 = new Trader("trader2", "trader2", "trader2", traderInbox2,
-                inventory2, inventory2, "trader2", traderStatus2);
+                inventory2, inventory2, "trader2", traderStatus2, "trader2");
         traderInbox.setOwner(trader2);
 
         UserSerialization us = new UserSerialization();
