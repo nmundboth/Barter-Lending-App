@@ -12,7 +12,7 @@ public class Initialize {
         List<Message> traderNoti = new ArrayList<Message>();
         List<Message> adminNotifs = new ArrayList<Message>();
         AdminInbox inbox = new AdminInbox(traderNoti, adminNotifs);
-        User admin = new Admin("admin", "admin", "admin", inbox);
+        User admin = new Admin("admin", "admin", inbox);
         inbox.setOwner(admin);
 
         List<TradeMessage> tradeMessages1 = new ArrayList<TradeMessage>();
@@ -25,7 +25,7 @@ public class Initialize {
         Inventory inventory = new Inventory(list1, "inventory");
         Inventory wishlist = new Inventory(new ArrayList<Item>(), "wishlist");
         TraderStatus traderStatus = new TraderStatus();
-        User trader = new Trader("trader", "trader", "trader", traderInbox,
+        User trader = new Trader("trader", "trader", traderInbox,
                 inventory, wishlist, "trader", traderStatus, "trader");
         traderInbox.setOwner(trader);
 
@@ -39,7 +39,7 @@ public class Initialize {
         Inventory inventory2 = new Inventory(list2, "inventory");
         Inventory wishlist2 = new Inventory(new ArrayList<Item>(), "wishlist2");
         TraderStatus traderStatus2 = new TraderStatus();
-        User trader2 = new Trader("trader2", "trader2", "trader", traderInbox2,
+        User trader2 = new Trader("trader2", "trader2", traderInbox2,
                 inventory2, wishlist2, "trader2", traderStatus2, "trader2");
         traderInbox2.setOwner(trader2);
 

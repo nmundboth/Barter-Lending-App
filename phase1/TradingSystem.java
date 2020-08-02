@@ -170,7 +170,7 @@ public class TradingSystem {
                 input = br.readLine();
                 if(!input.equals("exit")){
                     String password = input;
-                    String type = "trader"; // Can't register an admin this way, so must be a trader
+//                    String type = "trader"; // Can't register an admin this way, so must be a trader
                     System.out.println("Please enter your city: ");
                     input = br.readLine();
                     String location = input;
@@ -180,7 +180,7 @@ public class TradingSystem {
                     phase1.TraderInbox inbox = new phase1.TraderInbox(trades, traderNotifs, adminNotifs);
                     phase1.Inventory inventory = new Inventory(new ArrayList<Item>(), "inventory");
                     phase1.TraderStatus traderStatus = new TraderStatus();
-                    User user = new Trader(username, password, type, inbox, inventory, inventory, name,
+                    User user = new Trader(username, password, inbox, inventory, inventory, name,
                             traderStatus, location);
                     inbox.setOwner(user);
                     uc.userBase.add(user);
