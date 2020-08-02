@@ -178,7 +178,7 @@ public class AdminOptions {
                         List<Message> adminNoti = new ArrayList<Message>();
                         List<Message> traderNoti = new ArrayList<Message>();
                         AdminInbox newAdminInbox = new AdminInbox(traderNoti, adminNoti);
-                        Admin newAdmin = new Admin(userName, password, "Admin", newAdminInbox);
+                        Admin newAdmin = new Admin(userName, password, newAdminInbox);
                         newAdminInbox.setOwner(newAdmin);
                         uc.userBase.add(newAdmin);
                         System.out.println("New Admin created successfully");

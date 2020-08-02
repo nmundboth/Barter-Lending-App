@@ -51,9 +51,9 @@ public class Trader extends User implements Serializable {
      * @param name The trader's first name
      * @param location The trader's city location
      */
-    public Trader(String username, String password, String type, TraderInbox inbox, Inventory inventory,
+    public Trader(String username, String password, TraderInbox inbox, Inventory inventory,
                   Inventory wishlist, String name, TraderStatus status, String location) {
-        super(username, password, type, inbox);
+        super(username, password, "trader", inbox);
         this.inventory = inventory;
         this.wishlist = wishlist;
         this.name = name;
