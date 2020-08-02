@@ -1,0 +1,6 @@
+Changes in Trader:
+
+Created a new class called Inventory. It replaces inventory and wishlist.
+
+Booleans and variables based on Trader's account status are now all stored in a new class called TraderStatus.
+All variables commented in Trader's initialiser is now in TraderStatus.
