@@ -204,7 +204,8 @@ InboxOptions {
                     for (int i = 0; i < userWithItem.size(); i++){
                         if (!((Trader) userWithItem.get(i)).getTraderStatus().isFrozen()){
                             System.out.println("    " + (i + 1) + ". " +
-                                    uc.findUserWithItem(item).get(i).getUsername());
+                                    uc.findUserWithItem(item).get(i).getUsername() +
+                                    ". (" + ((Trader)uc.findUserWithItem(item).get(i)).getLocation() +")");
                         }
                     }
                     System.out.println("Enter the number associated with the user you would like to borrow from.\n" +
@@ -272,7 +273,8 @@ InboxOptions {
                     for (int i = 0; i < userWantsItem.size(); i++){
                         if (!((Trader) userWantsItem.get(i)).getTraderStatus().isFrozen()){
                             System.out.println("    " + (i + 1) + ". " +
-                                    uc.findUserWithItem(item).get(i).getUsername());
+                                    uc.findUserWithItem(item).get(i).getUsername() +
+                                    ". (" + ((Trader)uc.findUserWithItem(item).get(i)).getLocation() +")");
                         }
                     }
                     System.out.println("Enter the number associated with the user you would like to lend to.\n" +
@@ -353,7 +355,8 @@ InboxOptions {
         for (int i = 0; i < userWithItem.size(); i++){
             if (!((Trader) userWithItem.get(i)).getTraderStatus().isFrozen()){
                 System.out.println("    " + (i + 1) + ". " +
-                        uc.findUserWithItem(item).get(i).getUsername());
+                        uc.findUserWithItem(item).get(i).getUsername() +
+                        ". (" + ((Trader)uc.findUserWithItem(item).get(i)).getLocation() +")");
             }
         }
         String selectPrompt = "Enter the number associated with the user you would like to trade with.\n" +
