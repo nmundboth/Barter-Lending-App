@@ -127,8 +127,12 @@ public class Trade implements Serializable {
 
         TradeMessage message = new TradeMessage("" + secondMeeting.toString(),
                 this.ogTrader, this.otherTrader, this);
-        ogTrader.getInbox().tradeConfirmed(otherTrader, "First meeting for the trade:\n" + this +
+
+        TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
+        traderInbox.tradeConfirmed(otherTrader, "First meeting for the trade:\n" + this +
                 "\nhas been completed. Second meeting set for " + secondMeeting.toString());
+//        ogTrader.getInbox().tradeConfirmed(otherTrader, "First meeting for the trade:\n" + this +
+//                "\nhas been completed. Second meeting set for " + secondMeeting.toString());
     }
 
     /** Sets the number of edits available to the original Trader.

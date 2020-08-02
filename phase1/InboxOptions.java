@@ -199,7 +199,7 @@ InboxOptions {
             while(!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input) >= 1 &&
                         Integer.parseInt(input) <= ((Trader) curr).getWishList().getInv().size())){ // Item is in current trader's wishlist
-                    Item item = ((Trader) curr).getWishList().getInv().get(Integer.parseInt(input) - 1);
+                    phase1.Item item = ((Trader) curr).getWishList().getInv().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWithItem = uc.findUserWithItem(item);
                     for (int i = 0; i < userWithItem.size(); i++){
                         if (!((Trader) userWithItem.get(i)).getTraderStatus().isFrozen()){
@@ -267,7 +267,7 @@ InboxOptions {
             while(!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input) >= 1 &&
                         Integer.parseInt(input) <= ((Trader) curr).getInventory().getInv().size())){
-                    Item item = ((Trader) curr).getInventory().getInv().get(Integer.parseInt(input) - 1);
+                    phase1.Item item = ((Trader) curr).getInventory().getInv().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWantsItem = uc.findUserWantsItem(item);
                     for (int i = 0; i < userWantsItem.size(); i++){
                         if (!((Trader) userWantsItem.get(i)).getTraderStatus().isFrozen()){
@@ -334,7 +334,7 @@ InboxOptions {
             while(!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input) >= 1 &&
                         Integer.parseInt(input) <= ((Trader) curr).getWishList().getInv().size())){
-                    Item item = ((Trader) curr).getWishList().getInv().get(Integer.parseInt(input) - 1);
+                    phase1.Item item = ((Trader) curr).getWishList().getInv().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWithItem = uc.findUserWithItem(item);
                     selectTrader(item, userWithItem, br);
                     System.out.println(tradePrompt);
@@ -442,8 +442,9 @@ InboxOptions {
     // Allows trader to view unaccepted trade requests from other users, and then accept or reject those trade offers.
     private void viewTR(BufferedReader br){
         System.out.println("Unaccepted trade offers from other users: ");
-        for (int i = 0; i < curr.getInbox().getUnacceptedTrades().size(); i++){
-            System.out.println("    " + (i + 1) + ". " + curr.getInbox().getUnacceptedTrades().get(i));
+        TraderInbox traderInbox = (TraderInbox) curr.getInbox();
+        for (int i = 0; i < traderInbox.getUnacceptedTrades().size(); i++){
+            System.out.println("    " + (i + 1) + ". " + traderInbox.getUnacceptedTrades().get(i));
         }
         System.out.println("Enter the number associated with the trade offer that you would like to accept/reject," +
                 "or type 'exit' to go back:");
@@ -451,9 +452,9 @@ InboxOptions {
             String input = br.readLine();
             while (!input.equals("exit")){
                 if (isInteger(input) && Integer.parseInt((input)) >= 1 &&
-                        Integer.parseInt(input) <= curr.getInbox().getUnacceptedTrades().size()){
+                        Integer.parseInt(input) <= traderInbox.getUnacceptedTrades().size()){
                     int index = Integer.parseInt(input) - 1;
-                    Trade trade = curr.getInbox().getUnacceptedTrades().get(index).getTrade();
+                    Trade trade = traderInbox.getUnacceptedTrades().get(index).getTrade();
                     System.out.println("Type 'accept' to accept this offer, or 'reject' to reject this offer.");
                     input = br.readLine();
                     if (input.equals("exit")){
@@ -487,7 +488,7 @@ InboxOptions {
                         System.out.println("Type 'accept' to accept this offer, or 'reject' to reject this offer.");
                     }
                 }
-            input = br.readLine();
+                input = br.readLine();
             }
         }
         catch (IOException e){

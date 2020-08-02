@@ -74,7 +74,9 @@ public class MeetingManager {
 
     // Sends the meeting information to the appropriate trader's inbox.
     private void sendMeet(Trader sender, Trader receiver, Meeting meeting, Trade trade){
-        receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
+        TraderInbox traderInbox = (TraderInbox) receiver.getInbox();
+        traderInbox.setTradeUnread(traderInbox.getTradeUnread() + 1);
+        //receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
         Message message = new Message("Hey " + receiver.getName() + "! Can you meet " + sender.getName() +
                 " at " + meeting.getTime() + " on " + meeting.getDate() + " at " + meeting.getLocation() +
                 " to conduct the following trade?\n" + trade, sender, receiver);
@@ -115,7 +117,9 @@ public class MeetingManager {
         } else {// confirmer == trade.getOtherTrader()
             receiver = trade.getOgTrader();
         }
-        receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
+        TraderInbox traderInbox = (TraderInbox) receiver.getInbox();
+        traderInbox.setTradeUnread(traderInbox.getTradeUnread() + 1);
+        //receiver.getInbox().setTradeUnread(receiver.getInbox().getTradeUnread() + 1);
         Message message = new Message("Meeting with " + confirmer.getName() + " confirmed for "
                 + meeting.getTime() + " on " + meeting.getDate() + " at " + meeting.getLocation() +
                 " to conduct the following trade:\n" + trade, receiver, confirmer);

@@ -114,8 +114,9 @@ public class TraderInbox extends Inbox implements Serializable {
      */
     public void tradeConfirmed(Trader trader, String text){
         this.tradeUnread += 1;
-        trader.getInbox().tradeUnread += 1;
-        this.addTraderNoti(new Message(text, OG, trader));
+        TraderInbox traderInbox = (TraderInbox) trader.getInbox();
+        traderInbox.tradeUnread += 1;
+        this.addTraderNoti(new phase1.Message(text, OG, trader));
         trader.getInbox().addTraderNoti(new Message(text, OG, trader));
     }
 
@@ -124,9 +125,10 @@ public class TraderInbox extends Inbox implements Serializable {
 
     public void completeTrade(Trader trader, Trade trade, String text){
         this.trades.remove(new TradeMessage("", trade.getOgTrader(), trade.getOtherTrader(), trade));
-        trader.getInbox().trades.remove(new TradeMessage("", trade.getOgTrader(), trade.getOtherTrader(), trade));
+        TraderInbox traderInbox = (TraderInbox) trader.getInbox();
+        traderInbox.trades.remove(new TradeMessage("", trade.getOgTrader(), trade.getOtherTrader(), trade));
         this.tradeUnread += 1;
-        trader.getInbox().tradeUnread += 1;
+        traderInbox.tradeUnread += 1;
         this.addTraderNoti(new Message(text, trader, this.OG));
         trader.getInbox().addTraderNoti(new Message(text, this.OG, trader));
     }
@@ -135,30 +137,34 @@ public class TraderInbox extends Inbox implements Serializable {
         Trader trader = findCorrectRecipient(message);
         this.trades.add(message);
         this.unaccptedUnread -= 1;
-        trader.getInbox().trades.add(message);
-        trader.getInbox().tradeUnread += 1;
+        TraderInbox traderInbox = (TraderInbox) trader.getInbox();
+        traderInbox.trades.add(message);
+        traderInbox.tradeUnread += 1;
         this.unacceptedTrades.remove(message);
     }
 
     public void refuseUnaccepted(TradeMessage message){
         this.unacceptedTrades.remove(message);
-        message.getSender().getInbox().tradeUnread += 1;
+        TraderInbox traderInbox = (TraderInbox) message.getSender().getInbox();
+        traderInbox.tradeUnread += 1;
     }
 
     public void cancelTrade(Trade trade, Trader trader, String cancel){
-        this.trades.remove(new TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
-        trader.getInbox().trades.remove(new TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
-        this.addTraderNoti(new Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
-        trader.getInbox().addTraderNoti(new Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
+        this.trades.remove(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
+        TraderInbox traderInbox = (TraderInbox) trader.getInbox();
+        traderInbox.trades.remove(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
+        this.addTraderNoti(new phase1.Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
+        trader.getInbox().addTraderNoti(new phase1.Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
         this.tradeUnread += 1;
-        trader.getInbox().tradeUnread += 1;
+        traderInbox.tradeUnread += 1;
     }
 
 
     public void addUnaccepted(TradeMessage message){
         Trader trader = findCorrectRecipient(message);
-        trader.getInbox().unacceptedTrades.add(message);
-        trader.getInbox().unaccptedUnread += 1;
+        TraderInbox traderInbox = (TraderInbox) trader.getInbox();
+        traderInbox.unacceptedTrades.add(message);
+        traderInbox.unaccptedUnread += 1;
     }
 
     public Trader findCorrectRecipient(TradeMessage message){

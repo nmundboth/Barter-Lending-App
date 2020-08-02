@@ -29,7 +29,8 @@ public class TradeManager {
         trade.setLender(otherTrader);
         trade.setPermanent(isPermanent);
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
-        ogTrader.getInbox().addUnaccepted(message);
+        TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
+        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
         Message text = new Message(ogTrader.getName() + " wants to borrow " + item + " from you.",
                 ogTrader, otherTrader);
         otherTrader.getInbox().addTraderNoti(text);
@@ -50,7 +51,8 @@ public class TradeManager {
         trade.setReceiver(otherTrader);
         trade.setPermanent(isPermanent);
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
-        ogTrader.getInbox().addUnaccepted(message);
+        TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
+        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
         Message text = new Message(ogTrader.getName() + " wants to lend you " + item + ".", ogTrader, otherTrader);
         otherTrader.getInbox().addTraderNoti(text);
     }
@@ -69,7 +71,8 @@ public class TradeManager {
         TwoWayTrade trade = new TwoWayTrade(ogTrader, otherTrader, ogItem, otherItem);
         trade.setPermanent(isPermanent);
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
-        ogTrader.getInbox().addUnaccepted(message);
+        TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
+        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
         Message text = new Message(ogTrader.getName() + " wants to trade their " + ogItem +
                 " for your " + otherItem + ".", ogTrader, otherTrader);
         otherTrader.getInbox().addTraderNoti(text);
@@ -84,7 +87,9 @@ public class TradeManager {
      * @param trade The trade that is being rejected.
      */
     public void rejectUnaccepted(Trader rejecting, Trader rejected, OneWayTrade trade){
-        rejecting.getInbox().refuseUnaccepted(new TradeMessage("", rejecting, rejected, trade));
+        TraderInbox traderInbox = (TraderInbox) rejecting.getInbox();
+        traderInbox.refuseUnaccepted(new TradeMessage("", rejecting, rejected, trade));
+        //rejecting.getInbox().refuseUnaccepted(new TradeMessage("", rejecting, rejected, trade));
         if (rejecting == trade.getLender()){
             rejected.getInbox().addTraderNoti(new Message(rejecting.getName() + " can't lend " +
                     trade.getItem() + " to you.", rejecting, rejected));
@@ -96,7 +101,9 @@ public class TradeManager {
     }
 
     public void rejectUnaccepted(Trader rejecting, Trader rejected, TwoWayTrade trade){
-        rejecting.getInbox().refuseUnaccepted(new TradeMessage("", rejecting, rejected, trade));
+        TraderInbox traderInbox = (TraderInbox) rejecting.getInbox();
+        traderInbox.refuseUnaccepted(new TradeMessage("", rejecting, rejected, trade));
+        //rejecting.getInbox().refuseUnaccepted(new TradeMessage("", rejecting, rejected, trade));
         if (rejecting == trade.getOgTrader()) {
             rejected.getInbox().addTraderNoti(new Message(rejecting.getName() + " doesn't want to trade their " +
                     trade.getOgItem() + " for your " + trade.getOtherItem() + ".", rejecting, rejected));
@@ -119,7 +126,9 @@ public class TradeManager {
      * @param trade The trade that is being accepted.
      */
     public void acceptTrade(Trader accepting, Trader accepted, OneWayTrade trade){
-        accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
+        TraderInbox traderInbox = (TraderInbox) accepting.getInbox();
+        traderInbox.addTrade(new TradeMessage("", accepted, accepting, trade));
+        //accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
         this.checkTransxnLimit(accepting);
         this.checkTransxnLimit(accepted);
         if (accepting == trade.getLender()){
@@ -133,7 +142,9 @@ public class TradeManager {
     }
 
     public void acceptTrade(Trader accepting, Trader accepted, TwoWayTrade trade){
-        accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
+        TraderInbox traderInbox = (TraderInbox) accepting.getInbox();
+        traderInbox.addTrade(new TradeMessage("", accepted, accepting, trade));
+        //accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
         this.checkTransxnLimit(accepting);
         this.checkTransxnLimit(accepted);
         if (accepting == trade.getOgTrader()){
@@ -197,7 +208,9 @@ public class TradeManager {
 
         trade.addRecentItem();
 
-        ogTrader.getInbox().completeTrade(otherTrader, trade, "The trade:\n" + trade + "\n has been completed.");
+        TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
+        traderInbox.completeTrade(otherTrader, trade, "The trade:\n" + trade + "\n has been completed.");
+        //ogTrader.getInbox().completeTrade(otherTrader, trade, "The trade:\n" + trade + "\n has been completed.");
     }
 
     /**
@@ -218,7 +231,9 @@ public class TradeManager {
         if ((!trade.getCancellations().contains(cancelling)) && !trade.isOpen()){
             trade.addCancellation(cancelling);
             if(trade.getCancellations().size() == 2){
-                cancelling.getInbox().cancelTrade(trade, other, "The trade:\n" + trade + "\nhas been cancelled.");
+                TraderInbox traderInbox = (TraderInbox) cancelling.getInbox();
+                traderInbox.cancelTrade(trade, other, "The trade:\n" + trade + "\nhas been cancelled.");
+                //cancelling.getInbox().cancelTrade(trade, other, "The trade:\n" + trade + "\nhas been cancelled.");
             }
         }
     }

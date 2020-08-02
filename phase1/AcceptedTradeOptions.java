@@ -46,7 +46,9 @@ public class AcceptedTradeOptions {
     public void run(){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        List<TradeMessage> acceptedTrades = curr.getInbox().getTrades();
+        TraderInbox traderInbox = (TraderInbox) curr.getInbox();
+        List<TradeMessage> acceptedTrades = traderInbox.getTrades();
+        //List<TradeMessage> acceptedTrades = curr.getInbox().getTrades();
         System.out.println("Accepted Trades: ");
         for (int i = 0; i < acceptedTrades.size(); i++){
             System.out.println("    " + (i + 1) + ". " + acceptedTrades.get(i));
