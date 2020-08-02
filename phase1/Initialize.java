@@ -40,7 +40,7 @@ public class Initialize {
         Inventory wishlist2 = new Inventory(new ArrayList<Item>(), "wishlist2");
         TraderStatus traderStatus2 = new TraderStatus();
         User trader2 = new Trader("trader2", "trader2", "trader2", traderInbox2,
-                inventory2, inventory2, "trader2", traderStatus2, "trader2");
+                inventory2, wishlist2, "trader2", traderStatus2, "trader2");
         traderInbox2.setOwner(trader2);
 
         UserSerialization us = new UserSerialization();
