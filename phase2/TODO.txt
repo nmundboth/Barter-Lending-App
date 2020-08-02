@@ -30,7 +30,7 @@ Optional Extensions: (Pick 4)
 - Create a points system that allows users who trade most frequently, to get an extra chance to borrow without it
 counting towards being frozen, or some other "prize" that is equally complicated.
 - Give your Admin user more functionality than Phase 1 and "undo" abilities.
-- Expand the types of trades you can do. Possibilities include three-way trades, where A lends to B who lends to C who
+- (Navnee - no-meeting trades)Expand the types of trades you can do. Possibilities include three-way trades, where A lends to B who lends to C who
 lends to A, or no-meeting trades where the users email each other media files.
 - Include a number of different types of accounts or statuses for an account. Above, we talked about potentially
 allowing a user to temporarily make their account invisible to other users when they go away on vacation.
