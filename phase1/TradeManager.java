@@ -147,9 +147,9 @@ public class TradeManager {
     }
 
     private void checkTransxnLimit(Trader trader){
-        trader.addWeeklyTransxn();
-        if (trader.overWeeklyLimit()){
-            trader.flag(); // Doesn't automatically freeze trader, just flags them
+        trader.getTraderStatus().addWeeklyTransxn();
+        if (trader.getTraderStatus().overWeeklyLimit()){
+            trader.getTraderStatus().flag();// Doesn't automatically freeze trader, just flags them
         }
     }
 
@@ -189,8 +189,8 @@ public class TradeManager {
         Trader otherTrader = trade.getOtherTrader();
 
         trade.setOpen(false);
-        ogTrader.removeIncomplete(); // Unflags the user if this puts them in an acceptable range
-        otherTrader.removeIncomplete();
+        ogTrader.getTraderStatus().removeIncomplete(); // Unflags the user if this puts them in an acceptable range
+        otherTrader.getTraderStatus().removeIncomplete();
 
         ogTrader.addTradingPartner(otherTrader);
         otherTrader.addTradingPartner(ogTrader);

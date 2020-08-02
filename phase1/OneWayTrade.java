@@ -72,7 +72,7 @@ public class OneWayTrade extends Trade implements Serializable {
      */
     @Override
     public void removeItems(){
-        lender.removeFromInventory(item);
+        lender.getInventory().removeItem(item);
     }
 
     /**

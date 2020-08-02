@@ -31,7 +31,6 @@ public class Trader extends User implements Serializable {
     private ArrayList<Item> recentItems;
     private int incompleteLimit;
     private int weeklyTransxnLimit;
-    private TraderInbox inbox;
 
     //Need empty user as placeholder in UserCatalogue findUserByName method
     public Trader(){
@@ -61,7 +60,6 @@ public class Trader extends User implements Serializable {
         this.recentItems = new ArrayList<Item>();
         this.incompleteLimit = 3; // Change this to change the limit on incomplete transxns a trader can have
         this.weeklyTransxnLimit = 10; // Change this to change the weekly transxn limit
-        this.inbox = inbox;
     }
 
     /**
@@ -76,7 +74,7 @@ public class Trader extends User implements Serializable {
      *
      * @return a list of all Trades.
      */
-    public List<TradeMessage> readTrades(){
+    public List<Trade> readTrades(){
         TraderInbox traderInbox = (TraderInbox) this.getInbox();
         return traderInbox.getTrades();
     }
@@ -85,7 +83,7 @@ public class Trader extends User implements Serializable {
      *
      * @return a list of all Trades.
      */
-    public List<TradeMessage> readUnacceptedTrades(){
+    public List<Trade> readUnacceptedTrades(){
         TraderInbox traderInbox = (TraderInbox) this.getInbox();
         return traderInbox.getUnacceptedTrades();
     }
@@ -126,7 +124,7 @@ public class Trader extends User implements Serializable {
      * @return an integer which says how many unread notifications the Trader has from other Traders.
      */
     public int unreadTraderNotifs(){
-        return this.getInbox().getTraderNotiUnread();
+        return this.getInbox().getTradersUnread();
     }
 
     /** Tells how many unread notifications the Trader has from Admin/s.
@@ -397,7 +395,4 @@ public class Trader extends User implements Serializable {
     public String toString(){
         return this.username;
     }
-
-    @Override
-    public TraderInbox getInbox() { return this.inbox; }
 }

@@ -24,7 +24,7 @@ public class UserCatalogue {
         ArrayList<Item> items = new ArrayList<Item>();
         for(User trader: userBase){
             if(trader instanceof Trader) {
-                for (Item inv : ((Trader) trader).getInventory()) {
+                for (Item inv : ((Trader) trader).getInventory().getInv()) {
                     if (!items.contains(inv)) {
                         items.add(inv);
                     }
@@ -33,6 +33,48 @@ public class UserCatalogue {
         }
         return items;
     }
+
+//    public void printDetails(){
+//        for (User trader: userBase){
+//            if (trader instanceof Trader){
+//                System.out.println(((Trader) trader).getName()+"\n");
+//                int i = 0;
+//                //Print trader's inventory
+//                while (i < ((Trader) trader).getInventory().getInv().size()){
+//                    if (i == 0){
+//                        System.out.println("Inventory: "+((Trader) trader).getInventory().getInv().get(i).getName()+", ");
+//                    }
+//                    else if (i == ((Trader) trader).getInventory().getInv().size() - 1){
+//                        System.out.println(((Trader) trader).getInventory().getInv().get(i).getName()+".\n");
+//                    }
+//                    System.out.println(((Trader) trader).getInventory().getInv().get(i).getName()+", ");
+//                    i++;
+//                }
+//                //Print trader's wishlist
+//                while (i < ((Trader) trader).getWishList().getInv().size()){
+//                    if (i == 0){
+//                        System.out.println("Wishlist: "+((Trader) trader).getWishList().getInv().get(i).getName()+", ");
+//                    }
+//                    else if (i == ((Trader) trader).getWishList().getInv().size() - 1){
+//                        System.out.println(((Trader) trader).getWishList().getInv().get(i).getName()+".\n");
+//                    }
+//                    System.out.println(((Trader) trader).getWishList().getInv().get(i).getName()+", ");
+//                    i++;
+//                }
+//                //Print trader's frequent partners
+//                while (i < ((Trader) trader).frequentPartners().size()){
+//                    if (i == 0){
+//                        System.out.println("Frequent partners: "+((Trader) trader).frequentPartners().get(i).getName()+", ");
+//                    }
+//                    else if (i == ((Trader) trader).frequentPartners().size() - 1){
+//                        System.out.println(((Trader) trader).frequentPartners().get(i).getName()+".\n");
+//                    }
+//                    System.out.println(((Trader) trader).frequentPartners().get(i).getName()+", ");
+//                    i++;
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Gets a list of all unconfirmed items in the system (used by admins when confirming items).
@@ -71,7 +113,7 @@ public class UserCatalogue {
         ArrayList<User> users = new ArrayList<User>();
         for(User trader: userBase){
             if(trader instanceof Trader) {
-                if (((Trader) trader).getInventory().contains(item)) {
+                if (((Trader) trader).getInventory().getInv().contains(item)) {
                     users.add(trader);
                 }
             }
@@ -88,7 +130,7 @@ public class UserCatalogue {
         ArrayList<User> users = new ArrayList<User>();
         for (User trader: userBase){
             if(trader instanceof Trader){
-                if (((Trader) trader).getWishList().contains(item)){
+                if (((Trader) trader).getWishList().getInv().contains(item)){
                     users.add(trader);
                 }
             }
@@ -135,7 +177,7 @@ public class UserCatalogue {
         ArrayList<User> flagged = new ArrayList<User>();
         for (User user: userBase){
             if (user instanceof Trader){
-                if (((Trader) user).isFlagged()){
+                if (((Trader) user).getTraderStatus().isFlagged()){
                     flagged.add(user);
                 }
             }

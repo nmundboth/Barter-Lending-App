@@ -39,8 +39,8 @@ public class AdminOptions {
                         System.out.println("Flagged Users:\n");
                         for (int i = 0; i < uc.findFlagged().size(); i++){
                             System.out.println("    " + (i + 1) + uc.findFlagged().get(i).getUsername() + " - " +
-                                    "Incomplete Transactions: " + ((Trader) uc.findFlagged().get(i)).getIncomplete() +
-                                    ", Weekly Transactions: " + ((Trader) uc.findFlagged().get(i)).getWeeklyTransxns());
+                                    "Incomplete Transactions: " + ((Trader) uc.findFlagged().get(i)).getTraderStatus().getIncomplete() +
+                                    ", Weekly Transactions: " + ((Trader) uc.findFlagged().get(i)).getTraderStatus().getWeeklyTransxns());
                         }
                         System.out.println("Enter the number associated with the trader you would like to freeze:");
                         String toFreeze = br.readLine();

@@ -50,10 +50,10 @@ InboxOptions {
             while (!input.equals("exit")) {
                 switch (input) {
                     case "1":
-                        if (!(((Trader) curr).isFrozen())) {
+                        if (!(((Trader) curr).getTraderStatus().isFrozen())) {
                             sendTrnsxnRequest(br);
                             System.out.println(menuOptions);
-                        } else if ((((Trader) curr).isFrozen())) {
+                        } else if ((((Trader) curr).getTraderStatus().isFrozen())) {
                             System.out.println("Your account is frozen and can not currently send transaction requests. " +
                                     "Please select 'request unfreeze' from this menu to ask an admin to review your account.");
                             System.out.println(menuOptions);
@@ -124,7 +124,7 @@ InboxOptions {
                         break;
 
                     case "6":
-                        if (((Trader) curr).isFrozen()){
+                        if (((Trader) curr).getTraderStatus().isFrozen()){
                             if (!(AdminInbox.undoFrozen.contains((Trader) curr))){
                                 AdminInbox.undoFrozen.add((Trader) curr);
                                 System.out.println("You have requested to be unfrozen.");
@@ -161,11 +161,11 @@ InboxOptions {
         try{
             String input = br.readLine();
             while(!input.equals("exit")){
-                if (input.equals("1") && !(((Trader) curr).isGreedy())){
+                if (input.equals("1") && !(((Trader) curr).getTraderStatus().isGreedy())){
                     borrowItem(br);
                     System.out.println(trnsxnOptions);
                 }
-                else if(input.equals("1") && ((Trader) curr).isGreedy()){
+                else if(input.equals("1") && ((Trader) curr).getTraderStatus().isGreedy()){
                     System.out.println("Please lend more items before you attempt to borrow!\n");
                     System.out.println(trnsxnOptions);
                 }
@@ -188,8 +188,8 @@ InboxOptions {
     // Allows a trader to borrow an item from another trader.
     // In order to borrow an item, it must be on the current trader's wishlist, and in the other trader's inventory.
     private void borrowItem(BufferedReader br){
-        for (int i = 0; i < ((Trader) curr).getWishList().size(); i++) {
-            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().get(i));
+        for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++) {
+            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
         }
         String borrowPrompt = "Select the item from your wishlist that you would like to borrow from a user, " +
                 "or type 'exit' to go back: ";
@@ -198,11 +198,11 @@ InboxOptions {
             String input = br.readLine();
             while(!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input) >= 1 &&
-                        Integer.parseInt(input) <= ((Trader) curr).getWishList().size())){ // Item is in current trader's wishlist
-                    Item item = ((Trader) curr).getWishList().get(Integer.parseInt(input) - 1);
+                        Integer.parseInt(input) <= ((Trader) curr).getWishList().getInv().size())){ // Item is in current trader's wishlist
+                    Item item = ((Trader) curr).getWishList().getInv().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWithItem = uc.findUserWithItem(item);
                     for (int i = 0; i < userWithItem.size(); i++){
-                        if (!((Trader) userWithItem.get(i)).isFrozen()){
+                        if (!((Trader) userWithItem.get(i)).getTraderStatus().isFrozen()){
                             System.out.println("    " + (i + 1) + ". " +
                                     uc.findUserWithItem(item).get(i).getUsername());
                         }
@@ -255,8 +255,8 @@ InboxOptions {
     // Allows a trader to lend an item to another user.
     // In order to lend an item, it must be in the current trader's inventory and on the other trader's wishlist.
     private void lendItem(BufferedReader br){
-        for (int i = 0; i < ((Trader) curr).getInventory().size(); i++) {
-            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().get(i));
+        for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++) {
+            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i));
         }
         String lendPrompt = "Select the item from your inventory that" +
                 " you would like to lend to a user, or type 'exit' to go back:";
@@ -266,11 +266,11 @@ InboxOptions {
             String input = br.readLine();
             while(!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input) >= 1 &&
-                        Integer.parseInt(input) <= ((Trader) curr).getInventory().size())){
-                    Item item = ((Trader) curr).getInventory().get(Integer.parseInt(input) - 1);
+                        Integer.parseInt(input) <= ((Trader) curr).getInventory().getInv().size())){
+                    Item item = ((Trader) curr).getInventory().getInv().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWantsItem = uc.findUserWantsItem(item);
                     for (int i = 0; i < userWantsItem.size(); i++){
-                        if (!((Trader) userWantsItem.get(i)).isFrozen()){
+                        if (!((Trader) userWantsItem.get(i)).getTraderStatus().isFrozen()){
                             System.out.println("    " + (i + 1) + ". " +
                                     uc.findUserWithItem(item).get(i).getUsername());
                         }
@@ -322,8 +322,8 @@ InboxOptions {
     // This method initiates that process, by asking the trader which item from their wishlist that they would like
     // to receive in a trade.
     private void tradeItem(BufferedReader br){
-        for (int i = 0; i < ((Trader) curr).getWishList().size(); i++) {
-            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().get(i));
+        for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++) {
+            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
         }
         String tradePrompt = "Select the item from your wishlist that you would like to trade for, " +
                 "or type 'exit' to go back: ";
@@ -333,8 +333,8 @@ InboxOptions {
             String input = br.readLine();
             while(!input.equals("exit")){
                 if (isInteger(input) && (Integer.parseInt(input) >= 1 &&
-                        Integer.parseInt(input) <= ((Trader) curr).getWishList().size())){
-                    Item item = ((Trader) curr).getWishList().get(Integer.parseInt(input) - 1);
+                        Integer.parseInt(input) <= ((Trader) curr).getWishList().getInv().size())){
+                    Item item = ((Trader) curr).getWishList().getInv().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWithItem = uc.findUserWithItem(item);
                     selectTrader(item, userWithItem, br);
                     System.out.println(tradePrompt);
@@ -351,7 +351,7 @@ InboxOptions {
     // wanted to trade for (if any), and lists them to the user
     private void selectTrader(Item item, ArrayList<User> userWithItem, BufferedReader br){
         for (int i = 0; i < userWithItem.size(); i++){
-            if (!((Trader) userWithItem.get(i)).isFrozen()){
+            if (!((Trader) userWithItem.get(i)).getTraderStatus().isFrozen()){
                 System.out.println("    " + (i + 1) + ". " +
                         uc.findUserWithItem(item).get(i).getUsername());
             }
@@ -385,8 +385,8 @@ InboxOptions {
 
     // Checks whether a user that has an item wants anything that the other user has.
     private boolean checkCompatibility(User other){
-        for (int i = 0; i < ((Trader)curr).getInventory().size(); i++){
-            if (((Trader) other).getWishList().contains(((Trader)curr).getInventory().get(i))){
+        for (int i = 0; i < ((Trader)curr).getInventory().getInv().size(); i++){
+            if (((Trader) other).getWishList().getInv().contains(((Trader)curr).getInventory().getInv().get(i))){
                 return true;
             }
         }
@@ -397,10 +397,10 @@ InboxOptions {
     // Asks users for whether the trade should be permanent, then proposes a trade.
     private void selectItem(BufferedReader br, User other, Item theirItem){
         ArrayList<Item> tradableItems = new ArrayList<Item>();
-        for (int i = 0; i < ((Trader) other).getWishList().size(); i++){
-            if (((Trader) curr).getInventory().contains(((Trader) other).getWishList().get(i))){
-                System.out.println("    " + (i + 1) + ". " + ((Trader) other).getWishList().get(i));
-                tradableItems.add(((Trader) other).getWishList().get(i));
+        for (int i = 0; i < ((Trader) other).getWishList().getInv().size(); i++){
+            if (((Trader) curr).getInventory().getInv().contains(((Trader) other).getWishList().getInv().get(i))){
+                System.out.println("    " + (i + 1) + ". " + ((Trader) other).getWishList().getInv().get(i));
+                tradableItems.add(((Trader) other).getWishList().getInv().get(i));
             }
         }
         System.out.println("Select an item you wish to offer in the trade.");

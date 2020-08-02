@@ -58,8 +58,8 @@ public class TwoWayTrade extends Trade implements Serializable {
      */
     @Override
     public void removeItems(){
-        ogTrader.removeFromInventory(ogItem);
-        otherTrader.removeFromInventory(otherItem);
+        ogTrader.getInventory().removeItem(ogItem);
+        otherTrader.getInventory().removeItem(otherItem);
     }
 
     /**

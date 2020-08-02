@@ -96,8 +96,8 @@ public class MeetingManager {
 
     public void confirmMeet(Trader confirmer, OneWayTrade trade) {
         this.helperConfirmMeet(confirmer, trade);
-        trade.getLender().setGreedyInt(trade.getLender().getGreedyInt() - 1);
-        trade.getReceiver().setGreedyInt(trade.getReceiver().getGreedyInt() + 1);
+        trade.getLender().getTraderStatus().setGreedyInt(trade.getLender().getTraderStatus().getGreedyInt() - 1);
+        trade.getReceiver().getTraderStatus().setGreedyInt(trade.getReceiver().getTraderStatus().getGreedyInt() + 1);
     }
 
     // Modifies the incomplete trades of the traders involved in a meeting, since the trade will be considered open
@@ -125,9 +125,9 @@ public class MeetingManager {
     // Adds a trade to a trader's incomplete trade list, and checks if this puts them over the allowed limit (if it does
     // then they are flagged).
     private void checkIncompleteLimit(Trader trader){
-        trader.addIncomplete();
-        if (trader.overIncompleteLimit()){
-            trader.flag(); // Doesn't automatically freeze trader, just flags them
+        trader.getTraderStatus().addIncomplete();
+        if (trader.getTraderStatus().overIncompleteLimit()){
+            trader.getTraderStatus().flag(); // Doesn't automatically freeze trader, just flags them
         }
     }
 }

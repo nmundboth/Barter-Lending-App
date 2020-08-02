@@ -71,7 +71,7 @@ public class AdminInbox extends Inbox implements Serializable {
         Trader temp = undoFrozen.get(index);
         undoFrozen.remove(index);
         this.undoFrozenUnread -= 1;
-        if(temp.isFrozen()){
+        if(temp.getTraderStatus().isFrozen()){
             temp.frozen = false;
         }
     }
