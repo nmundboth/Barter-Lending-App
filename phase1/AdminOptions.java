@@ -18,52 +18,99 @@ public class AdminOptions {
         this.curr = curr;
         this.uc = uc;
         this.us = us;
-        menuOptions = "To perform an action, type the corresponding number.\n1. View flagged traders\n" +
-                "2. View unconfirmed items\n3. View inbox\n4. Change how many times a user must lend " +
-                "before they can borrow\n" + "To logout, type 'logout'.";
+        menuOptions = "To perform an action, type the corresponding number.\n1. Perform Administrative Actions\n" +
+                "2. View inbox\nTo logout, type 'logout'.";
     }
 
     public void run(){
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println("To perform an action, type the corresponding number.\n1. View flagged traders\n" +
-                "2. View unconfirmed items\n3. View inbox\n" +
-                "4. Change how many times a user must lend before they can borrow\n5. Admin Builder\n" +
-                "To logout, type 'logout'.");
+        System.out.println(menuOptions);
         try{
             String input = br.readLine();
             while(!input.equals("logout")){
                 switch (input) {
+                    //Admin Actions
                     case "1":
-                        System.out.println("Flagged Users:\n");
-                        for (int i = 0; i < uc.findFlagged().size(); i++){
-                            System.out.println("    " + (i + 1) + uc.findFlagged().get(i).getUsername() + " - " +
-                                    "Incomplete Transactions: " + ((Trader) uc.findFlagged().get(i)).getTraderStatus().getIncomplete() +
-                                    ", Weekly Transactions: " + ((Trader) uc.findFlagged().get(i)).getTraderStatus().getWeeklyTransxns());
+                        System.out.println("Select the administrative action that you would like to perform: \n" +
+                                "1. Freeze flagged users\n2. Review unconfirmed items\n3. Change how many times" +
+                                " a user must lend before they can borrow\n4. Create a new admin\n5. Return to main" +
+                                " menu");
+
+                        String adminNum = br.readLine();
+                        switch (adminNum) {
+                            //Freeze flagged users
+                            case "1":
+                                System.out.println("Flagged Users:\n");
+                                for (int i = 0; i < uc.findFlagged().size(); i++){
+                                    System.out.println("    " + (i + 1) + uc.findFlagged().get(i).getUsername() + " - " +
+                                            "Incomplete Transactions: " + ((Trader) uc.findFlagged().get(i)).getTraderStatus().getIncomplete() +
+                                            ", Weekly Transactions: " + ((Trader) uc.findFlagged().get(i)).getTraderStatus().getWeeklyTransxns());
+                                }
+                                System.out.println("Enter the number associated with the trader you would like to freeze:");
+                                String toFreeze = br.readLine();
+                                if (isInteger(toFreeze) && Integer.parseInt(toFreeze) >= 1 &&
+                                        Integer.parseInt(toFreeze) <= uc.findFlagged().size()){
+                                    ((Admin) curr).freezeTrader((Trader) uc.findFlagged().get(Integer.parseInt(toFreeze) - 1));
+                                    System.out.println("User has been frozen.");
+                                }
+                                else {
+                                    System.out.println("Invalid Input\nReturning to Options Menu...\n");
+                                }
+                                System.out.println(menuOptions);
+                                break;
+                            //View Unconfirmed items
+                            case "2":
+                                viewUnconfirmed(br);
+                                System.out.println(menuOptions);
+                                break;
+                            //Change how many times a user must lend before they can borrow
+                            case "3":
+                                System.out.println("Enter the new value: ");
+                                input = br.readLine();
+                                while (!input.equals("exit")) {
+                                    if (isInteger(input)) {
+                                        Trader.greedLimit = -(Integer.parseInt(input));
+                                        System.out.println("Limit set!\n");
+                                        break;
+                                    }
+                                    input = br.readLine();
+                                }
+                                System.out.println(menuOptions);
+                                break;
+                            //admin creation
+                            case "4":
+                                System.out.println("To create an Admin, start by typing the user name:");
+                                String userName = br.readLine();
+                                System.out.println("Create a password:");
+                                String password = br.readLine();
+                                List<Message> adminNoti = new ArrayList<Message>();
+                                List<Message> traderNoti = new ArrayList<Message>();
+                                AdminInbox newAdminInbox = new AdminInbox(traderNoti, adminNoti);
+                                Admin newAdmin = new Admin(userName, password, newAdminInbox);
+                                newAdminInbox.setOwner(newAdmin);
+                                uc.userBase.add(newAdmin);
+                                System.out.println("New Admin created successfully");
+                                System.out.println(menuOptions);
+                                break;
+                            //back to menu
+                            case "5":
+                                System.out.println(menuOptions);
+                                break;
                         }
-                        System.out.println("Enter the number associated with the trader you would like to freeze:");
-                        String toFreeze = br.readLine();
-                        if (isInteger(toFreeze) && Integer.parseInt(toFreeze) >= 1 &&
-                            Integer.parseInt(toFreeze) <= uc.findFlagged().size()){
-                            ((Admin) curr).freezeTrader((Trader) uc.findFlagged().get(Integer.parseInt(toFreeze) - 1));
-                            System.out.println("User has been frozen.");
-                        }
-                        else {
-                            System.out.println("Invalid Input\nReturning to Options Menu...\n");
-                        }
-                        System.out.println(menuOptions);
+
                         break;
+
+                    //inbox actions
                     case "2":
-                        viewUnconfirmed(br);
-                        System.out.println(menuOptions);
-                        break;
-                    case "3":
                         System.out.println("To open a sub-inbox, please type in the corresponding number. \n" +
-                                "1. Unfreeze requests\n2. Admin/System notification\n3. Trader notifications");
+                                "1. Unfreeze requests\n2. Admin/System notification\n3. Trader notifications \n" +
+                                "4. Return to main menu");
                         String inboxNum = br.readLine();
 
                         switch (inboxNum) {
+                            //Handling unfreeze requests
                             case "1":
                                 AdminInbox inbox = ((Admin) curr).getAdminInbox();
                                 if(inbox.getUndoFrozenUnread() == 0){
@@ -93,6 +140,8 @@ public class AdminOptions {
                                     System.out.println(menuOptions);
                                     break;
                                 }
+
+                            //Admin notifications
                             case "2":
                                 AdminInbox inbox1 = ((Admin)curr).getAdminInbox();
                                 if(inbox1.getAdmiNotiUnread() == 0){
@@ -121,6 +170,8 @@ public class AdminOptions {
                                     System.out.println(menuOptions);
                                     break;
                                 }
+
+                            //trader notifications
                             case "3":
                                 AdminInbox inbox2 = ((Admin)curr).getAdminInbox();
                                 if(inbox2.getTraderNotiUnread() == 0){
@@ -149,40 +200,18 @@ public class AdminOptions {
                                     System.out.println(menuOptions);
                                     break;
                                 }
+
+                            //back to menu
+                            case "4":
+                                System.out.println(menuOptions);
+                                break;
+
                             default:
                                 System.out.println("Invalid input");
                                 System.out.println(menuOptions);
 
                         }
 
-                        break;
-                    case "4":
-                        System.out.println("Enter the new value: ");
-                        input = br.readLine();
-                        while (!input.equals("exit")) {
-                            if (isInteger(input)) {
-                                Trader.greedLimit = -(Integer.parseInt(input));
-                                System.out.println("Limit set!\n");
-                                break;
-                            }
-                            input = br.readLine();
-                        }
-                        System.out.println(menuOptions);
-                        break;
-
-                    case "5":
-                        System.out.println("To create an Admin, start by typing the user name:");
-                        String userName = br.readLine();
-                        System.out.println("Create a password:");
-                        String password = br.readLine();
-                        List<Message> adminNoti = new ArrayList<Message>();
-                        List<Message> traderNoti = new ArrayList<Message>();
-                        AdminInbox newAdminInbox = new AdminInbox(traderNoti, adminNoti);
-                        Admin newAdmin = new Admin(userName, password, newAdminInbox);
-                        newAdminInbox.setOwner(newAdmin);
-                        uc.userBase.add(newAdmin);
-                        System.out.println("New Admin created successfully");
-                        System.out.println(menuOptions);
                         break;
 
                     default:
