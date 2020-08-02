@@ -171,13 +171,17 @@ public class TradingSystem {
                 if(!input.equals("exit")){
                     String password = input;
                     String type = "trader"; // Can't register an admin this way, so must be a trader
+                    System.out.println("Please enter your city: ");
+                    input = br.readLine();
+                    String location = input;
                     List<TradeMessage> trades = new ArrayList<TradeMessage>();
                     List<Message> traderNotifs = new ArrayList<Message>();
                     List<Message>adminNotifs = new ArrayList<Message>();
                     phase1.TraderInbox inbox = new phase1.TraderInbox(trades, traderNotifs, adminNotifs);
                     phase1.Inventory inventory = new Inventory(new ArrayList<Item>(), "inventory");
                     phase1.TraderStatus traderStatus = new TraderStatus();
-                    User user = new Trader(username, password, type, inbox, inventory, inventory, name, traderStatus);
+                    User user = new Trader(username, password, type, inbox, inventory, inventory, name,
+                            traderStatus, location);
                     inbox.setOwner(user);
                     uc.userBase.add(user);
                     us.toSerialize(uc.userBase);

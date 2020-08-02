@@ -21,6 +21,7 @@ public class Trader extends User implements Serializable {
     //    private List<Item> inventory;
 //    private List<Item> wish_list;
     private String name;
+    private String location;
     private boolean flagged;
     protected boolean frozen;
     private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
@@ -48,13 +49,15 @@ public class Trader extends User implements Serializable {
      * @param inbox The trader's inbox
      * @param inventory The trader's inventory
      * @param name The trader's first name
+     * @param location The trader's city location
      */
     public Trader(String username, String password, String type, TraderInbox inbox, Inventory inventory,
-                  Inventory wishlist, String name, TraderStatus status) {
+                  Inventory wishlist, String name, TraderStatus status, String location) {
         super(username, password, type, inbox);
         this.inventory = inventory;
         this.wishlist = wishlist;
         this.name = name;
+        this.location = location;
 //        this.flagged = false;
 //        this.frozen = false;
 //        this.greedyInt = 0;
@@ -259,6 +262,14 @@ public class Trader extends User implements Serializable {
             recentItems.add(item);
             recentItems.remove(0);
         }
+    }
+
+    public String getLocation(){
+        return this.location;
+    }
+
+    public void setLocation(String location){
+        this.location = location;
     }
 
 //    /**
