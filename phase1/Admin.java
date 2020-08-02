@@ -18,8 +18,8 @@ public class Admin extends User implements Serializable {
      * @param type The account type of the admin ("admin")
      * @param inbox The admin's inbox
      */
-    public Admin(String username, String password, String type, AdminInbox inbox) {
-        super(username, password, type, inbox);
+    public Admin(String username, String password, AdminInbox inbox) {
+        super(username, password, "admin", inbox);
         this.inbox = inbox;
     }
 
