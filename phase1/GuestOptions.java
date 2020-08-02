@@ -18,6 +18,9 @@ public class GuestOptions {
         System.out.println(menuOptions);
         uc.printDetails();
 
+        String locationOptions = "If you want to filter traders by location, type 'locate'.";
+        System.out.println(locationOptions);
+
         String mainOptions = "To go back to the main menu, type 'exit'.";
         System.out.println(mainOptions);
 
