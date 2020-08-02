@@ -7,24 +7,24 @@ import java.util.ArrayList;
  * <p>UserCatalogue contains a userBase that contains all registered users, and their information.</p>
  */
 public class UserCatalogue {
-    public ArrayList<phase1.User> userBase;
+    public ArrayList<User> userBase;
 
     /**
      * @param list the list of users, corresponding to the userBase
      */
     public UserCatalogue(ArrayList<phase1.User> list){
-        userBase = new ArrayList<phase1.User>(list);
+        userBase = new ArrayList<User>(list);
     }
 
     /**
      * Gets a list of all items in the system, both confirmed and unconfirmed (all items from all users' inventories).
      * @return an ArrayList representing all items from all users' inventories.
      */
-    public ArrayList<phase1.Item> findAllItems(){
-        ArrayList<phase1.Item> items = new ArrayList<phase1.Item>();
+    public ArrayList<Item> findAllItems(){
+        ArrayList<Item> items = new ArrayList<Item>();
         for(phase1.User trader: userBase){
-            if(trader instanceof phase1.Trader) {
-                for (phase1.Item inv : ((phase1.Trader) trader).getInventory().getInv()) {
+            if(trader instanceof Trader) {
+                for (phase1.Item inv : ((Trader) trader).getInventory().getInv()) {
                     if (!items.contains(inv)) {
                         items.add(inv);
                     }
@@ -35,66 +35,66 @@ public class UserCatalogue {
     }
 
     public void printDetails(){
-        for (phase1.User trader: userBase){
-            if (trader instanceof phase1.Trader){
-                System.out.println("Name: "+((phase1.Trader) trader).getName()+"\n");
+        for (User trader: userBase){
+            if (trader instanceof Trader){
+                System.out.println("Name: "+((Trader) trader).getName()+"\n");
 
-                if (((phase1.Trader) trader).getTraderStatus().isFrozen()){
-                    System.out.println(((phase1.Trader) trader).getName()+"'s account is frozen. You cannot arrange any transaction" +
-                            " with this "+((phase1.Trader) trader).getName()+".\n");
+                if (((Trader) trader).getTraderStatus().isFrozen()){
+                    System.out.println(((Trader) trader).getName()+"'s account is frozen. You cannot arrange any transaction" +
+                            " with this "+((Trader) trader).getName()+".\n");
                 }
 
                 int i = 0;
                 //Print trader's inventory
-                if (((phase1.Trader) trader).getInventory().getInv().size() == 0){
-                    System.out.println(((phase1.Trader) trader).getName()+"'s inventory is empty.");
+                if (((Trader) trader).getInventory().getInv().size() == 0){
+                    System.out.println(((Trader) trader).getName()+"'s inventory is empty.");
                 }
                 else{
                     System.out.println("Inventory:");
-                    while (i < ((phase1.Trader) trader).getInventory().getInv().size()){
-                        System.out.println(((phase1.Trader) trader).getInventory().getInv().get(i).getName());
+                    while (i < ((Trader) trader).getInventory().getInv().size()){
+                        System.out.println(((Trader) trader).getInventory().getInv().get(i).getName());
                         i++;
                     }
                 }
                 System.out.println("\n");
 
                 i = 0;
-                if (((phase1.Trader) trader).getWishList().getInv().size() == 0){
-                    System.out.println(((phase1.Trader) trader).getName()+"'s wishlist is empty.");
+                if (((Trader) trader).getWishList().getInv().size() == 0){
+                    System.out.println(((Trader) trader).getName()+"'s wishlist is empty.");
                 }
                 else{
                     //Print trader's wishlist
                     System.out.println("Wishlist:");
-                    while (i < ((phase1.Trader) trader).getWishList().getInv().size()){
-                        System.out.println(((phase1.Trader) trader).getWishList().getInv().get(i).getName());
+                    while (i < ((Trader) trader).getWishList().getInv().size()){
+                        System.out.println(((Trader) trader).getWishList().getInv().get(i).getName());
                         i++;
                     }
                 }
                 System.out.println("\n");
 
                 i = 0;
-                if (((phase1.Trader) trader).frequentPartners().size() == 0){
-                    System.out.println("'"+((phase1.Trader) trader).getName()+"' has no frequent partner at the moment.");
+                if (((Trader) trader).frequentPartners().size() == 0){
+                    System.out.println("'"+((Trader) trader).getName()+"' has no frequent partner at the moment.");
                 }
                 else{
                     //Print trader's frequent partners
                     System.out.println("Frequent partners:");
-                    while (i < ((phase1.Trader) trader).frequentPartners().size()){
-                        System.out.println(((phase1.Trader) trader).frequentPartners().get(i).getName());
+                    while (i < ((Trader) trader).frequentPartners().size()){
+                        System.out.println(((Trader) trader).frequentPartners().get(i).getName());
                         i++;
                     }
                 }
                 System.out.println("\n");
 
                 i = 0;
-                if (((phase1.Trader) trader).getRecentItems().size() == 0){
-                    System.out.println("'"+((phase1.Trader) trader).getName()+"' has no recent item at the moment.");
+                if (((Trader) trader).getRecentItems().size() == 0){
+                    System.out.println("'"+((Trader) trader).getName()+"' has no recent item at the moment.");
                 }
                 else{
                     //Print trader's frequent partners
                     System.out.println("Recent items:");
-                    while (i < ((phase1.Trader) trader).getRecentItems().size()){
-                        System.out.println(((phase1.Trader) trader).getRecentItems().get(i).getName());
+                    while (i < ((Trader) trader).getRecentItems().size()){
+                        System.out.println(((Trader) trader).getRecentItems().get(i).getName());
                         i++;
                     }
                 }
@@ -109,7 +109,7 @@ public class UserCatalogue {
      */
     public ArrayList<phase1.Item> findUnconfirmed(){
         ArrayList<phase1.Item> unconfirmed = new ArrayList<phase1.Item>();
-        for (phase1.Item item: findAllItems()){
+        for (Item item: findAllItems()){
             if (!item.isConfirmed()){
                 unconfirmed.add(item);
             }
@@ -123,7 +123,7 @@ public class UserCatalogue {
      */
     public ArrayList<phase1.Item> findConfirmed(){
         ArrayList<phase1.Item> confirmed = new ArrayList<phase1.Item>();
-        for (phase1.Item item: findAllItems()){
+        for (Item item: findAllItems()){
             if (item.isConfirmed()){
                 confirmed.add(item);
             }
@@ -138,9 +138,9 @@ public class UserCatalogue {
      */
     public ArrayList<phase1.User> findUserWithItem(phase1.Item item){
         ArrayList<phase1.User> users = new ArrayList<phase1.User>();
-        for(phase1.User trader: userBase){
-            if(trader instanceof phase1.Trader) {
-                if (((phase1.Trader) trader).getInventory().getInv().contains(item)) {
+        for(User trader: userBase){
+            if(trader instanceof Trader) {
+                if (((Trader) trader).getInventory().getInv().contains(item)) {
                     users.add(trader);
                 }
             }
@@ -153,11 +153,11 @@ public class UserCatalogue {
      * @param item The Item that some User wants
      * @return an ArrayList of User(s) that want the item being searched for.
      */
-    public ArrayList<phase1.User> findUserWantsItem(phase1.Item item){
+    public ArrayList<User> findUserWantsItem(Item item){
         ArrayList<phase1.User> users = new ArrayList<phase1.User>();
-        for (phase1.User trader: userBase){
-            if(trader instanceof phase1.Trader){
-                if (((phase1.Trader) trader).getWishList().getInv().contains(item)){
+        for (User trader: userBase){
+            if(trader instanceof Trader){
+                if (((Trader) trader).getWishList().getInv().contains(item)){
                     users.add(trader);
                 }
             }
@@ -171,7 +171,7 @@ public class UserCatalogue {
      * @return a boolean representing whether the user is in the userBase.
      */
     public boolean inUserBase(String Username){
-        for (phase1.User user: userBase){
+        for (User user: userBase){
             if (user.getUsername().equals(Username)){
                 return true;
             }
@@ -185,9 +185,9 @@ public class UserCatalogue {
      * @return a User object representing the user for whom was being searched for by their username.
      */
     //Should only be called once we know a user is in the userBase, otherwise returns empty User.
-    public phase1.User getUserByName(String Username){
-        phase1.User temp = new phase1.Trader();
-        for (phase1.User user: userBase){
+    public User getUserByName(String Username){
+        User temp = new Trader();
+        for (User user: userBase){
             if (user.getUsername().equals(Username)){
                 temp = user;
             }
@@ -200,11 +200,11 @@ public class UserCatalogue {
      * @return an ArrayList representing all flagged users (too many outstanding incomplete transactions/weekly
      * transactions)
      */
-    public ArrayList<phase1.User> findFlagged(){
-        ArrayList<phase1.User> flagged = new ArrayList<phase1.User>();
-        for (phase1.User user: userBase){
-            if (user instanceof phase1.Trader){
-                if (((phase1.Trader) user).getTraderStatus().isFlagged()){
+    public ArrayList<User> findFlagged(){
+        ArrayList<User> flagged = new ArrayList<User>();
+        for (User user: userBase){
+            if (user instanceof Trader){
+                if (((Trader) user).getTraderStatus().isFlagged()){
                     flagged.add(user);
                 }
             }

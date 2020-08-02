@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @author TingRui Zhang
  */
 
-public class Trader extends phase1.User implements Serializable {
+public class Trader extends User implements Serializable {
 
     static int greedLimit = -1; // The lower this limit, the more a trader must lend before they can borrow.
 
@@ -28,13 +28,13 @@ public class Trader extends phase1.User implements Serializable {
     private int weeklyTransxns;
     private LocalDateTime weeklyEnd;
     private HashMap<Trader, Integer> tradingPartners;
-    private ArrayList<phase1.Item> recentItems;
+    private ArrayList<Item> recentItems;
     private int incompleteLimit;
     private int weeklyTransxnLimit;
 
-    private phase1.TraderStatus status;
-    private phase1.Inventory inventory;
-    private phase1.Inventory wishlist;
+    private TraderStatus status;
+    private Inventory inventory;
+    private Inventory wishlist;
 
     //Need empty user as placeholder in UserCatalogue findUserByName method
     public Trader(){
@@ -49,8 +49,8 @@ public class Trader extends phase1.User implements Serializable {
      * @param inventory The trader's inventory
      * @param name The trader's first name
      */
-    public Trader(String username, String password, String type, phase1.TraderInbox inbox, phase1.Inventory inventory,
-                  phase1.Inventory wishlist, String name, phase1.TraderStatus status) {
+    public Trader(String username, String password, String type, TraderInbox inbox, Inventory inventory,
+                  Inventory wishlist, String name, TraderStatus status) {
         super(username, password, type, inbox);
         this.inventory = inventory;
         this.wishlist = wishlist;
@@ -62,14 +62,14 @@ public class Trader extends phase1.User implements Serializable {
 //        this.weeklyTransxns = 0;
 //        this.weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1)); // Initial period is one week after creation of account
         this.tradingPartners = new HashMap<Trader, Integer>();
-        this.recentItems = new ArrayList<phase1.Item>();
+        this.recentItems = new ArrayList<Item>();
 //        this.incompleteLimit = 3; // Change this to change the limit on incomplete transxns a trader can have
 //        this.weeklyTransxnLimit = 10; // Change this to change the weekly transxn limit
 
         this.status = status;
     }
 
-    public phase1.TraderStatus getTraderStatus(){
+    public TraderStatus getTraderStatus(){
         return status;
     }
 
@@ -116,7 +116,7 @@ public class Trader extends phase1.User implements Serializable {
      *
      * @return a list of Items.
      */
-    public phase1.Inventory getInventory() {
+    public Inventory getInventory() {
         return inventory;
     }
 
@@ -124,7 +124,7 @@ public class Trader extends phase1.User implements Serializable {
      *
      * @return a list of Items.
      */
-    public phase1.Inventory getWishList() {
+    public Inventory getWishList() {
         return wishlist;
     }
 
@@ -353,7 +353,7 @@ public class Trader extends phase1.User implements Serializable {
      *
      * @return a list of the trader's most recently traded items
      */
-    public ArrayList<phase1.Item> getRecentItems(){
+    public ArrayList<Item> getRecentItems(){
         return this.recentItems;
     }
 

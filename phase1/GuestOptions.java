@@ -2,11 +2,11 @@ package phase1;
 
 public class GuestOptions {
 
-    private phase1.UserCatalogue uc;
-    private phase1.UserSerialization us;
+    private UserCatalogue uc;
+    private UserSerialization us;
     private String menuOptions;
 
-    public GuestOptions(phase1.UserCatalogue uc, phase1.UserSerialization us){
+    public GuestOptions(UserCatalogue uc, UserSerialization us){
         this.uc = uc;
         this.us = us;
         this.menuOptions = "\nWelcome to the Trade Catalogue! \nYou can only view all potential trades and traders'" +

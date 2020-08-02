@@ -12,16 +12,16 @@ import java.util.List;
  */
 public class TradingSystem {
 
-    private phase1.UserSerialization us;
-    private phase1.UserCatalogue uc;
+    private UserSerialization us;
+    private UserCatalogue uc;
     private String menuOptions;
 
     /**
      * Has an instance of UserSerialization (for saving) and UserCatalogue (for tracking all user data).
      */
     public TradingSystem() throws Exception {
-        us = new phase1.UserSerialization();
-        uc = new phase1.UserCatalogue(us.deserialize());
+        us = new UserSerialization();
+        uc = new UserCatalogue(us.deserialize());
         menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n" +
                 "To exit, type 'exit'.";
     }
@@ -64,7 +64,7 @@ public class TradingSystem {
             String input = br.readLine();
             while(!input.equals("exit")) {
                 if (uc.inUserBase(input)) {
-                    phase1.User currUser = uc.getUserByName(input);
+                    User currUser = uc.getUserByName(input);
                     System.out.println("Please enter your password: ");
                     input = br.readLine();
                     if (!input.equals("exit")) {
@@ -88,7 +88,7 @@ public class TradingSystem {
     }
 
     // Checks the user's password, and if it is correct, directs the user to the next menu (TraderOptions).
-    private void checkPW(phase1.User currUser, String input, BufferedReader br){
+    private void checkPW(User currUser, String input, BufferedReader br){
         try{
             while ((!input.equals(currUser.getPassword())) && (!input.equals("exit"))){
                 System.out.println("Incorrect password, please try again or type 'exit' to return to the main menu.");
@@ -96,11 +96,11 @@ public class TradingSystem {
             }
             if (input.equals(currUser.getPassword())){ // Password entered correctly
                 if (currUser.getType().equals("trader")) {
-                    phase1.TraderOptions opt = new phase1.TraderOptions((phase1.Trader)currUser, uc, us);
+                    TraderOptions opt = new TraderOptions((Trader)currUser, uc, us);
                     opt.run();
                 }
                 else { //currUser.getType().equals("admin")
-                    phase1.AdminOptions opa = new phase1.AdminOptions(currUser, uc, us);
+                    AdminOptions opa = new AdminOptions(currUser, uc, us);
                     opa.run();
                 }
             }
@@ -148,13 +148,13 @@ public class TradingSystem {
                 if(!input.equals("exit")){
                     String password = input;
                     String type = "trader"; // Can't register an admin this way, so must be a trader
-                    List<phase1.TradeMessage> trades = new ArrayList<phase1.TradeMessage>();
-                    List<phase1.Message> traderNotifs = new ArrayList<phase1.Message>();
-                    List<phase1.Message>adminNotifs = new ArrayList<phase1.Message>();
+                    List<TradeMessage> trades = new ArrayList<TradeMessage>();
+                    List<Message> traderNotifs = new ArrayList<Message>();
+                    List<Message>adminNotifs = new ArrayList<Message>();
                     phase1.TraderInbox inbox = new phase1.TraderInbox(trades, traderNotifs, adminNotifs);
-                    phase1.Inventory inventory = new phase1.Inventory(new ArrayList<phase1.Item>(), "inventory");
-                    phase1.TraderStatus traderStatus = new phase1.TraderStatus();
-                    phase1.User user = new phase1.Trader(username, password, type, inbox, inventory, inventory, name, traderStatus);
+                    phase1.Inventory inventory = new Inventory(new ArrayList<Item>(), "inventory");
+                    phase1.TraderStatus traderStatus = new TraderStatus();
+                    User user = new Trader(username, password, type, inbox, inventory, inventory, name, traderStatus);
                     inbox.setOwner(user);
                     uc.userBase.add(user);
                     us.toSerialize(uc.userBase);
