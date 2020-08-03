@@ -90,7 +90,7 @@ public class TraderOptions {
                     System.out.println("\n" + menuOptions);
                 }
                 else if (input.equals("6")){
-                    changelocation(br);
+                    changeLocation(br);
                     System.out.println(menuOptions);
                 }
                 input = br.readLine();
@@ -157,7 +157,8 @@ public class TraderOptions {
         }
     }
 
-    private void changelocation(BufferedReader br){
+    // Allow User to change their location
+    private void changeLocation(BufferedReader br){
         System.out.println("Your current location: " + curr.getLocation());
         System.out.println("Do you want to change your current location? (Y/N)");
         System.out.println("To go back to the options menu at any point, type 'exit'.");
