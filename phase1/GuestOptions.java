@@ -35,7 +35,10 @@ public class GuestOptions {
             while (!input.equals("exit")){
                 if (input.equals("locate")){
                     chooseLocation(br);
-                    System.out.println("To go back, type 'exit'.");
+                    System.out.println(menuOptions);
+                    uc.printDetails();
+                    System.out.println(locationOptions);
+                    System.out.println(mainOptions);
                 }
                 input = br.readLine();
             }
@@ -43,18 +46,28 @@ public class GuestOptions {
             System.out.println("Something went wrong.");
         }
 
+
+
     }
 
     private void chooseLocation(BufferedReader br){
-
+        System.out.println("\nTo go back, type 'exit'.\n");
         System.out.println("Enter a location: ");
         try{
             String location = br.readLine();
             if (!location.equals("exit")){
-                uc.filterByLocation(location);
+                boolean result = uc.filterByLocation(location);
+                if (!result){
+                    System.out.println("Location does not exist. Please enter an appropriate location again.");
+                    chooseLocation(br);
+                }
+                else {
+                    System.out.println("\nTo go back, type 'exit'.");
+                    location = br.readLine();
+                }
             }
         } catch (IOException e) {
-            System.out.println("This location does not exist.");
+            System.out.println("Something went wrong.");
         }
     }
 

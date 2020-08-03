@@ -66,10 +66,10 @@ public class TradingSystem {
         try{
             System.out.println("Press any key and hit 'Enter' to access the Trade Catalogue.");
             String input = br.readLine();
-            while (!input.equals("exit")){
+            if (!input.equals("exit")){
                 GuestOptions guest = new GuestOptions(uc, us);
                 guest.run();
-                input = br.readLine();
+//                input = br.readLine();
             }
         }
         catch (IOException e){

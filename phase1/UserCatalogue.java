@@ -103,9 +103,10 @@ public class UserCatalogue {
         }
     }
 
-    public void filterByLocation(String location){
+    public boolean filterByLocation(String location){
         for (User trader: userBase){
             if (trader instanceof Trader && ((Trader) trader).getLocation().equals(location)){
+                System.out.println("Traders found in "+location+":\n");
                 System.out.println("Name: "+((Trader) trader).getName()+"\n");
 
                 if (((Trader) trader).getTraderStatus().isFrozen()){
@@ -168,8 +169,10 @@ public class UserCatalogue {
                     }
                 }
                 System.out.println("\n");
+                return true;
             }
         }
+        return false;
     }
 
     /**
