@@ -46,8 +46,6 @@ public class GuestOptions {
             System.out.println("Something went wrong.");
         }
 
-
-
     }
 
     private void chooseLocation(BufferedReader br){

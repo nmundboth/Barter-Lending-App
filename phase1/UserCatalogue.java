@@ -12,7 +12,7 @@ public class UserCatalogue {
     /**
      * @param list the list of users, corresponding to the userBase
      */
-    public UserCatalogue(ArrayList<phase1.User> list){
+    public UserCatalogue(ArrayList<User> list){
         userBase = new ArrayList<User>(list);
     }
 
@@ -22,9 +22,9 @@ public class UserCatalogue {
      */
     public ArrayList<Item> findAllItems(){
         ArrayList<Item> items = new ArrayList<Item>();
-        for(phase1.User trader: userBase){
+        for(User trader: userBase){
             if(trader instanceof Trader) {
-                for (phase1.Item inv : ((Trader) trader).getInventory().getInv()) {
+                for (Item inv : ((Trader) trader).getInventory().getInv()) {
                     if (!items.contains(inv)) {
                         items.add(inv);
                     }
@@ -34,6 +34,7 @@ public class UserCatalogue {
         return items;
     }
 
+    //Prints the Catalogue for guest only
     public void printDetails(){
         for (User trader: userBase){
             if (trader instanceof Trader){
@@ -103,6 +104,7 @@ public class UserCatalogue {
         }
     }
 
+    //Filters location for guest only
     public void filterByLocation(String location){
         for (User trader: userBase){
             if (trader instanceof Trader && ((Trader) trader).getLocation().equals(location)){
@@ -173,6 +175,7 @@ public class UserCatalogue {
         }
     }
 
+    //Checks if location exists
     public boolean validLocation(String location){
         for (User user: userBase){
             if (user instanceof Trader && ((Trader) user).getLocation().equals(location)){
@@ -186,8 +189,8 @@ public class UserCatalogue {
      * Gets a list of all unconfirmed items in the system (used by admins when confirming items).
      * @return an ArrayList representing all items that have not been confirmed
      */
-    public ArrayList<phase1.Item> findUnconfirmed(){
-        ArrayList<phase1.Item> unconfirmed = new ArrayList<phase1.Item>();
+    public ArrayList<Item> findUnconfirmed(){
+        ArrayList<Item> unconfirmed = new ArrayList<phase1.Item>();
         for (Item item: findAllItems()){
             if (!item.isConfirmed()){
                 unconfirmed.add(item);
@@ -200,8 +203,8 @@ public class UserCatalogue {
      * Gets a list of all confirmed items in the system (used when a trader wants to add to their wishlist)
      * @return an ArrayList representing all items that have been confirmed.
      */
-    public ArrayList<phase1.Item> findConfirmed(){
-        ArrayList<phase1.Item> confirmed = new ArrayList<phase1.Item>();
+    public ArrayList<Item> findConfirmed(){
+        ArrayList<Item> confirmed = new ArrayList<phase1.Item>();
         for (Item item: findAllItems()){
             if (item.isConfirmed()){
                 confirmed.add(item);
@@ -215,8 +218,8 @@ public class UserCatalogue {
      * @param item the Item that is being searched for
      * @return an ArrayList of User(s) that have the item being searched for in their inventory.
      */
-    public ArrayList<phase1.User> findUserWithItem(phase1.Item item){
-        ArrayList<phase1.User> users = new ArrayList<phase1.User>();
+    public ArrayList<User> findUserWithItem(Item item){
+        ArrayList<User> users = new ArrayList<phase1.User>();
         for(User trader: userBase){
             if(trader instanceof Trader) {
                 if (((Trader) trader).getInventory().getInv().contains(item)) {
