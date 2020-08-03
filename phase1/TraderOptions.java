@@ -29,7 +29,7 @@ public class TraderOptions {
         this.us = us;
         this.menuOptions = "To perform an action, type the corresponding number.\n1. View Inbox\n" +
                 "2. Add an item to your inventory\n3. Add an item to your wishlist (browse all items)\n" +
-                "4. View recently traded items\n5. View frequent trading partners\n" +
+                "4. View recently traded items\n5. View frequent trading partners\n6. Manage location\n" +
                 "To logout, type 'logout'.";
     }
 
@@ -88,6 +88,10 @@ public class TraderOptions {
                         System.out.println("    " + (i + 1) + frequent.get(i));
                     }
                     System.out.println("\n" + menuOptions);
+                }
+                else if (input.equals("6")){
+                    changelocation(br);
+                    System.out.println(menuOptions);
                 }
                 input = br.readLine();
             }
@@ -149,6 +153,34 @@ public class TraderOptions {
             }
         }
         catch (Exception e){
+            System.out.println("Something went wrong.");
+        }
+    }
+
+    private void changelocation(BufferedReader br){
+        System.out.println("Your current location: " + curr.getLocation());
+        System.out.println("Do you want to change your current location? (Y/N)");
+        System.out.println("To go back to the options menu at any point, type 'exit'.");
+        try{
+            String check = br.readLine();
+            while(!check.equals("exit")) {
+                if (check.toUpperCase().equals("Y")) {
+                    System.out.println("Enter your new location: ");
+                    check = br.readLine();
+                    curr.setLocation(check);
+                    System.out.println("All set! returning to main menu.");
+                    break;
+                }
+                else if (check.toUpperCase().equals("N")){
+                    System.out.println("Returning to main menu.");
+                    break;
+                }else{
+                    System.out.println("Please enter a valid command.");
+                }
+                check = br.readLine();
+            }
+        }
+        catch(Exception e){
             System.out.println("Something went wrong.");
         }
     }
