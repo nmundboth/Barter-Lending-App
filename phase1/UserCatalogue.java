@@ -256,14 +256,190 @@ public class UserCatalogue {
         }
     }
 
-    //Checks if location exists
+    //Checks if trader's name exists
     public boolean validName(String name){
-        for (User user: userBase){
-            if (user instanceof Trader && ((Trader) user).getName().equals(name)){
-                return true;
+        if (!(userBase.size() == 0)) {
+            for (User user : userBase) {
+                if (user instanceof Trader && ((Trader) user).getName().equals(name)) {
+                    return true;
+                }
             }
         }
         return false;
+    }
+
+    //Checks if inventory item exists
+    public boolean validInventoryItem(String item){
+        for (User user: userBase){
+            if (user instanceof Trader){
+                if (!(((Trader) user).getInventory().getInv().size() == 0)) {
+                    for (Item i : ((Trader) user).getInventory().getInv()) {
+                        if (i.getName().equals(item)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    //Checks if wishlist item exists
+    public boolean validWishlistItem(String item){
+        for (User user: userBase){
+            if (user instanceof Trader){
+                if (!(((Trader) user).getWishList().getInv().size() == 0)) {
+                    for (Item i : ((Trader) user).getWishList().getInv()) {
+                        if (i.getName().equals(item)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    //Filters traders' inventories for guest only
+    public void filterInventory(String item){
+        for (User trader: userBase){
+            if (trader instanceof Trader){
+                for (Item it : ((Trader) trader).getInventory().getInv()) {
+                    if (it.getName().equals(item)) {
+                        System.out.println("Viewing " + ((Trader) trader).getName() + "'s information:\n");
+                        System.out.println("Name: " + ((Trader) trader).getName() + "\n");
+
+                        if (((Trader) trader).getTraderStatus().isFrozen()) {
+                            System.out.println(((Trader) trader).getName() + "'s account is frozen. You cannot arrange any transaction" +
+                                    " with this " + ((Trader) trader).getName() + ".\n");
+                        }
+
+                        int i = 0;
+                        //Print trader's inventory
+                        if (((Trader) trader).getInventory().getInv().size() == 0) {
+                            System.out.println(((Trader) trader).getName() + "'s inventory is empty.");
+                        } else {
+                            System.out.println("Inventory:");
+                            while (i < ((Trader) trader).getInventory().getInv().size()) {
+                                System.out.println(((Trader) trader).getInventory().getInv().get(i).getName());
+                                i++;
+                            }
+                        }
+                        System.out.println("\n");
+
+                        i = 0;
+                        if (((Trader) trader).getWishList().getInv().size() == 0) {
+                            System.out.println(((Trader) trader).getName() + "'s wishlist is empty.");
+                        } else {
+                            //Print trader's wishlist
+                            System.out.println("Wishlist:");
+                            while (i < ((Trader) trader).getWishList().getInv().size()) {
+                                System.out.println(((Trader) trader).getWishList().getInv().get(i).getName());
+                                i++;
+                            }
+                        }
+                        System.out.println("\n");
+
+                        i = 0;
+                        if (((Trader) trader).frequentPartners().size() == 0) {
+                            System.out.println("'" + ((Trader) trader).getName() + "' has no frequent partner at the moment.");
+                        } else {
+                            //Print trader's frequent partners
+                            System.out.println("Frequent partners:");
+                            while (i < ((Trader) trader).frequentPartners().size()) {
+                                System.out.println(((Trader) trader).frequentPartners().get(i).getName());
+                                i++;
+                            }
+                        }
+                        System.out.println("\n");
+
+                        i = 0;
+                        if (((Trader) trader).getRecentItems().size() == 0) {
+                            System.out.println("'" + ((Trader) trader).getName() + "' has no recent item at the moment.");
+                        } else {
+                            //Print trader's frequent partners
+                            System.out.println("Recent items:");
+                            while (i < ((Trader) trader).getRecentItems().size()) {
+                                System.out.println(((Trader) trader).getRecentItems().get(i).getName());
+                                i++;
+                            }
+                        }
+                        System.out.println("\n");
+                    }
+                }
+            }
+        }
+    }
+
+    //Filters traders' wishlists for guest only
+    public void filterWishlist(String item){
+        for (User trader: userBase){
+            if (trader instanceof Trader){
+                for (Item it : ((Trader) trader).getWishList().getInv()) {
+                    if (it.getName().equals(item)) {
+                        System.out.println("Viewing " + ((Trader) trader).getName() + "'s information:\n");
+                        System.out.println("Name: " + ((Trader) trader).getName() + "\n");
+
+                        if (((Trader) trader).getTraderStatus().isFrozen()) {
+                            System.out.println(((Trader) trader).getName() + "'s account is frozen. You cannot arrange any transaction" +
+                                    " with this " + ((Trader) trader).getName() + ".\n");
+                        }
+
+                        int i = 0;
+                        //Print trader's inventory
+                        if (((Trader) trader).getInventory().getInv().size() == 0) {
+                            System.out.println(((Trader) trader).getName() + "'s inventory is empty.");
+                        } else {
+                            System.out.println("Inventory:");
+                            while (i < ((Trader) trader).getInventory().getInv().size()) {
+                                System.out.println(((Trader) trader).getInventory().getInv().get(i).getName());
+                                i++;
+                            }
+                        }
+                        System.out.println("\n");
+
+                        i = 0;
+                        if (((Trader) trader).getWishList().getInv().size() == 0) {
+                            System.out.println(((Trader) trader).getName() + "'s wishlist is empty.");
+                        } else {
+                            //Print trader's wishlist
+                            System.out.println("Wishlist:");
+                            while (i < ((Trader) trader).getWishList().getInv().size()) {
+                                System.out.println(((Trader) trader).getWishList().getInv().get(i).getName());
+                                i++;
+                            }
+                        }
+                        System.out.println("\n");
+
+                        i = 0;
+                        if (((Trader) trader).frequentPartners().size() == 0) {
+                            System.out.println("'" + ((Trader) trader).getName() + "' has no frequent partner at the moment.");
+                        } else {
+                            //Print trader's frequent partners
+                            System.out.println("Frequent partners:");
+                            while (i < ((Trader) trader).frequentPartners().size()) {
+                                System.out.println(((Trader) trader).frequentPartners().get(i).getName());
+                                i++;
+                            }
+                        }
+                        System.out.println("\n");
+
+                        i = 0;
+                        if (((Trader) trader).getRecentItems().size() == 0) {
+                            System.out.println("'" + ((Trader) trader).getName() + "' has no recent item at the moment.");
+                        } else {
+                            //Print trader's frequent partners
+                            System.out.println("Recent items:");
+                            while (i < ((Trader) trader).getRecentItems().size()) {
+                                System.out.println(((Trader) trader).getRecentItems().get(i).getName());
+                                i++;
+                            }
+                        }
+                        System.out.println("\n");
+                    }
+                }
+            }
+        }
     }
 
     /**

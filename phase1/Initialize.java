@@ -34,7 +34,7 @@ public class Initialize {
         List<Message> adminNotifs2 = new ArrayList<Message>();
         TraderInbox traderInbox2 = new TraderInbox(tradeMessages2, traderNoti2, adminNotifs2);
         ArrayList<Item> list2 = new ArrayList<Item>();
-        list2.add(new Item("dvd", "dvd"));
+        list2.add(new Item("cd", "cd"));
         list2.add(new Item("book", "book"));
         Inventory inventory2 = new Inventory(list2, "inventory");
         Inventory wishlist2 = new Inventory(new ArrayList<Item>(), "wishlist2");
