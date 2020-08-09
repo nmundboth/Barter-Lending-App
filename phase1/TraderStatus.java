@@ -19,6 +19,7 @@ public class TraderStatus implements Serializable {
         this.statusList = new ArrayList<Boolean>();
         this.statusList.add(false); //not frozen
         this.statusList.add(false); //not flagged
+        this.statusList.add(true); //available to trade
 
         this.limitList = new ArrayList<Integer>();
         this.setGreedyInt(0); //greedyInt: Higher = greedier, so in order to borrow,
@@ -107,6 +108,26 @@ public class TraderStatus implements Serializable {
     public void flag(){
         this.statusList.remove(1);
         this.statusList.add(1, true);
+    }
+
+    public boolean isAvailable(){
+        return statusList.get(2);
+    }
+
+    /**
+     * Makes trader visible in the user catalogue by others.
+     */
+    public void setAvailable() {
+        this.statusList.remove(2);
+        this.statusList.add(2, true);
+    }
+
+    /**
+     * Makes trader not visible in the user catalogue by others.
+     */
+    public void setUnavailable() {
+        this.statusList.remove(2);
+        this.statusList.add(2, false);
     }
 
     /**

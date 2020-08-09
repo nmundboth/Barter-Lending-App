@@ -15,6 +15,7 @@ public class TradingSystem {
     private UserSerialization us;
     private UserCatalogue uc;
     private String menuOptions;
+    private UserFactory uf;
 
     /**
      * Has an instance of UserSerialization (for saving) and UserCatalogue (for tracking all user data).
@@ -76,7 +77,6 @@ public class TradingSystem {
             System.out.println("Something went wrong.");
             e.printStackTrace();
         }
-
     }
 
     // Takes user input, and checks it against the user catalogue, then logs the user in if the user exists and the pw
@@ -142,7 +142,12 @@ public class TradingSystem {
             String input = br.readLine();
             while (!input.equals("exit")) {
                 if (!uc.inUserBase(input)) {
-                    newUser(br, input);
+                    try {
+                        System.out.println("hi");
+                        uf.newTrader(br, input, us);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     break;
                 }
                 else if (uc.inUserBase(input)){
@@ -159,39 +164,39 @@ public class TradingSystem {
 
     // Called once verified that user with username doesn't already exist.
     // Creates a new user with the specified username, and the first name & password that the user inputs.
-    public void newUser(BufferedReader br, String username){
-        //Need to get name and password for user
-        try{
-            System.out.println("Please enter your first name: ");
-            String input = br.readLine();
-            if (!input.equals("exit")){
-                String name = input;
-                System.out.println("Please enter a password: ");
-                input = br.readLine();
-                if(!input.equals("exit")){
-                    String password = input;
-//                    String type = "trader"; // Can't register an admin this way, so must be a trader
-                    System.out.println("Please enter your city: ");
-                    input = br.readLine();
-                    String location = input;
-                    List<TradeMessage> trades = new ArrayList<TradeMessage>();
-                    List<Message> traderNotifs = new ArrayList<Message>();
-                    List<Message>adminNotifs = new ArrayList<Message>();
-                    phase1.TraderInbox inbox = new phase1.TraderInbox(trades, traderNotifs, adminNotifs);
-                    phase1.Inventory inventory = new Inventory(new ArrayList<Item>(), "inventory");
-                    phase1.TraderStatus traderStatus = new TraderStatus();
-                    User user = new Trader(username, password, inbox, inventory, inventory, name,
-                            traderStatus, location);
-                    inbox.setOwner(user);
-                    uc.userBase.add(user);
-                    us.toSerialize(uc.userBase);
-                    System.out.println("User created!");
-                    us.toSerialize(uc.userBase);
-                }
-            }
-        }
-        catch (Exception e){
-            System.out.println("Something went wrong");
-        }
-    }
+//    public void newUser(BufferedReader br, String username){
+//        //Need to get name and password for user
+//        try{
+//            System.out.println("Please enter your first name: ");
+//            String input = br.readLine();
+//            if (!input.equals("exit")){
+//                String name = input;
+//                System.out.println("Please enter a password: ");
+//                input = br.readLine();
+//                if(!input.equals("exit")){
+//                    String password = input;
+////                    String type = "trader"; // Can't register an admin this way, so must be a trader
+//                    System.out.println("Please enter your city: ");
+//                    input = br.readLine();
+//                    String location = input;
+//                    List<TradeMessage> trades = new ArrayList<TradeMessage>();
+//                    List<Message> traderNotifs = new ArrayList<Message>();
+//                    List<Message>adminNotifs = new ArrayList<Message>();
+//                    phase1.TraderInbox inbox = new phase1.TraderInbox(trades, traderNotifs, adminNotifs);
+//                    phase1.Inventory inventory = new Inventory(new ArrayList<Item>(), "inventory");
+//                    phase1.TraderStatus traderStatus = new TraderStatus();
+//                    User user = new Trader(username, password, inbox, inventory, inventory, name,
+//                            traderStatus, location);
+//                    inbox.setOwner(user);
+//                    uc.userBase.add(user);
+//                    us.toSerialize(uc.userBase);
+//                    System.out.println("User created!");
+//                    us.toSerialize(uc.userBase);
+//                }
+//            }
+//        }
+//        catch (Exception e){
+//            System.out.println("Something went wrong");
+//        }
+//    }
 }
