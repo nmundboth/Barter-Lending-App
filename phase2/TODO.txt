@@ -42,8 +42,8 @@ Fixes that need to be done:
 - (Navnee) Separate Trader into a smaller class
 - (Sasan) Separate Inbox into a smaller class
 - Change "newUser" method in TradingSystem (UI) into it's own controller class
-- Add a method that can create an admin in the same class
-- TraderInbox should be fixed to do something else, because it only implements the abstract class
+- (James) Add a method that can create an admin in the same class
+- (Sasan) TraderInbox should be fixed to do something else, because it only implements the abstract class
 - (Jeff) Fix the menu so it's more comprehensive and less cluttered
 - (Jeff)Add to a return to main menu option, in every menu option
 - (tingrui)Add more method to Inbox
