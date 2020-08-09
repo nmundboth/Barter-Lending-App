@@ -46,16 +46,19 @@ public class TraderOptions {
             String input = br.readLine();
             while(!input.equals("logout")) {
                 switch (input) {
+                    //Inbox Options
                     case "1":
                         InboxOptions iopt = new InboxOptions(curr, uc, us);
                         iopt.run();
                         System.out.println(menuOptions);
                         break;
+                    //View Profile Options
                     case "2":
                         System.out.println("Please select what you would like to View:\n" +
                                 "1. Wishlist\n2. Inventory\n3. To return to the last menu");
                         String viewNum = br.readLine();
                         switch (viewNum){
+                            //Viewing Wishlist
                             case "1":
                                 System.out.println("Wishlist: ");
                                 for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++){
@@ -64,6 +67,7 @@ public class TraderOptions {
                                 System.out.println();
                                 System.out.println(menuOptions);
                                 break;
+                            //Viewing Inventory
                             case "2":
                                 System.out.println("Inventory (C = Confirmed item, U = Unconfirmed item):");
                                 for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++){
@@ -77,47 +81,54 @@ public class TraderOptions {
                                 System.out.println();
                                 System.out.println(menuOptions);
                                 break;
+                            //Returning to Last Menu
                             case "3":
                                 System.out.println(menuOptions);
                                 break;
                         }
                         break;
-
+                    //Editing Profile Options
                     case "3":
                         System.out.println("Please select what you would like to Edit:\n" +
                                 "1. Wishlist\n2. Inventory\n3. Location\n4. To return to the last menu");
                         String editNum = br.readLine();
                         switch (editNum) {
+                            //Editing WishList
                             case "1":
                                 addtoWishlist(br);
                                 System.out.println(menuOptions);
                                 break;
+                            //Editing Inventory
                             case "2":
                                 addToInventory(br);
                                 System.out.println(menuOptions);
                                 break;
+                            //Editing Location
                             case "3":
                                 changeLocation(br);
                                 System.out.println(menuOptions);
                                 break;
+                            //Returning to last Menu
                             case "4":
                                 System.out.println(menuOptions);
                                 break;
                         }
                         break;
-
+                    //Trading History Options
                     case "4":
                         System.out.println("Please select what you would like to do:\n" +
                                 "1. View recently Traded Items \n2. View frequently trading partners " +
                                 "\n3. To return to the last menu");
                         String tradeNum = br.readLine();
                         switch (tradeNum) {
+                            //Viewing Last traded items
                             case "1":
                                 for (int i = 0; i < ((Trader) curr).getRecentItems().size(); i++){
                                     System.out.println("    " + (i + 1) + ((Trader) curr).getRecentItems().get(i));
                                 }
                                 System.out.println("\n" + menuOptions);
                                 break;
+                            //Viewing frequently traded partners
                             case "2":
                                 ArrayList<Trader> frequent = ((Trader) curr).frequentPartners();
                                 for (int i =0; i < frequent.size(); i++){
@@ -125,6 +136,7 @@ public class TraderOptions {
                                 }
                                 System.out.println("\n" + menuOptions);
                                 break;
+                            //Return to last menu
                             case "3":
                                 System.out.println(menuOptions);
                                 break;
