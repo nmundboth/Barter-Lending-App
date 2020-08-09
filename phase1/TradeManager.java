@@ -78,7 +78,7 @@ public class TradeManager {
         otherItem.setDigital(otherDigital);
         TwoWayTrade trade = new TwoWayTrade(ogTrader, otherTrader, ogItem, otherItem);
         trade.setPermanent(isPermanent);
-        trade.setNoMeet(ogDigital && otherDigital);
+        trade.setNoMeet(ogItem.isDigital()&&otherItem.isDigital());
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
         traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
