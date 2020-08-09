@@ -25,7 +25,7 @@ one additional account status. But if you want to implement four or more, it can
 Optional Extensions: (Pick 4)
 - (tingrui)Allow users to enter their home city when creating an account, so that the system will only show them other users in
  the same city.
-- Monetize the system. In other words, give users the option to sell or trade items.
+- (Ziyu) Monetize the system. In other words, give users the option to sell or trade items.
 - Have the automated trade suggestion always return the most reasonable trade, even if it's not an exact match.
 - Create a points system that allows users who trade most frequently, to get an extra chance to borrow without it
 counting towards being frozen, or some other "prize" that is equally complicated.
