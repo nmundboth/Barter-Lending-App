@@ -23,6 +23,7 @@ public class Trade implements Serializable {
     private Meeting meeting;
     private int completedMeetings; // For temporary trades only -> tracks whether this is the first or second meeting.
     private Period tempTradePeriod;
+    private boolean noMeet; //No meeting is required for a  trade to happen
 
     /**
      * @param ogTrader the trader that originally proposed this trade
@@ -39,6 +40,7 @@ public class Trade implements Serializable {
         this.cancellations = new ArrayList<Trader>();
         this.meeting = new Meeting();
         this.tempTradePeriod = Period.ofMonths(1); // Change this to change the length of a temporary trade
+        this.noMeet = false;
     }
 
     /** Gets the original Trader
@@ -212,5 +214,13 @@ public class Trade implements Serializable {
      * Method that has varying implementation depending on whether the trade is a OneWayTrade or TwoWayTrade.
      */
     public void removeItems(){
+    }
+
+    public boolean isNoMeet() {
+        return noMeet;
+    }
+
+    public void setNoMeet(boolean noMeet) {
+        this.noMeet = noMeet;
     }
 }

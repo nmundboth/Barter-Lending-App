@@ -12,6 +12,7 @@ public class Item implements Serializable {
     private String name;
     private String descrip;
     private boolean status;
+    private boolean digital;
 
     /**
      * @param name The name of the item
@@ -21,6 +22,7 @@ public class Item implements Serializable {
         this.name = name;
         this.descrip = descrip;
         this.status = false; // Whether or not the item has been confirmed
+        this.digital = false; // Whether item is physical or digital
     }
 
     /**
@@ -64,5 +66,13 @@ public class Item implements Serializable {
      */
     public void setConfirm(){
         this.status = true;
+    }
+
+    public boolean isDigital() {
+        return digital;
+    }
+
+    public void setDigital(boolean digital) {
+        this.digital = digital;
     }
 }

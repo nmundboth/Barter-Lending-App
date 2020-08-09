@@ -23,11 +23,14 @@ public class TradeManager {
      * @param item The item being requested.
      * @param isPermanent Whether the borrow transaction is permanent.
      */
-    public void sendBorrowRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent){
+    public void sendBorrowRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent,
+                                  boolean digital){
+        item.setDigital(digital);
         OneWayTrade trade = new OneWayTrade(ogTrader, otherTrader, item);
         trade.setReceiver(ogTrader);
         trade.setLender(otherTrader);
         trade.setPermanent(isPermanent);
+        trade.setNoMeet(item.isDigital());
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
         traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
@@ -45,11 +48,14 @@ public class TradeManager {
      * @param item The item that is being lent.
      * @param isPermanent Whether the lend transaction is permanent.
      */
-    public void sendLendRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent){
+    public void sendLendRequest(Trader ogTrader, Trader otherTrader, Item item, boolean isPermanent,
+                                boolean digital){
+        item.setDigital(digital);
         OneWayTrade trade = new OneWayTrade(ogTrader, otherTrader, item);
         trade.setLender(ogTrader);
         trade.setReceiver(otherTrader);
         trade.setPermanent(isPermanent);
+        trade.setNoMeet(item.isDigital());
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
         traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
@@ -67,9 +73,12 @@ public class TradeManager {
      * @param isPermanent Whether the transaction is permanent.
      */
     public void sendTWTradeRequest(Trader ogTrader, Trader otherTrader, Item ogItem, Item otherItem,
-                                   boolean isPermanent){
+                                   boolean isPermanent, boolean ogDigital, boolean otherDigital){
+        ogItem.setDigital(ogDigital);
+        otherItem.setDigital(otherDigital);
         TwoWayTrade trade = new TwoWayTrade(ogTrader, otherTrader, ogItem, otherItem);
         trade.setPermanent(isPermanent);
+        trade.setNoMeet(ogDigital && otherDigital);
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
         traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
