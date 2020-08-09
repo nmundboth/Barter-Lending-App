@@ -28,8 +28,9 @@ public class TraderOptions {
         this.uc = uc;
         this.us = us;
         this.menuOptions = "To perform an action, type the corresponding number.\n1. View Inbox\n" +
-                "2. Add an item to your inventory\n3. Add an item to your wishlist (browse all items)\n" +
-                "4. View recently traded items\n5. View frequent trading partners\n6. Manage location\n" +
+                "2. View your profile\n" +
+                "3. Edit your profile\n" +
+                "4. View Trading History\n" +
                 "To logout, type 'logout'.";
     }
 
@@ -40,58 +41,100 @@ public class TraderOptions {
     public void run(){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        //Print trader's inventory
-        System.out.println("Inventory (C = Confirmed item, U = Unconfirmed item):");
-        for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++){
-            if (((Trader) curr).getInventory().getInv().get(i).isConfirmed()){
-                System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i) + " (C)");
-            }
-            else { // Item is unconfirmed
-                System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i) + " (U)");
-            }
-        }
-        System.out.println();
-
-        //Print trader's wishlist
-        System.out.println("Wishlist: ");
-        for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++){
-            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
-        }
-        System.out.println();
-
         System.out.println(menuOptions);
-        try{
+        try {
             String input = br.readLine();
-            while(!input.equals("logout")){
-                if (input.equals("1")){
-                    InboxOptions iopt = new InboxOptions(curr, uc, us);
-                    iopt.run();
-                    System.out.println(menuOptions);
-                }
-                else if (input.equals("2")){
-                    addToInventory(br);
-                    System.out.println(menuOptions);
-                }
-                else if (input.equals("3")){
-                    addtoWishlist(br);
-                    System.out.println(menuOptions);
-                }
-                else if (input.equals("4")){
-                    for (int i = 0; i < ((Trader) curr).getRecentItems().size(); i++){
-                        System.out.println("    " + (i + 1) + ((Trader) curr).getRecentItems().get(i));
-                    }
-                    System.out.println("\n" + menuOptions);
-                }
-                else if (input.equals("5")){
-                    ArrayList<Trader> frequent = ((Trader) curr).frequentPartners();
-                    for (int i =0; i < frequent.size(); i++){
-                        System.out.println("    " + (i + 1) + frequent.get(i));
-                    }
-                    System.out.println("\n" + menuOptions);
-                }
-                else if (input.equals("6")){
-                    changeLocation(br);
-                    System.out.println(menuOptions);
+            while(!input.equals("logout")) {
+                switch (input) {
+                    case "1":
+                        InboxOptions iopt = new InboxOptions(curr, uc, us);
+                        iopt.run();
+                        System.out.println(menuOptions);
+                        break;
+                    case "2":
+                        System.out.println("Please select what you would like to View:\n" +
+                                "1. Wishlist\n2. Inventory\n3. To return to the last menu");
+                        String viewNum = br.readLine();
+                        switch (viewNum){
+                            case "1":
+                                System.out.println("Wishlist: ");
+                                for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++){
+                                    System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
+                                }
+                                System.out.println();
+                                System.out.println(menuOptions);
+                                break;
+                            case "2":
+                                System.out.println("Inventory (C = Confirmed item, U = Unconfirmed item):");
+                                for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++){
+                                    if (((Trader) curr).getInventory().getInv().get(i).isConfirmed()){
+                                        System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i) + " (C)");
+                                    }
+                                    else { // Item is unconfirmed
+                                        System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i) + " (U)");
+                                    }
+                                }
+                                System.out.println();
+                                System.out.println(menuOptions);
+                                break;
+                            case "3":
+                                System.out.println(menuOptions);
+                                break;
+                        }
+                        break;
+
+                    case "3":
+                        System.out.println("Please select what you would like to Edit:\n" +
+                                "1. Wishlist\n2. Inventory\n3. Location\n4. To return to the last menu");
+                        String editNum = br.readLine();
+                        switch (editNum) {
+                            case "1":
+                                addtoWishlist(br);
+                                System.out.println(menuOptions);
+                                break;
+                            case "2":
+                                addToInventory(br);
+                                System.out.println(menuOptions);
+                                break;
+                            case "3":
+                                changeLocation(br);
+                                System.out.println(menuOptions);
+                                break;
+                            case "4":
+                                System.out.println(menuOptions);
+                                break;
+                        }
+                        break;
+
+                    case "4":
+                        System.out.println("Please select what you would like to do:\n" +
+                                "1. View recently Traded Items \n2. View frequently trading partners " +
+                                "\n3. To return to the last menu");
+                        String tradeNum = br.readLine();
+                        switch (tradeNum) {
+                            case "1":
+                                for (int i = 0; i < ((Trader) curr).getRecentItems().size(); i++){
+                                    System.out.println("    " + (i + 1) + ((Trader) curr).getRecentItems().get(i));
+                                }
+                                System.out.println("\n" + menuOptions);
+                                break;
+                            case "2":
+                                ArrayList<Trader> frequent = ((Trader) curr).frequentPartners();
+                                for (int i =0; i < frequent.size(); i++){
+                                    System.out.println("    " + (i + 1) + frequent.get(i));
+                                }
+                                System.out.println("\n" + menuOptions);
+                                break;
+                            case "3":
+                                System.out.println(menuOptions);
+                                break;
+                        }
+                        break;
+
+                    default:
+                        System.out.println("Invalid input");
+                        System.out.println(menuOptions);
+
                 }
                 input = br.readLine();
             }
