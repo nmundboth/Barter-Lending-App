@@ -185,6 +185,87 @@ public class UserCatalogue {
         return false;
     }
 
+    //Filters a trader's information for guest only
+    public void filterByName(String name){
+        for (User trader: userBase){
+            if (trader instanceof Trader && ((Trader) trader).getName().equals(name)){
+                System.out.println("Viewing "+((Trader) trader).getName()+"'s information:\n");
+                System.out.println("Name: "+((Trader) trader).getName()+"\n");
+
+                if (((Trader) trader).getTraderStatus().isFrozen()){
+                    System.out.println(((Trader) trader).getName()+"'s account is frozen. You cannot arrange any transaction" +
+                            " with this "+((Trader) trader).getName()+".\n");
+                }
+
+                int i = 0;
+                //Print trader's inventory
+                if (((Trader) trader).getInventory().getInv().size() == 0){
+                    System.out.println(((Trader) trader).getName()+"'s inventory is empty.");
+                }
+                else{
+                    System.out.println("Inventory:");
+                    while (i < ((Trader) trader).getInventory().getInv().size()){
+                        System.out.println(((Trader) trader).getInventory().getInv().get(i).getName());
+                        i++;
+                    }
+                }
+                System.out.println("\n");
+
+                i = 0;
+                if (((Trader) trader).getWishList().getInv().size() == 0){
+                    System.out.println(((Trader) trader).getName()+"'s wishlist is empty.");
+                }
+                else{
+                    //Print trader's wishlist
+                    System.out.println("Wishlist:");
+                    while (i < ((Trader) trader).getWishList().getInv().size()){
+                        System.out.println(((Trader) trader).getWishList().getInv().get(i).getName());
+                        i++;
+                    }
+                }
+                System.out.println("\n");
+
+                i = 0;
+                if (((Trader) trader).frequentPartners().size() == 0){
+                    System.out.println("'"+((Trader) trader).getName()+"' has no frequent partner at the moment.");
+                }
+                else{
+                    //Print trader's frequent partners
+                    System.out.println("Frequent partners:");
+                    while (i < ((Trader) trader).frequentPartners().size()){
+                        System.out.println(((Trader) trader).frequentPartners().get(i).getName());
+                        i++;
+                    }
+                }
+                System.out.println("\n");
+
+                i = 0;
+                if (((Trader) trader).getRecentItems().size() == 0){
+                    System.out.println("'"+((Trader) trader).getName()+"' has no recent item at the moment.");
+                }
+                else{
+                    //Print trader's frequent partners
+                    System.out.println("Recent items:");
+                    while (i < ((Trader) trader).getRecentItems().size()){
+                        System.out.println(((Trader) trader).getRecentItems().get(i).getName());
+                        i++;
+                    }
+                }
+                System.out.println("\n");
+            }
+        }
+    }
+
+    //Checks if location exists
+    public boolean validName(String name){
+        for (User user: userBase){
+            if (user instanceof Trader && ((Trader) user).getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Gets a list of all unconfirmed items in the system (used by admins when confirming items).
      * @return an ArrayList representing all items that have not been confirmed
