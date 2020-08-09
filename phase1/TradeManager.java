@@ -189,7 +189,7 @@ public class TradeManager {
     }
 
     private void confirm(Trade trade){
-        if (trade.isPermanent()){
+        if (trade.isPermanent() || trade.isNoMeet()){
             trade.removeItems();
             this.completeTrade(trade);
         }
