@@ -37,7 +37,7 @@ public class AdminInbox extends Inbox implements Serializable {
      * @param traderNoti is all text-based notifications for an Admin from Traders
      * @param adminNotifs is all text-based notifications for an Admin from another Admin/System
      */
-    public AdminInbox(List<Message> traderNoti, List<Message> adminNotifs){
+    protected AdminInbox(List<Message> traderNoti, List<Message> adminNotifs){
         super(traderNoti, adminNotifs);
         this.admiNotiUnread = 0;
         this.traderUnread = 0;
@@ -49,25 +49,25 @@ public class AdminInbox extends Inbox implements Serializable {
      *
      * @return an integer which shows the amount of unread unfreezing notifications from other Traders.
      */
-    public int getUndoFrozenUnread(){return this.undoFrozenUnread;}
+    protected int getUndoFrozenUnread(){return this.undoFrozenUnread;}
 
     /** Gets the total amount of unread notifications to Admin.
      *
      * @return an integer which shows the total amount of unread notifications.
      */
-    public int getTotalUnread(){return this.traderUnread + this.admiNotiUnread + this.undoFrozenUnread;}
+    protected int getTotalUnread(){return this.traderUnread + this.admiNotiUnread + this.undoFrozenUnread;}
 
     /** Gets a list of Traders who requested to have their accounts unfrozen.
      *
      * @return a list of Traders who requested to have their accounts unfrozen.
      */
-    public List<Trader> getUndoFrozen(){return undoFrozen; }
+    protected List<Trader> getUndoFrozen(){return undoFrozen; }
 
     /** Unfreezes all Traders who requested to have their accounts unfrozen.
      *
      * @param index is the position of a specific message within the sub-inbox
      */
-    public void showUndoFrozen(int index){
+    protected void showUndoFrozen(int index){
         Trader temp = undoFrozen.get(index);
         undoFrozen.remove(index);
         this.undoFrozenUnread -= 1;
