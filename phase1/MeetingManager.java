@@ -27,7 +27,7 @@ public class MeetingManager {
         if (trade.isNoMeet()){
             System.out.println("A meeting cannot be scheduled since the trade is digital.");
         }
-        if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
+        else if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
             System.out.println("Both users involved in this trade have used all of their available edits.\n" +
                     "Please accept the meeting or cancel the trade.");
         }

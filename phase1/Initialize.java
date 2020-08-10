@@ -20,7 +20,7 @@ public class Initialize {
         List<Message> adminNotifs1 = new ArrayList<Message>();
         TraderInbox traderInbox = new TraderInbox(tradeMessages1, traderNoti1, adminNotifs1);
         ArrayList<Item> list1 = new ArrayList<Item>();
-        list1.add(new Item("book", "book"));
+        list1.add(new Item("game", "game"));
         list1.add(new Item("dvd", "dvd"));
         Inventory inventory = new Inventory(list1, "inventory");
         Inventory wishlist = new Inventory(new ArrayList<Item>(), "wishlist");
@@ -37,7 +37,7 @@ public class Initialize {
         list2.add(new Item("cd", "cd"));
         list2.add(new Item("book", "book"));
         Inventory inventory2 = new Inventory(list2, "inventory");
-        Inventory wishlist2 = new Inventory(new ArrayList<Item>(), "wishlist2");
+        Inventory wishlist2 = new Inventory(list1, "wishlist2");
         TraderStatus traderStatus2 = new TraderStatus();
         User trader2 = new Trader("trader2", "trader2", traderInbox2,
                 inventory2, wishlist2, "trader2", traderStatus2, "trader2");
