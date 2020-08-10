@@ -11,7 +11,7 @@ public class UserFactory {
     public UserFactory(){
     }
 
-    public UserSerialization newTrader(BufferedReader br, String username, UserSerialization us) throws Exception{
+    public UserCatalogue newTrader(BufferedReader br, String username, UserSerialization us) throws Exception{
         UserCatalogue uc = new UserCatalogue(us.deserialize());
         //Need to get name and password for user
         try{
@@ -46,10 +46,10 @@ public class UserFactory {
         catch (Exception e){
             System.out.println("Something went wrong");
         }
-        return us;
+        return uc;
     }
 
-    public UserSerialization newAdmin(BufferedReader br, String username, UserSerialization us) throws Exception{
+    public UserCatalogue newAdmin(BufferedReader br, String username, UserSerialization us) throws Exception{
         UserCatalogue uc = new UserCatalogue(us.deserialize());
         //Need to get name and password for user
         try{
@@ -71,6 +71,6 @@ public class UserFactory {
         catch (Exception e){
             System.out.println("Something went wrong");
         }
-        return us;
+        return uc;
     }
 }

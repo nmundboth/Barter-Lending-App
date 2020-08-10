@@ -50,6 +50,12 @@ public class UserCatalogue {
                 if (((Trader) trader).getInventory().getInv().size() == 0){
                     System.out.println(((Trader) trader).getName()+"'s inventory is empty.");
                 }
+
+                if (!((Trader) trader).getTraderStatus().isAvailable()){
+                    System.out.println(((Trader) trader).getName()+" is unavailable at the moment. You cannot arrange any transaction" +
+                            " with this "+((Trader) trader).getName()+".\n");
+                }
+
                 else{
                     System.out.println("Inventory:");
                     while (i < ((Trader) trader).getInventory().getInv().size()){

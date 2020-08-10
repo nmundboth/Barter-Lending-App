@@ -17,6 +17,7 @@ public class TraderOptions {
     private UserCatalogue uc;
     private UserSerialization us;
     private String menuOptions;
+    private Boolean setToAvailable;
 
     /**
      * @param curr The User currently logged in.
@@ -27,11 +28,13 @@ public class TraderOptions {
         this.curr = curr;
         this.uc = uc;
         this.us = us;
-        this.menuOptions = "To perform an action, type the corresponding number.\n1. View Inbox\n" +
+        this.menuOptions = "To perform an action, type the corresponding number.\n" +
+                "1. View Inbox\n" +
                 "2. View your profile\n" +
                 "3. Edit your profile\n" +
                 "4. View Trading History\n" +
                 "To logout, type 'logout'.";
+        this.setToAvailable = false;
     }
 
     /**
@@ -41,10 +44,44 @@ public class TraderOptions {
     public void run(){
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        System.out.println(menuOptions);
+        if (!curr.getTraderStatus().isAvailable()) {
+            System.out.println("Last time you logged in you set yourself unavailable to trades. If you proceed to log in, you will now be available to make trades.\n" +
+                "1. Proceed and log in\n" +
+                "2. Remain unavailable and log out\n");
+            try {
+                String input = br.readLine();
+                switch (input) {
+                    case "1":
+                        System.out.println("You are not available for new trades. You are now logged in.");
+                        curr.getTraderStatus().setAvailable();
+                        break;
+                    case "2":
+                        System.out.println("No action taken. You are still unavailable for new trades. Logging out.");
+                        this.setToAvailable = true;
+                        break;
+                    default:
+                        System.out.println("Invalid input.");
+                        this.setToAvailable = true;
+                        break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        if (!this.setToAvailable) {
+            System.out.println(menuOptions);
+        }
+
         try {
-            String input = br.readLine();
-            while(!input.equals("logout")) {
+            System.out.println(this.setToAvailable);
+            String input = "logout";
+
+            if (!this.setToAvailable) {
+                input = br.readLine();
+            }
+
+            while (!input.equals("logout")) {
                 switch (input) {
                     //Inbox Options
                     case "1":
@@ -57,11 +94,11 @@ public class TraderOptions {
                         System.out.println("Please select what you would like to View:\n" +
                                 "1. Wishlist\n2. Inventory\n3. To return to the last menu");
                         String viewNum = br.readLine();
-                        switch (viewNum){
+                        switch (viewNum) {
                             //Viewing Wishlist
                             case "1":
                                 System.out.println("Wishlist: ");
-                                for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++){
+                                for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++) {
                                     System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
                                 }
                                 System.out.println();
@@ -70,11 +107,10 @@ public class TraderOptions {
                             //Viewing Inventory
                             case "2":
                                 System.out.println("Inventory (C = Confirmed item, U = Unconfirmed item):");
-                                for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++){
-                                    if (((Trader) curr).getInventory().getInv().get(i).isConfirmed()){
+                                for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++) {
+                                    if (((Trader) curr).getInventory().getInv().get(i).isConfirmed()) {
                                         System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i) + " (C)");
-                                    }
-                                    else { // Item is unconfirmed
+                                    } else { // Item is unconfirmed
                                         System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i) + " (U)");
                                     }
                                 }
@@ -90,7 +126,7 @@ public class TraderOptions {
                     //Editing Profile Options
                     case "3":
                         System.out.println("Please select what you would like to Edit:\n" +
-                                "1. Wishlist\n2. Inventory\n3. Location\n4. To return to the last menu");
+                                "1. Wishlist\n2. Inventory\n3. Location\n4. To return to the last menu\n5. Make unavailable");
                         String editNum = br.readLine();
                         switch (editNum) {
                             //Editing WishList
@@ -112,6 +148,12 @@ public class TraderOptions {
                             case "4":
                                 System.out.println(menuOptions);
                                 break;
+                            case "5":
+                                this.setToAvailable = makeUnavailable(br);
+                                if (!this.setToAvailable) {
+                                    System.out.println(menuOptions);
+                                }
+                                break;
                         }
                         break;
                     //Trading History Options
@@ -123,7 +165,7 @@ public class TraderOptions {
                         switch (tradeNum) {
                             //Viewing Last traded items
                             case "1":
-                                for (int i = 0; i < ((Trader) curr).getRecentItems().size(); i++){
+                                for (int i = 0; i < ((Trader) curr).getRecentItems().size(); i++) {
                                     System.out.println("    " + (i + 1) + ((Trader) curr).getRecentItems().get(i));
                                 }
                                 System.out.println("\n" + menuOptions);
@@ -131,7 +173,7 @@ public class TraderOptions {
                             //Viewing frequently traded partners
                             case "2":
                                 ArrayList<Trader> frequent = ((Trader) curr).frequentPartners();
-                                for (int i =0; i < frequent.size(); i++){
+                                for (int i = 0; i < frequent.size(); i++) {
                                     System.out.println("    " + (i + 1) + frequent.get(i));
                                 }
                                 System.out.println("\n" + menuOptions);
@@ -146,9 +188,13 @@ public class TraderOptions {
                     default:
                         System.out.println("Invalid input");
                         System.out.println(menuOptions);
-
                 }
-                input = br.readLine();
+                System.out.println(this.setToAvailable);
+                input = "logout";
+
+                if (!this.setToAvailable) {
+                    input = br.readLine();
+                }
             }
         }
         catch (IOException e){
@@ -240,6 +286,33 @@ public class TraderOptions {
             System.out.println("Something went wrong.");
         }
     }
+
+    private Boolean makeUnavailable(BufferedReader br) {
+        System.out.println("Do you want to make yourself unavailable for new trades? You will be logged out and unavailable to make additional trades until you log in again.\n" +
+        "1. Yes\n" +
+        "2. No");
+        try {
+            String input = br.readLine();
+            switch (input) {
+                case "1":
+                    curr.getTraderStatus().setUnavailable();
+                    System.out.println("Logging out.");
+                    return true;
+                case "2":
+                    System.out.println("No action taken.");
+                    return false;
+                default:
+                    System.out.println("Invalid input.");
+                    return false;
+            }
+        } catch (IOException e) {
+            System.out.println("Something went wrong.");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
 
     // Template taken from
     // https://www.baeldung.com/java-check-string-number

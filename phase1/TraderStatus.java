@@ -181,6 +181,5 @@ public class TraderStatus implements Serializable {
             this.limitList.add(2, weekly);
         }
     }
-
 }
 

@@ -25,6 +25,7 @@ public class TradingSystem {
         uc = new UserCatalogue(us.deserialize());
         menuOptions = "To perform an action, type the corresponding number.\n1. Login\n2. Register\n3. Guest\n" +
                 "To exit, type 'exit'.";
+        uf = new UserFactory();
     }
 
     /**
@@ -143,9 +144,9 @@ public class TradingSystem {
             while (!input.equals("exit")) {
                 if (!uc.inUserBase(input)) {
                     try {
-                        System.out.println("hi");
-                        uf.newTrader(br, input, us);
+                        uc = uf.newTrader(br, input, us);
                     } catch (Exception e) {
+                        System.out.println("Something went wrong");
                         e.printStackTrace();
                     }
                     break;
