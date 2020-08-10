@@ -38,13 +38,13 @@ public class TraderInbox extends Inbox implements Serializable {
      * @return an integer representing the number of unread messages
      */
 
-    public int getUnaccptedUnread(){ return unaccptedUnread; }
+    protected int getUnaccptedUnread(){ return unaccptedUnread; }
 
     /**
      * gets the number of unread messages in the trade sub-inbox
      * @return the number of unread messages
      */
-    public int getTradeUnread() { return tradeUnread; }
+    protected int getTradeUnread() { return tradeUnread; }
 
     /**
      * Returns the number of unread messages from other traders
@@ -59,25 +59,25 @@ public class TraderInbox extends Inbox implements Serializable {
      * Setter for the number of unread messages in the tradeUnread sub-inbox
      * @param tradeUnread number of unread messages
      */
-    public void setTradeUnread(int tradeUnread) { this.tradeUnread = tradeUnread; }
+    protected void setTradeUnread(int tradeUnread) { this.tradeUnread = tradeUnread; }
 
     /**
      * Setter for the number of unread messages in the unacceptedTrade sub-inbox
      * @param unaccptedUnread number of unread messages
      */
-    public void setUnaccptedUnread(int unaccptedUnread) { this.unaccptedUnread = unaccptedUnread;}
+    protected void setUnaccptedUnread(int unaccptedUnread) { this.unaccptedUnread = unaccptedUnread;}
 
     /**
      * A getter for the Trades sub-inbox
      * @return the sub-inbox
      */
-    public List<TradeMessage> getTrades() { return this.trades; }
+    protected List<TradeMessage> getTrades() { return this.trades; }
 
     /**
      * method for getting the unacceptedTrade sub-inbox
      * @return the requested sub-inbox
      */
-    public List<TradeMessage> getUnacceptedTrades() { return unacceptedTrades; }
+    protected List<TradeMessage> getUnacceptedTrades() { return unacceptedTrades; }
 
     /**
      * A method for the user to be able to access a message from the Trade inbox
@@ -85,7 +85,7 @@ public class TraderInbox extends Inbox implements Serializable {
      * @param index represents the position of a desired message within the inbox
      * @return a Trade at a specific position
      */
-    public Trade getTrade(int index){
+    protected Trade getTrade(int index){
         TradeMessage message = this.trades.get(index);
         this.trades.remove(index);
         this.admiNotiUnread -=1;
@@ -99,7 +99,7 @@ public class TraderInbox extends Inbox implements Serializable {
      * @param index the position of a specific message within the inbox
      * @return returns a Trade
      */
-    public Trade getUnacceptedTrades(int index){
+    protected Trade getUnacceptedTrades(int index){
         TradeMessage message = this.unacceptedTrades.get(index);
         this.unacceptedTrades.remove(index);
         this.admiNotiUnread -=1;
@@ -112,7 +112,7 @@ public class TraderInbox extends Inbox implements Serializable {
      * @param trader the other client who originally proposed a trade
      * @param text A text form message to the client to inform them of the acceptance
      */
-    public void tradeConfirmed(Trader trader, String text){
+    protected void tradeConfirmed(Trader trader, String text){
         this.tradeUnread += 1;
         TraderInbox traderInbox = (TraderInbox) trader.getInbox();
         traderInbox.tradeUnread += 1;
