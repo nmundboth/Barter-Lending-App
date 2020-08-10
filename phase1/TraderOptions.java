@@ -132,7 +132,21 @@ public class TraderOptions {
                         switch (editNum) {
                             //Editing WishList
                             case "1":
-                                addtoWishlist(br);
+                                System.out.println("Type 'Y' if you want to add item to your wish list, " +
+                                        "or type 'N' to remove item from it.");
+                                String tempNum = br.readLine();
+                                switch (tempNum){
+                                    case "Y":
+                                        addtoWishlist(br);
+                                        break;
+                                    case "N":
+                                        if (curr.getWishList().getInv().size() == 0){
+                                            System.out.println("There are no item in your wish list, return to main menu.");
+                                            break;
+                                        }
+                                        removeItemFromWishList(br);
+                                        break;
+                                }
                                 System.out.println(menuOptions);
                                 break;
                             //Editing Inventory
@@ -284,11 +298,7 @@ public class TraderOptions {
         try{
             String input = br.readLine();
             while(!input.equals("exit")){
-                if (curr.getWishList().getInv().size() == 0){
-                    System.out.println("There are no item in your wish list, return to main menu.");
-                    break;
-                }
-                else if (isInteger(input) && (1 <= Integer.parseInt(input) &&
+                if (isInteger(input) && (1 <= Integer.parseInt(input) &&
                         Integer.parseInt(input) <= curr.getWishList().getInv().size())){
                     ((Trader) curr).getWishList().removeWish(userItem.get(Integer.parseInt(input) - 1));
                     System.out.println("Item removed from wishlist!");
