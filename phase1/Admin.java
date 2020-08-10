@@ -28,21 +28,21 @@ public class Admin extends User implements Serializable {
      *
      * @param trader The trader that the admin wishes to freeze
      */
-    public void freezeTrader(Trader trader){trader.frozen = true;}
+    protected void freezeTrader(Trader trader){trader.frozen = true;}
 
     /**
      * Allows an admin to confirm an item.
      *
      * @param item The item that the admin wishes to confirm
      */
-    public void confirmItem(Item item){item.setConfirm();}
+    protected void confirmItem(Item item){item.setConfirm();}
 
     /**
      * Gets this admin's inbox.
      *
      * @return an AdminInbox object representing the admin's inbox.
      */
-    public AdminInbox getAdminInbox() {return this.inbox;}
+    protected AdminInbox getAdminInbox() {return this.inbox;}
 
     /**
      * Returns a string representation of an Admin object, which will be their username.
