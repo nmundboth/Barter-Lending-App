@@ -27,9 +27,9 @@ public class GuestOptions {
                 "1. Filter traders by city\n"+
                 "2. Filter traders by trader name\n"+
                 "3. Filter by item\n";
-        System.out.println(options);
 
         uc.printDetails();
+        System.out.println(options);
 
         String mainOptions = "To go back, type 'exit'.";
         System.out.println(mainOptions);
@@ -40,22 +40,22 @@ public class GuestOptions {
                 if (input.equals("1")){
                     chooseLocation(br);
                     System.out.println(menuOptions);
-                    System.out.println(options);
                     uc.printDetails();
+                    System.out.println(options);
                     System.out.println(mainOptions);
                 }
                 else if (input.equals("2")){
                     searchTrader(br);
                     System.out.println(menuOptions);
-                    System.out.println(options);
                     uc.printDetails();
+                    System.out.println(options);
                     System.out.println(mainOptions);
                 }
                 else if (input.equals("3")){
                     searchItem(br);
                     System.out.println(menuOptions);
-                    System.out.println(options);
                     uc.printDetails();
+                    System.out.println(options);
                     System.out.println(mainOptions);
                 }
                 input = br.readLine();

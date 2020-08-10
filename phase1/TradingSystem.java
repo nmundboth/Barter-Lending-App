@@ -66,7 +66,7 @@ public class TradingSystem {
     private void guestMode(BufferedReader br){
 
         try{
-            System.out.println("Press any key and hit 'Enter' to access the Trade Catalogue.");
+            System.out.println("Press any key to access the Trade Catalogue.\n"+"To go back, type 'exit'.");
             String input = br.readLine();
             if (!input.equals("exit")){
                 GuestOptions guest = new GuestOptions(uc, us);

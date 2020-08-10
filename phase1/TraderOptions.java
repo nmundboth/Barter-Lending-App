@@ -33,6 +33,7 @@ public class TraderOptions {
                 "2. View your profile\n" +
                 "3. Edit your profile\n" +
                 "4. View Trading History\n" +
+                "5. Browse Trade Catalogue\n"+
                 "To logout, type 'logout'.";
         this.setToAvailable = false;
     }
@@ -183,6 +184,11 @@ public class TraderOptions {
                                 System.out.println(menuOptions);
                                 break;
                         }
+                        break;
+                    case "5":
+                        GuestOptions guest = new GuestOptions(uc, us);
+                        guest.run();
+                        System.out.println(menuOptions);
                         break;
 
                     default:
