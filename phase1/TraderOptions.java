@@ -232,19 +232,18 @@ public class TraderOptions {
     private void addtoWishlist(BufferedReader br){
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         ArrayList<Item> confirmed = uc.findConfirmed();
-        // Commented out for now because unsure if works as intended.
-//        for (int i = 0; i < confirmed.size(); i++){
-//            if (!((Trader) curr).getInventory().getInv().contains(confirmed.get(i)) &&
-//                    !((Trader) curr).getWishList().getInv().contains(confirmed.get(i))){
-//                System.out.println((i + 1) + ". " + confirmed.get(i) + " - " + confirmed.get(i).getDescrip() + "\n");
-//            }
-//        }
-        ArrayList<Item> itemCatalogue = uc.findAllItems();
-        int total = 1;
-        for (Item item : itemCatalogue) {
-            System.out.println(total + ". " + item.getName());
-            total = total + 1;
+        for (int i = 0; i < confirmed.size(); i++){
+            if (!((Trader) curr).getInventory().getInv().contains(confirmed.get(i)) &&
+                    !((Trader) curr).getWishList().getInv().contains(confirmed.get(i))){
+                System.out.println((i + 1) + ". " + confirmed.get(i) + " - " + confirmed.get(i).getDescrip() + "\n");
+            }
         }
+//        ArrayList<Item> itemCatalogue = uc.findAllItems();
+//        int total = 1;
+//        for (Item item : itemCatalogue) {
+//            System.out.println(total + ". " + item.getName());
+//            total = total + 1;
+//        }
         System.out.println("To add an item to your wishlist, enter the number associated with that item from above." +
                 "\nTo go back, type 'exit'.");
         try{
