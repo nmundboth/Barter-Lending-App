@@ -270,6 +270,38 @@ public class TraderOptions {
         }
     }
 
+    // Allows a trader to remove item from their wishlist.
+    private void removeItemFromWishList(BufferedReader br){
+        System.out.println("To go back to the options menu at any point, type 'exit'.");
+        ArrayList<Item> userItem = curr.getWishList().getInv();
+        int total = 1;
+        for (Item item : userItem) {
+            System.out.println(total + ". " + item.getName());
+            total = total + 1;
+        }
+        System.out.println("To remove an item from your wishlist, enter the numbers associated with that item " +
+                "from above." + "\nTo go back, type 'exit'.");
+        try{
+            String input = br.readLine();
+            while(!input.equals("exit")){
+                if (curr.getWishList().getInv().size() == 0){
+                    System.out.println("There are no item in your wish list, return to main menu.");
+                    break;
+                }
+                else if (isInteger(input) && (1 <= Integer.parseInt(input) &&
+                        Integer.parseInt(input) <= curr.getWishList().getInv().size())){
+                    ((Trader) curr).getWishList().removeWish(userItem.get(Integer.parseInt(input) - 1));
+                    System.out.println("Item removed from wishlist!");
+                    break;
+                }
+                input = br.readLine();
+            }
+        }
+        catch (Exception e){
+            System.out.println("Something went wrong.");
+        }
+    }
+
     // Allow User to change their location
     private void changeLocation(BufferedReader br){
         System.out.println("Your current location: " + curr.getLocation());
