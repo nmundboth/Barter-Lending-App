@@ -225,16 +225,48 @@ InboxOptions {
                             break;
                         }
                         else if (input.equals("Y")){
-                            tm.sendBorrowRequest(((Trader) curr),
-                                    ((Trader) userWithItem.get(index)), item, true);
-                            System.out.println("Request sent!");
-                            break;
+                            System.out.println("Is the item digital? (Y/N)");
+                            input = br.readLine();
+                            if (input.equals("exit")){
+                                break;
+                            }
+                            else if (input.equals("Y")){
+                                tm.sendBorrowRequest(((Trader) curr),
+                                        ((Trader) userWithItem.get(index)), item, true, true);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else if (input.equals("N")){
+                                tm.sendBorrowRequest(((Trader) curr),
+                                        ((Trader) userWithItem.get(index)), item, true, false);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else {
+                                System.out.println(borrowPrompt);
+                            }
                         }
                         else if(input.equals("N")){
-                            tm.sendBorrowRequest(((Trader) curr),
-                                    ((Trader) userWithItem.get(index)), item, false);
-                            System.out.println("Request sent!");
-                            break;
+                            System.out.println("Is the item digital? (Y/N)");
+                            input = br.readLine();
+                            if (input.equals("exit")){
+                                break;
+                            }
+                            else if (input.equals("Y")){
+                                tm.sendBorrowRequest(((Trader) curr),
+                                        ((Trader) userWithItem.get(index)), item, false, true);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else if (input.equals("N")){
+                                tm.sendBorrowRequest(((Trader) curr),
+                                        ((Trader) userWithItem.get(index)), item, false, false);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else {
+                                System.out.println(borrowPrompt);
+                            }
                         }
                         else{
                             System.out.println(borrowPrompt);
@@ -293,16 +325,48 @@ InboxOptions {
                             break;
                         }
                         else if (input.equals("Y")){
-                            tm.sendLendRequest(((Trader) curr),
-                                    ((Trader) userWantsItem.get(index)), item, true);
-                            System.out.println("Request sent!");
-                            break;
+                            System.out.println("Is the item digital? (Y/N)");
+                            input = br.readLine();
+                            if (input.equals("exit")){
+                                break;
+                            }
+                            else if (input.equals("Y")){
+                                tm.sendLendRequest(((Trader) curr),
+                                        ((Trader) userWantsItem.get(index)), item, true, true);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else if (input.equals("N")){
+                                tm.sendLendRequest(((Trader) curr),
+                                        ((Trader) userWantsItem.get(index)), item, true, false);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else {
+                                System.out.println(lendPrompt);
+                            }
                         }
                         else if(input.equals("N")){
-                            tm.sendLendRequest(((Trader) curr),
-                                    ((Trader) userWantsItem.get(index)), item, false);
-                            System.out.println("Request sent!");
-                            break;
+                            System.out.println("Is the item digital? (Y/N)");
+                            input = br.readLine();
+                            if (input.equals("exit")){
+                                break;
+                            }
+                            else if (input.equals("Y")){
+                                tm.sendLendRequest(((Trader) curr),
+                                        ((Trader) userWantsItem.get(index)), item, false, true);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else if (input.equals("N")){
+                                tm.sendLendRequest(((Trader) curr),
+                                        ((Trader) userWantsItem.get(index)), item, false, false);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else {
+                                System.out.println(lendPrompt);
+                            }
                         }
                         else{
                             System.out.println(lendPrompt);
@@ -420,14 +484,106 @@ InboxOptions {
                         break;
                     }
                     else if(input.equals("Y")){
-                        tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem, true);
-                        System.out.println("Request sent!");
-                        break;
+                        System.out.println("Is your item digital? (Y/N)");
+                        input = br.readLine();
+                        if (input.equals("exit")){
+                            break;
+                        }
+                        else if (input.equals("Y")){
+                            System.out.println("Is "+((Trader) other).getName()+"'s item digital? (Y/N)");
+                            input = br.readLine();
+                            if (input.equals("exit")){
+                                break;
+                            }
+                            else if (input.equals("Y")){
+                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+                                        true, true, true);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else if (input.equals("N")){
+                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+                                        true, true, false);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else {
+                                System.out.println("Select an item you wish to offer in the trade.");
+                            }
+                        }
+                        else if (input.equals("N")){
+                            System.out.println("Is "+((Trader) other).getName()+"'s item digital? (Y/N)");
+                            input = br.readLine();
+                            if (input.equals("exit")){
+                                break;
+                            }
+                            else if (input.equals("Y")){
+                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+                                        true, true, true);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else if (input.equals("N")){
+                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+                                        true, true, false);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else {
+                                System.out.println("Select an item you wish to offer in the trade.");
+                            }
+                        }
                     }
                     else if(input.equals("N")){
-                        tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem, false);
-                        System.out.println("Request sent!");
-                        break;
+                        System.out.println("Is your item digital? (Y/N)");
+                        input = br.readLine();
+                        if (input.equals("exit")){
+                            break;
+                        }
+                        else if (input.equals("Y")){
+                            System.out.println("Is "+((Trader) other).getName()+"'s item digital? (Y/N)");
+                            input = br.readLine();
+                            if (input.equals("exit")){
+                                break;
+                            }
+                            else if (input.equals("Y")){
+                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+                                        false, true, true);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else if (input.equals("N")){
+                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+                                        false, true, false);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else {
+                                System.out.println("Select an item you wish to offer in the trade.");
+                            }
+                        }
+                        else if (input.equals("N")){
+                            System.out.println("Is "+((Trader) other).getName()+"'s item digital? (Y/N)");
+                            input = br.readLine();
+                            if (input.equals("exit")){
+                                break;
+                            }
+                            else if (input.equals("Y")){
+                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+                                        false, false, true);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else if (input.equals("N")){
+                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+                                        false, false, false);
+                                System.out.println("Request sent!");
+                                break;
+                            }
+                            else {
+                                System.out.println("Select an item you wish to offer in the trade.");
+                            }
+                        }
                     }
                     else {
                         System.out.println("Select an item you wish to offer in the trade.");
