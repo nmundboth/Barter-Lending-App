@@ -5,6 +5,12 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.ArrayList;
 
+/** <h1>TraderStatus</h1>
+ * <p>Represents the status of a trader.</p>
+ * @author Navnee Mundboth
+ * @author James Veale
+ * @author Ryan Wong
+ */
 public class TraderStatus implements Serializable {
 
     static int greedLimit = -1; // The lower this limit, the more a trader must lend before they can borrow.
@@ -31,14 +37,6 @@ public class TraderStatus implements Serializable {
         this.weeklyTransxnLimit = 10; // Change this to change the weekly transxn limit
         this.weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1));// Initial period is one week after creation
                                                                     // of account
-    }
-
-    public ArrayList<Boolean> getStatusList(){
-        return this.statusList;
-    }
-
-    public ArrayList<Integer> getLimitList(){
-        return this.limitList;
     }
 
     /**
@@ -181,5 +179,22 @@ public class TraderStatus implements Serializable {
             this.limitList.add(2, weekly);
         }
     }
+
+    /** Gets the list of statuses for the Trader.
+     *
+     * @return an ArrayList representing the list of booleans which are the different statuses of the Trader.
+     */
+    public ArrayList<Boolean> getStatusList(){
+        return this.statusList;
+    }
+
+    /** Gets the list of limits for the Trader.
+     *
+     * @return an ArrayList representing the list of integers which are the limits of the Trader.
+     */
+    public ArrayList<Integer> getLimitList(){
+        return this.limitList;
+    }
+
 }
 
