@@ -10,6 +10,20 @@ import java.util.List;
  * @author Sasan Makvandi
  */
 public class AdminInbox extends Inbox implements Serializable {
+    /**
+     * A list representing the requests for removing an item from the Trader's wish list
+     */
+    static List<Message> undoWishList;
+
+    /**
+     * A list representing the requests for removing an item from the Trader's inventory
+     */
+    static List<Message> undoInventory;
+
+    /**
+     * A list representing the requests for users to restart a trade
+     */
+    static List<TradeMessage> restartedTrades;
 
     /**
      * A list representing the undoFrozen sub-inbox for the Admin to view
@@ -19,7 +33,7 @@ public class AdminInbox extends Inbox implements Serializable {
     /**
      * The number of unread messages form other traders
      */
-    private int traderUnread ;
+    private int traderUnread;
 
     /**
      * The number of unread messages form admins
@@ -31,6 +45,20 @@ public class AdminInbox extends Inbox implements Serializable {
      */
     private int undoFrozenUnread;
 
+    /**
+     * The number of unread wishlist deletes available
+     */
+    private int unreadWishListNoti;
+
+    /**
+     * The number of unread inventory deletes available
+     */
+    private int unreadInventUnread;
+
+    /**
+     *  The number of unread trade reset requests
+     */
+    private int unreadResetTrade;
 
     /**
      * Constructor for the AdminInbox class
@@ -42,8 +70,29 @@ public class AdminInbox extends Inbox implements Serializable {
         this.admiNotiUnread = 0;
         this.traderUnread = 0;
         this.undoFrozenUnread = 0;
+        this.unreadWishListNoti = 0;
+        this.unreadInventUnread = 0;
+        this.unreadResetTrade = 0;
     }
     // Returns messages from Traders
+
+    /** Gets the amount of unread wishlist delete requests from users
+     *
+     * @return an integer which shows the amount of unread wishlist delete requests from users
+     */
+    public int getUnreadWishListNoti(){return this.unreadWishListNoti; }
+
+    /** Gets the amount of unread inventory delete requests from users
+     *
+     * @return an integer which shows the amount of unread inventory delete requests from users
+     */
+    public int getUnreadInventUnread(){return this.unreadInventUnread; }
+
+    /** Gets the amount of unread trade reset requests from users
+     *
+     * @return an iteger representing the number of trade reset requests
+     */
+    public int getUnreadResetTrade(){return this.unreadResetTrade; }
 
     /** Gets the amount of unread unfreezing notifications from other Traders to Admin.
      *
@@ -75,5 +124,11 @@ public class AdminInbox extends Inbox implements Serializable {
             temp.frozen = false;
         }
     }
+
+    public void showUndoWishList(int index){
+
+    }
+
+
 
 }
