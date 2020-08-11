@@ -3,6 +3,11 @@ package phase1;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/** <h1>Inventory</h1>
+ * <p>Represents the inventory of a trader.</p>
+ * @author Navnee Mundboth
+ * @author James Veale
+ */
 public class Inventory implements Serializable {
 
     private ArrayList<Item> inventory;
