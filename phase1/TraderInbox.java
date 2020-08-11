@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class TraderInbox extends Inbox implements Serializable {
 
+    static List<TradeMessage> cancelledTrades;
     //All the trades available to the user
     private List<TradeMessage> trades;
     //All unaccepted offers
@@ -78,6 +79,8 @@ public class TraderInbox extends Inbox implements Serializable {
      * @return the requested sub-inbox
      */
     protected List<TradeMessage> getUnacceptedTrades() { return unacceptedTrades; }
+
+    protected List<TradeMessage> getCancelledTrades() { return cancelledTrades; }
 
     /**
      * A method for the user to be able to access a message from the Trade inbox
@@ -157,6 +160,9 @@ public class TraderInbox extends Inbox implements Serializable {
         trader.getInbox().addTraderNoti(new phase1.Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
         this.tradeUnread += 1;
         traderInbox.tradeUnread += 1;
+        cancelledTrades.add(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
+        traderInbox.getCancelledTrades().add(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader,
+                trade));
     }
 
 
