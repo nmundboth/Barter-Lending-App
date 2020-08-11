@@ -8,15 +8,28 @@ public class Inventory implements Serializable {
     private ArrayList<Item> inventory;
     private String name;
 
+    /**
+     *
+     * @param inventory The trader's list of items - wishlist or inventory.
+     * @param name the trader's inventory's name.
+     */
     public Inventory(ArrayList<Item> inventory, String name){
         this.inventory = inventory;
         this.name = name;
     }
 
+    /** Gets the list of Items in a Trader's inventory.
+     *
+     * @return an Arraylist of Items.
+     */
     public ArrayList<Item> getInv(){
         return inventory;
     }
 
+    /** Gets the name of the inventory.
+     *
+     * @return a String representing the name of the inventory.
+     */
     public String getName() {
         return name;
     }
@@ -54,17 +67,6 @@ public class Inventory implements Serializable {
                     System.out.println("Item not found!");
                 }
         //System.out.println("Removes items only from a wishlist!");
-    }
-
-    //Not good by design principles?
-    public void addRecentItemToList(Item item){
-        if (inventory.size() < 3){
-            inventory.add(item);
-        }
-        else{ // recentItems.size == 3 ---> recentItems will always have a size <= 3
-            inventory.add(item);
-            inventory.remove(0);
-        }
     }
 
 }
