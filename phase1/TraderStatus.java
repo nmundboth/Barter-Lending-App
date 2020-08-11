@@ -105,7 +105,7 @@ public class TraderStatus implements Serializable {
     /**
      * Flags a trader - indicates too many outstanding incomplete transactions, or too many weekly transactions.
      */
-    public void flag(){
+    protected void flag(){
         this.statusList.remove(1);
         this.statusList.add(1, true);
     }

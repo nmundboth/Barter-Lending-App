@@ -10,9 +10,9 @@ abstract class Inbox implements Serializable {
     private List<Message> traderNoti;
     private List<Message> admiNoti;
 
-    public int traderNotiUnread = 0;
+    private int traderNotiUnread = 0;
     // The number of Traders notification unread
-    public int admiNotiUnread = 0;
+    private int admiNotiUnread = 0;
     //The number of unread messages form admins
     //<trades> for admin user should be empty
 
@@ -34,13 +34,13 @@ abstract class Inbox implements Serializable {
      * Getter for the AdminNoti sub-inbox
      * @return AdminNoti List
      */
-    public List<Message> getAdmiNoti() { return admiNoti; }
+    protected List<Message> getAdmiNoti() { return admiNoti; }
 
     /**
      * a getter for the TraderNotification sub-inbox
      * @return the TraderNotification sub-inbox
      */
-    public List<Message> getTraderNoti() { return traderNoti; }
+    protected List<Message> getTraderNoti() { return traderNoti; }
 
 
     // Getters for the un-read messages
@@ -48,32 +48,32 @@ abstract class Inbox implements Serializable {
      * A getter for the Trades sub-inbox
      * @return the sub-inbox
      */
-    public int getTraderNotiUnread(){return traderNotiUnread; }
+    protected int getTraderNotiUnread(){return traderNotiUnread; }
 
     /**
      * returns the number of messages from the admin that are left unread
      * @return the number of unread messages
      */
-    public int getAdmiNotiUnread() { return admiNotiUnread; }
+    protected int getAdmiNotiUnread() { return admiNotiUnread; }
 
     /**
      * Getter for the total number of unread messages
      * @return an integer representing the number of unread messages
      */
-    public int getTotalUnread(){ return this.traderNotiUnread + this.admiNotiUnread; }
+    protected int getTotalUnread(){ return this.traderNotiUnread + this.admiNotiUnread; }
 
     /**
      * The setter for the number of unread admin messages
      * @param admiNotiUnread the number of unread messages
      */
-    public void setAdmiNotiUnread(int admiNotiUnread) { this.admiNotiUnread = admiNotiUnread; }
+    protected void setAdmiNotiUnread(int admiNotiUnread) { this.admiNotiUnread = admiNotiUnread; }
 
     /**
      * A getter for the user to be able to access a message from the Trade inbox
      * User is represented with a list of messages they can chose from
      * @param index represents the position of a desired message from the inbox
      */
-    public void getTradeNoti(int index){
+    protected void getTradeNoti(int index){
         Message message = this.traderNoti.get(index);
         this.traderNoti.remove(index);
         this.traderNotiUnread -= 1;
@@ -85,17 +85,17 @@ abstract class Inbox implements Serializable {
      * User is represented with the position of a desired message from the inbox
      * @param index represents the position of a desired message from the inbox
      */
-    public void getAdminNoti(int index){
+    protected void getAdminNoti(int index){
         Message message = this.admiNoti.get(index);
         this.admiNoti.remove(index);
         this.admiNotiUnread -= 1;
         message.read();
     }
 
-    public void addAdminNoti(Message message){ this.admiNoti.add(message);}
+    protected void addAdminNoti(Message message){ this.admiNoti.add(message);}
 
-    public void addTraderNoti(Message message){ this.traderNoti.add(message);}
+    protected void addTraderNoti(Message message){ this.traderNoti.add(message);}
 
-    public void setOwner(User user){this.OG = user;}
+    protected void setOwner(User user){this.OG = user;}
 
 }

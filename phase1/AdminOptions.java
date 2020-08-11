@@ -226,7 +226,7 @@ public class AdminOptions {
         }
     }
 
-    public void viewUnconfirmed(BufferedReader br){
+    private void viewUnconfirmed(BufferedReader br){
         ArrayList<Item> unconfirmed = uc.findUnconfirmed();
         for (int i = 0; i < unconfirmed.size(); i++){
             System.out.println((i + 1) + ". " + unconfirmed.get(i) + " - " + unconfirmed.get(i).getDescrip() + "\n");
@@ -254,7 +254,7 @@ public class AdminOptions {
 
     // Template taken from
     // https://www.baeldung.com/java-check-string-number
-    public boolean isInteger(String strNum) {
+    private boolean isInteger(String strNum) {
         if (strNum == null) {
             return false;
         }

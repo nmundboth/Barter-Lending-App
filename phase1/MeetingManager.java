@@ -95,11 +95,11 @@ public class MeetingManager {
      * @param trade The trade for which the meeting is being confirmed.
      */
 
-    public void confirmMeet(Trader confirmer, TwoWayTrade trade){
+    protected void confirmMeet(Trader confirmer, TwoWayTrade trade){
         this.helperConfirmMeet(confirmer, trade);
     }
 
-    public void confirmMeet(Trader confirmer, OneWayTrade trade) {
+    protected void confirmMeet(Trader confirmer, OneWayTrade trade) {
         this.helperConfirmMeet(confirmer, trade);
         trade.getLender().getTraderStatus().setGreedyInt(trade.getLender().getTraderStatus().getGreedyInt() - 1);
         trade.getReceiver().getTraderStatus().setGreedyInt(trade.getReceiver().getTraderStatus().getGreedyInt() + 1);
@@ -107,7 +107,7 @@ public class MeetingManager {
 
     // Modifies the incomplete trades of the traders involved in a meeting, since the trade will be considered open
     // at this point, and sets remaining meeting edits to 0 for both traders. Also sends notifications to the inbox.
-    private void helperConfirmMeet(Trader confirmer, Trade trade) {
+    protected void helperConfirmMeet(Trader confirmer, Trade trade) {
         this.checkIncompleteLimit(trade.getOgTrader());
         this.checkIncompleteLimit(trade.getOtherTrader());
         trade.setOpen(true);

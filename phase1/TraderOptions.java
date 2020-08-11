@@ -33,6 +33,7 @@ public class TraderOptions {
                 "2. View your profile\n" +
                 "3. Edit your profile\n" +
                 "4. View Trading History\n" +
+                "5. Browse Trade Catalogue\n"+
                 "To logout, type 'logout'.";
         this.setToAvailable = false;
     }
@@ -131,7 +132,21 @@ public class TraderOptions {
                         switch (editNum) {
                             //Editing WishList
                             case "1":
-                                addtoWishlist(br);
+                                System.out.println("Type 'Y' if you want to add item to your wish list, " +
+                                        "or type 'N' to remove item from it.");
+                                String tempNum = br.readLine();
+                                switch (tempNum){
+                                    case "Y":
+                                        addtoWishlist(br);
+                                        break;
+                                    case "N":
+                                        if (curr.getWishList().getInv().size() == 0){
+                                            System.out.println("There are no item in your wish list, return to main menu.");
+                                            break;
+                                        }
+                                        removeItemFromWishList(br);
+                                        break;
+                                }
                                 System.out.println(menuOptions);
                                 break;
                             //Editing Inventory
@@ -184,6 +199,11 @@ public class TraderOptions {
                                 break;
                         }
                         break;
+                    case "5":
+                        GuestOptions guest = new GuestOptions(uc, us);
+                        guest.run();
+                        System.out.println(menuOptions);
+                        break;
 
                     default:
                         System.out.println("Invalid input");
@@ -232,19 +252,18 @@ public class TraderOptions {
     private void addtoWishlist(BufferedReader br){
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         ArrayList<Item> confirmed = uc.findConfirmed();
-        // Commented out for now because unsure if works as intended.
-//        for (int i = 0; i < confirmed.size(); i++){
-//            if (!((Trader) curr).getInventory().getInv().contains(confirmed.get(i)) &&
-//                    !((Trader) curr).getWishList().getInv().contains(confirmed.get(i))){
-//                System.out.println((i + 1) + ". " + confirmed.get(i) + " - " + confirmed.get(i).getDescrip() + "\n");
-//            }
-//        }
-        ArrayList<Item> itemCatalogue = uc.findAllItems();
-        int total = 1;
-        for (Item item : itemCatalogue) {
-            System.out.println(total + ". " + item.getName());
-            total = total + 1;
+        for (int i = 0; i < confirmed.size(); i++){
+            if (!((Trader) curr).getInventory().getInv().contains(confirmed.get(i)) &&
+                    !((Trader) curr).getWishList().getInv().contains(confirmed.get(i))){
+                System.out.println((i + 1) + ". " + confirmed.get(i) + " - " + confirmed.get(i).getDescrip() + "\n");
+            }
         }
+//        ArrayList<Item> itemCatalogue = uc.findAllItems();
+//        int total = 1;
+//        for (Item item : itemCatalogue) {
+//            System.out.println(total + ". " + item.getName());
+//            total = total + 1;
+//        }
         System.out.println("To add an item to your wishlist, enter the number associated with that item from above." +
                 "\nTo go back, type 'exit'.");
         try{
@@ -255,6 +274,34 @@ public class TraderOptions {
                     ((Trader) curr).getWishList().addItem(confirmed.get(Integer.parseInt(input) - 1));
                     System.out.println("Item added to wishlist!");
                     us.toSerialize(uc.userBase);
+                    break;
+                }
+                input = br.readLine();
+            }
+        }
+        catch (Exception e){
+            System.out.println("Something went wrong.");
+        }
+    }
+
+    // Allows a trader to remove item from their wishlist.
+    private void removeItemFromWishList(BufferedReader br){
+        System.out.println("To go back to the options menu at any point, type 'exit'.");
+        ArrayList<Item> userItem = curr.getWishList().getInv();
+        int total = 1;
+        for (Item item : userItem) {
+            System.out.println(total + ". " + item.getName());
+            total = total + 1;
+        }
+        System.out.println("To remove an item from your wishlist, enter the numbers associated with that item " +
+                "from above." + "\nTo go back, type 'exit'.");
+        try{
+            String input = br.readLine();
+            while(!input.equals("exit")){
+                if (isInteger(input) && (1 <= Integer.parseInt(input) &&
+                        Integer.parseInt(input) <= curr.getWishList().getInv().size())){
+                    ((Trader) curr).getWishList().removeWish(userItem.get(Integer.parseInt(input) - 1));
+                    System.out.println("Item removed from wishlist!");
                     break;
                 }
                 input = br.readLine();

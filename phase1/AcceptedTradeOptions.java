@@ -26,7 +26,7 @@ public class AcceptedTradeOptions {
      * @param uc the UserCatalogue that contains all of the currently registered users
      * @param us UserSerialization used for saving
      */
-    public AcceptedTradeOptions(Trader curr, UserCatalogue uc, UserSerialization us){
+    protected AcceptedTradeOptions(Trader curr, UserCatalogue uc, UserSerialization us){
         this.curr = curr;
         this.uc = uc;
         this.us = us;
