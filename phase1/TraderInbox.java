@@ -152,17 +152,31 @@ public class TraderInbox extends Inbox implements Serializable {
         traderInbox.tradeUnread += 1;
     }
 
-    public void cancelTrade(Trade trade, Trader trader, String cancel){
-        this.trades.remove(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
-        TraderInbox traderInbox = (TraderInbox) trader.getInbox();
-        traderInbox.trades.remove(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
-        this.addTraderNoti(new phase1.Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
-        trader.getInbox().addTraderNoti(new phase1.Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
-        this.tradeUnread += 1;
-        traderInbox.tradeUnread += 1;
-        cancelledTrades.add(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
-        traderInbox.getCancelledTrades().add(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader,
-                trade));
+    public void cancelTrade(Trade trade, Trader trader, String cancel) {
+        TraderInbox inbox = (TraderInbox) (trader.getInbox());
+        TradeMessage message1;
+        boolean exists = false;
+        for (TradeMessage message : inbox.getTrades()) {
+            if (message.getTrade() == trade) {
+                message1 = message;
+                exists = true;
+            }
+        }
+        if (exists) {
+            this.trades.remove(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
+            TraderInbox traderInbox = (TraderInbox) trader.getInbox();
+            traderInbox.trades.remove(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
+            this.addTraderNoti(new phase1.Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
+            trader.getInbox().addTraderNoti(new phase1.Message(cancel, trade.getOgTrader(), trade.getOtherTrader()));
+            this.tradeUnread += 1;
+            traderInbox.tradeUnread += 1;
+            cancelledTrades.add(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader, trade));
+            traderInbox.getCancelledTrades().add(new phase1.TradeMessage("", trade.ogTrader, trade.otherTrader,
+                    trade));
+        }
+        else{
+            System.out.println("Trade does not exist");
+        }
     }
 
 

@@ -34,6 +34,7 @@ public class TraderOptions {
                 "3. Edit your profile\n" +
                 "4. View Trading History\n" +
                 "5. Browse Trade Catalogue\n"+
+                "6. Undo an action\n"+
                 "To logout, type 'logout'.";
         this.setToAvailable = false;
     }
@@ -202,6 +203,12 @@ public class TraderOptions {
                     case "5":
                         GuestOptions guest = new GuestOptions(uc, us);
                         guest.run();
+                        System.out.println(menuOptions);
+                        break;
+
+                    case "6":
+                        UndoOptions ops = new UndoOptions(curr);
+                        ops.run();
                         System.out.println(menuOptions);
                         break;
 

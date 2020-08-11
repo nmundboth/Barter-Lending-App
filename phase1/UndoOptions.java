@@ -44,7 +44,7 @@ public class UndoOptions {
                             break;
                         }
                         for (int i = 0;i < wishList.getInv().size(); i++){
-                            System.out.println(wishList.getInv().get(i).getName());
+                            System.out.println(i + " "+ wishList.getInv().get(i).getName());
                         }
                         String removeNum = br.readLine();
                         Item item = (wishList.getInv().get(Integer.parseInt(removeNum)));
@@ -65,7 +65,7 @@ public class UndoOptions {
                             break;
                         }
                         for (int i = 0; i < inventory.getInv().size(); i++){
-                            System.out.println(inventory.getInv().get(i).getName());
+                            System.out.println(i +" " + inventory.getInv().get(i).getName());
                         }
                         String removeNum1 = br.readLine();
                         Item item1 = (inventory.getInv().get(Integer.parseInt(removeNum1)));
@@ -87,7 +87,7 @@ public class UndoOptions {
                             break;
                         }
                         for (int i = 0; i < list.size(); i++){
-                            System.out.println(i + list.get(i).getTrade().getOgTrader().getName());
+                            System.out.println(i +" "+ list.get(i).getTrade().getOgTrader().getName());
                         }
                         String removeNum2 = br.readLine();
                         TradeMessage trade = list.get(Integer.parseInt(removeNum2));

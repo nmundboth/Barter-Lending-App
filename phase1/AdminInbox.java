@@ -13,12 +13,12 @@ public class AdminInbox extends Inbox implements Serializable {
     /**
      * A list representing the requests for removing an item from the Trader's wish list
      */
-    static List<Message> undoWishList;
+    static List<ItemMessage> undoWishList;
 
     /**
      * A list representing the requests for removing an item from the Trader's inventory
      */
-    static List<Message> undoInventory;
+    static List<ItemMessage> undoInventory;
 
     /**
      * A list representing the requests for users to restart a trade
@@ -112,6 +112,12 @@ public class AdminInbox extends Inbox implements Serializable {
      */
     protected List<Trader> getUndoFrozen(){return undoFrozen; }
 
+    protected List<ItemMessage> getUndoWishList(){return undoWishList;}
+
+    protected List<ItemMessage> getUndoInventory(){return  undoInventory;}
+
+    protected List<TradeMessage> getRestartedTrades(){ return restartedTrades;}
+
     /** Unfreezes all Traders who requested to have their accounts unfrozen.
      *
      * @param index is the position of a specific message within the sub-inbox
@@ -125,7 +131,89 @@ public class AdminInbox extends Inbox implements Serializable {
         }
     }
 
+    /** Method for accessing a wishlist removing requests and removing that item
+     * from the wishlist
+     *
+     * @param index the position of that said message inside the sub-inbox
+     */
     public void showUndoWishList(int index){
+        ItemMessage message = undoWishList.get(index);
+        undoWishList.remove(message);
+        this.unreadWishListNoti -= 1;
+        Item item = message.getItem();
+        Trader user = message.getSender();
+        user.getWishList().removeItem(item);
+    }
+
+    /** Method for accessing an Inventory removing requests and removing that item
+     * from the inventory
+     *
+     * @param index the position of that said message inside the sub-inbox
+     */
+    public void showUndoInv(int index){
+        ItemMessage message = undoInventory.get(index);
+        undoInventory.remove(message);
+        this.unreadInventUnread -= 1;
+        Item item = message.getItem();
+        Trader user = message.getSender();
+        user.getInventory().removeItem(item);
+    }
+
+    /** Method for accessing a trade reset request and resetting the said trade
+     *
+     * @param index the position of a trade request within the sub-inbox
+     */
+    public void showTradeReset(int index){
+        TradeMessage message = restartedTrades.get(index);
+        // A one way trade
+        if (message.getTrade() instanceof OneWayTrade){
+            OneWayTrade trade = (OneWayTrade)message.getTrade();
+            // If the item exists in the correct inventories and wishlists
+            if (trade.getOgTrader().getWishList().getInv().contains(trade.getItem()) &&
+                    trade.getOtherTrader().getInventory().getInv().contains(trade.getItem())){
+                OneWayTrade newTrade = new OneWayTrade(trade.getOgTrader(), trade.getOtherTrader(), trade.getItem());
+                TradeMessage newMessage = new TradeMessage("Trade restarted", trade.getOgTrader(),
+                        trade.getOtherTrader(), newTrade);
+                TraderInbox ogInbox = (TraderInbox) trade.getOgTrader().getInbox();
+                TraderInbox otherInbox = (TraderInbox) trade.getOtherTrader().getInbox();
+                ogInbox.addUnaccepted(newMessage);
+                otherInbox.addUnaccepted(newMessage);
+            }
+            // If trade conditions are no longer true
+            else{
+                Message newMessage = new Message("Could not reset trade as the trade conditions no longer holf",
+                        message.sender, message.recipient);
+                message.sender.getInbox().addAdminNoti(newMessage);
+                message.recipient.getInbox().addAdminNoti(newMessage);
+            }
+        }
+        // A two way trade
+        else{
+            TwoWayTrade trade = (TwoWayTrade)message.getTrade();
+            // If the item exists in the correct inventories and wishlists
+            if (trade.getOgTrader().getInventory().getInv().contains(trade.getOgItem()) &&
+                    trade.getOtherTrader().getInventory().getInv().contains(trade.getOtherItem()) &&
+                    trade.getOgTrader().getWishList().getInv().contains(trade.getOtherItem()) &&
+                    trade.getOtherTrader().getWishList().getInv().contains(trade.getOgItem())) {
+
+                TwoWayTrade newTrade = new TwoWayTrade(trade.getOgTrader(), trade.getOtherTrader(), trade.getOgItem(), trade.getOtherItem());
+                TradeMessage newMessage = new TradeMessage("Trade restarted", trade.getOgTrader(),
+                        trade.getOtherTrader(), newTrade);
+                TraderInbox ogInbox = (TraderInbox) trade.getOgTrader().getInbox();
+                TraderInbox otherInbox = (TraderInbox) trade.getOtherTrader().getInbox();
+                ogInbox.addUnaccepted(newMessage);
+                otherInbox.addUnaccepted(newMessage);
+            }
+            // If trade conditions are no longer true
+            else{
+                Message newMessage = new Message("Could not reset trade as the trade conditions no longer holf",
+                        message.sender, message.recipient);
+                message.sender.getInbox().addAdminNoti(newMessage);
+                message.recipient.getInbox().addAdminNoti(newMessage);
+            }
+        }
+
+
 
     }
 

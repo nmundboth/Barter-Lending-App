@@ -106,7 +106,8 @@ public class AdminOptions {
                     case "2":
                         System.out.println("To open a sub-inbox, please type in the corresponding number. \n" +
                                 "1. Unfreeze requests\n2. Admin/System notification\n3. Trader notifications \n" +
-                                "4. Return to main menu");
+                                "4. Undo requests\n"+
+                                "5. Return to main menu");
                         String inboxNum = br.readLine();
 
                         switch (inboxNum) {
@@ -201,8 +202,63 @@ public class AdminOptions {
                                     break;
                                 }
 
-                            //back to menu  
                             case "4":
+                                System.out.println("Chose a category of undo requests:\n" +
+                                        "1. Wishlist removal\n"+
+                                        "2. Inventory removal\n"+
+                                        "3. Trade reset requests");
+                                String input1 = br.readLine();
+                                try {
+                                    while (!input.equals("exit")) {
+                                        switch (input) {
+                                            case "1":
+                                                System.out.println("Choose an item to delete from the user's wishlist");
+                                                for(int i = 0;
+                                                    i < ((AdminInbox)(curr.getInbox())).getUndoWishList().size(); i++){
+                                                    System.out.println(i + ((AdminInbox)(curr.getInbox())).getUndoWishList().get(i).getItem().getName());
+                                                }
+                                                String removeNum = br.readLine();
+                                                AdminInbox in = (AdminInbox)(curr.getInbox());
+                                                in.showUndoWishList(Integer.parseInt(removeNum));
+                                                System.out.println("Item removed");
+                                                System.out.println(menuOptions);
+                                                break;
+                                            case "2":
+                                                System.out.println("Choose an item to delete from the user's inventory");
+                                                for(int i = 0;
+                                                    i < ((AdminInbox)(curr.getInbox())).getUndoInventory().size(); i++){
+                                                    System.out.println(i + ((AdminInbox)(curr.getInbox())).getUndoInventory().get(i).getItem().getName());
+                                                }
+                                                String removeNum1 = br.readLine();
+                                                AdminInbox in1 = (AdminInbox)(curr.getInbox());
+                                                in1.showUndoWishList(Integer.parseInt(removeNum1));
+                                                System.out.println("Item removed");
+                                                System.out.println(menuOptions);
+                                                break;
+
+                                            case "3":
+                                                System.out.println("Choose a trade to restart");
+                                                for( int i = 0;
+                                                i < ((AdminInbox)(curr.getInbox())).getRestartedTrades().size(); i++){
+                                                    System.out.println(i + ((AdminInbox)(curr.getInbox())).getRestartedTrades().get(i).getSender().getName());
+                                                }
+                                                String removeNum2 = br.readLine();
+                                                AdminInbox in2 = (AdminInbox)(curr.getInbox());
+                                                in2.showTradeReset(Integer.parseInt(removeNum2));
+                                                System.out.println("Trade reset");
+                                                System.out.println(menuOptions);
+                                                break;
+                                        }
+                                        input = br.readLine();
+                                    }
+                                }
+                                catch (IOException e){
+                                    System.out.println("Something went wrong");
+                                }
+                                break;
+
+                            //back to menu  
+                            case "5":
                                 System.out.println(menuOptions);
                                 break;
 
