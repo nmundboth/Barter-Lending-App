@@ -18,20 +18,10 @@ public class Trader extends User implements Serializable {
 
     static int greedLimit = -1; // The lower this limit, the more a trader must lend before they can borrow.
 
-    //    private List<Item> inventory;
-//    private List<Item> wish_list;
     private String name;
     private String location;
-    private boolean flagged;
-    protected boolean frozen;
-    private int greedyInt; // Higher = greedier, so in order to borrow, must be <= -1 (or whatever the threshold is set to by the admin(s))
-    private int incomplete;// # of outstanding incomplete trades currently associated with the trader
-    private int weeklyTransxns;
-    private LocalDateTime weeklyEnd;
     private HashMap<Trader, Integer> tradingPartners;
     private ArrayList<Item> recentItems;
-    private int incompleteLimit;
-    private int weeklyTransxnLimit;
 
     private TraderStatus status;
     private Inventory inventory;
@@ -45,7 +35,6 @@ public class Trader extends User implements Serializable {
     /**
      * @param username The trader's username
      * @param password The trader's password
-     * @param type The type of User ("trader")
      * @param inbox The trader's inbox
      * @param inventory The trader's inventory
      * @param name The trader's first name
@@ -58,62 +47,19 @@ public class Trader extends User implements Serializable {
         this.wishlist = wishlist;
         this.name = name;
         this.location = location;
-//        this.flagged = false;
-//        this.frozen = false;
-//        this.greedyInt = 0;
-//        this.incomplete = 0;
-//        this.weeklyTransxns = 0;
-//        this.weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1)); // Initial period is one week after creation of account
         this.tradingPartners = new HashMap<Trader, Integer>();
         this.recentItems = new ArrayList<Item>();
-//        this.incompleteLimit = 3; // Change this to change the limit on incomplete transxns a trader can have
-//        this.weeklyTransxnLimit = 10; // Change this to change the weekly transxn limit
 
         this.status = status;
     }
 
+    /** Returns an object containing booleans to show statuses and integers which define some limits for the Trader.
+     *
+     * @return the object TraderStatus of the Trader.
+     */
     public TraderStatus getTraderStatus(){
         return status;
     }
-
-//    /**
-//     * Checks whether this user has borrowed more than they have lent.
-//     * @return a boolean indicating whether the trader has borrowed more than they lent.
-//     */
-//    public boolean isGreedy(){
-//        return this.greedyInt > greedLimit;
-//    }
-//
-//    /** Prints all Admin's notifications from Trader's Inbox.
-//     *
-//     */
-//    public void readAdminNotifs(){
-//        this.getInbox().setAdmiNotiUnread(0);
-//
-//        //Reads notifications line by line
-//        int i = 0;
-//        while (i < this.getInbox().getAdmiNoti().size()){
-//            System.out.println(this.getInbox().getAdmiNoti().get(i));
-//            i++;
-//        }
-//
-//    }
-//
-//    /**
-//     * Prints all other Traders' notifications from Trader's Inbox.
-//     */
-//    public void readTraderNotifs(){
-//        this.getInbox().setUnaccptedUnread(0);
-//        this.getInbox().setTradeUnread(0);
-//
-//        //Reads notifications line by line
-//        int i = 0;
-//        while (i < this.getInbox().getTraderNoti().size()){
-//            System.out.println(this.getInbox().getTraderNoti().get(i));
-//            i++;
-//        }
-//
-//    }
 
     /** Returns the list of Items that Trader has.
      *
@@ -131,47 +77,6 @@ public class Trader extends User implements Serializable {
         return wishlist;
     }
 
-    //remove methods add_wish till removeFromInventory
-//    /** Adds an Item that Trader is interested in to Trader's wishlist.
-//     *
-//     * @param item An Item object containing the name and description of the item.
-//     */
-//    public void add_wish(Item item){
-//        this.wishlist.add(item);
-//        System.out.println("Added item " + item.getName() + " to your wish list!");
-//    }
-//
-//    /** Removes an Item that Trader is no longer interested in from Trader's wishlist.
-//     *
-//     * @param item An Item object containing the name and description of the item.
-//     */
-//    public void remove_wish(Item item){
-//        for(int i = 0; i < this.wish_list.size(); i++){
-//            if(item == this.wish_list.get(i)){
-//                this.wish_list.remove(item);
-//                break;
-//            }
-//        }
-//        System.out.println("Item not found!");
-//    }
-//
-//    /**
-//     * Adds an item to the trader's inventory
-//     *
-//     * @param item the Item object that the trader wants to add to their inventory.
-//     */
-//    public void addToInventory(Item item){
-//        inventory.add(item);
-//    }
-//
-//    /** Removes an Item from Trader's inventory.
-//     *
-//     * @param item An Item object containing the name and description of the item.
-//     */
-//    public void removeFromInventory(Item item){
-//        inventory.remove(item);
-//    }
-
     /** Gets Trader's name.
      *
      * @return a String which is the name of the Trader.
@@ -179,21 +84,6 @@ public class Trader extends User implements Serializable {
     public String getName() {
         return name;
     }
-
-//    /**
-//     * Adds a weekly transaction to the trader's number of weekly transactions conducted.
-//     * Every time a transaction is added, checks to see if the current week has ended. If it has, then the
-//     * weekly transaction period resets, and so the added trade would be the trader's first transaction of the week.
-//     */
-//    public void addWeeklyTransxn(){
-//        if (LocalDateTime.now().isAfter(weeklyEnd) || LocalDateTime.now().isEqual(weeklyEnd)){
-//            weeklyTransxns = 1;
-//            weeklyEnd = LocalDateTime.now().plus(Period.ofWeeks(1));
-//        }
-//        else{ // Weekly period hasn't ended
-//            weeklyTransxns += 1;
-//        }
-//    }
 
     /** Tracks which other traders this trader has traded with, and how many times they have traded with them.
      *
@@ -233,8 +123,11 @@ public class Trader extends User implements Serializable {
         return frequentPartners;
     }
 
-    // Removes the trader from a trader's three most frequent if they are the least frequently traded with in that list.
-    // Called when deciding which trader to remove from the trader's most frequent trading partner list.
+    /** Removes the trader from a trader's three most frequent if they are the least frequently traded with in that list.
+     *  Called when deciding which trader to remove from the trader's most frequent trading partner list.
+     *
+     * @param frequentPartners which represents the recent Traders that Trader traded with.
+     */
     private void removeLeastFrequent(HashMap<Trader, Integer> frequentPartners){
         int leastTrades = Integer.MAX_VALUE;
         Trader leastFrequent = new Trader();
@@ -264,100 +157,21 @@ public class Trader extends User implements Serializable {
         }
     }
 
+    /** Gets the location of the Trader.
+     *
+     * @return a String representing the Trader's location.
+     */
     public String getLocation(){
         return this.location;
     }
 
+    /** Sets the location of the Trader.
+     *
+     * @param location which represents the Trader's location.
+     */
     public void setLocation(String location){
         this.location = location;
     }
-
-//    /**
-//     * Keeps count of incomplete Trades. Records number of incomplete Trades.
-//     */
-//    public void addIncomplete(){
-//        incomplete += 1;
-//    }
-//
-//    /**
-//     * Once a Trade is completed, number of incomplete Trades decreases.
-//     */
-//    public void removeIncomplete(){
-//        incomplete -= 1;
-//    }
-//
-//    /** Checks if limit of Trades for a Trader has been exceeded in a week.
-//     *
-//     * @return true if limit of Trades has been exceeded.
-//     */
-//    public boolean overWeeklyLimit(){
-//        return this.weeklyTransxns > weeklyTransxnLimit;
-//    }
-//
-//    /** Checks if Trader has too many incomplete Trades.
-//     *
-//     * @return true if limit of incomplete Trades has been exceeded.
-//     */
-//    public boolean overIncompleteLimit(){
-//        return this.incomplete > incompleteLimit;
-//    }
-//
-//    /**
-//     * Checks whether the trader has been automatically flagged for having too many incomplete transactions, or too
-//     * many weekly transactions. Flagged traders are sent to admins, who can then decide whether or not to freeze a
-//     * trader.
-//     *
-//     * @return a boolean representing whether the user has been flagged.
-//     */
-//    public boolean isFlagged(){
-//        return flagged;
-//    }
-//
-//    /**
-//     * Flags a trader - indicates too many outstanding incomplete transactions, or too many weekly transactions.
-//     */
-//    public void flag(){
-//        this.flagged = true;
-//    }
-//
-//    /** Checks if Trader's account is frozen. true means the account is frozen.
-//     *
-//     * @return state of Trader's account.
-//     */
-//    public boolean isFrozen(){return frozen;}
-//
-//    /** Checks if the Trader is within the limits of borrowing from other Traders.
-//     *
-//     * @return an integer which checks if Trader has exceeded limit in borrowing.
-//     */
-//    public int getGreedyInt(){
-//        return greedyInt;
-//    }
-//
-//    /**
-//     * Used to track the lend/borrow ratio of users (higher = more borrows than lends = greedier)
-//     * @param greedyInt The integer tracking how greedy a user is (how much more they have borrowed than lent)
-//     */
-//    public void setGreedyInt(int greedyInt){
-//        this.greedyInt = greedyInt;
-//    }
-//
-//    /** Gets the number of incomplete Trades for a Trader.
-//     *
-//     * @return an integer telling the number of incomplete Trades.
-//     */
-//    public int getIncomplete(){
-//        return this.incomplete;
-//    }
-//
-//    /**
-//     * Gets the number of transactions that a trader has conducted this week.
-//     *
-//     * @return an integer representing number of weekly transactions.
-//     */
-//    public int getWeeklyTransxns(){
-//        return this.weeklyTransxns;
-//    }
 
     /**
      * Gets the items that this trader has most recently traded to others (max. 3 items)
