@@ -1,6 +1,8 @@
 package phase1;
 
-public class Message {
+import java.io.Serializable;
+
+public class Message implements Serializable {
 
     // The String part of this message that contains the user's actual message
     private String content;
