@@ -44,16 +44,16 @@ public class Inventory implements Serializable {
      * @param item An Item object containing the name and description of the item.
      */
     public void removeWish(Item item){
-        if (this.name.equals("wishlist")){
-            for(int i = 0; i < this.inventory.size(); i++){
-                if(item == this.inventory.get(i)){
-                    this.inventory.remove(item);
-                    break;
-                }
+             //   if (this.name.equals("wishlist")){
+        for(int i = 0; i < this.inventory.size(); i++){
+            if(item == this.inventory.get(i)){
+                this.inventory.remove(item);
+                break;
             }
-            System.out.println("Item not found!");
-        }
-        System.out.println("Removes items only from a wishlist!");
+                  //  }
+                    System.out.println("Item not found!");
+                }
+        //System.out.println("Removes items only from a wishlist!");
     }
 
     //Not good by design principles?
