@@ -52,16 +52,21 @@ public class UserFactory {
     public UserCatalogue newAdmin(BufferedReader br, String username, UserSerialization us) throws Exception{
         UserCatalogue uc = new UserCatalogue(us.deserialize());
         //Need to get name and password for user
+        ArrayList<User> list = uc.userBase;
+        Admin admin = null;
+        for (User user : list) {
+            if (user instanceof Admin) {
+                admin = (Admin)user;
+            }
+        }
+        assert admin != null;
+        AdminInbox adminInbox = (AdminInbox)admin.getInbox();
         try{
             System.out.println("Please enter a password: ");
             String input = br.readLine();
             if(!input.equals("exit")){
                 String password = input;
-                List<Message> traderNotifs = new ArrayList<Message>();
-                List<Message>adminNotifs = new ArrayList<Message>();
-                phase1.AdminInbox inbox = new phase1.AdminInbox(traderNotifs, adminNotifs);
-                User user = new Admin(username, password, inbox);
-                inbox.setOwner(user);
+                User user = new Admin(username, password, adminInbox);
                 uc.userBase.add(user);
                 us.toSerialize(uc.userBase);
                 System.out.println("Admin user created!");

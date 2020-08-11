@@ -207,7 +207,7 @@ public class TraderOptions {
                         break;
 
                     case "6":
-                        UndoOptions ops = new UndoOptions(curr);
+                        UndoOptions ops = new UndoOptions(curr, uc);
                         ops.run();
                         System.out.println(menuOptions);
                         break;

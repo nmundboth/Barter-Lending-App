@@ -324,7 +324,7 @@ public class Trader extends User implements Serializable {
 //     *
 //     * @return state of Trader's account.
 //     */
-//    public boolean isFrozen(){return frozen;}
+    public boolean isFrozen(){return frozen;}
 //
 //    /** Checks if the Trader is within the limits of borrowing from other Traders.
 //     *
@@ -358,6 +358,8 @@ public class Trader extends User implements Serializable {
 //    public int getWeeklyTransxns(){
 //        return this.weeklyTransxns;
 //    }
+
+    public void setFrozen(){this.frozen = true;}
 
     /**
      * Gets the items that this trader has most recently traded to others (max. 3 items)

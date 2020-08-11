@@ -35,7 +35,8 @@ public class AdminOptions {
                     case "1":
                         System.out.println("Select the administrative action that you would like to perform: \n" +
                                 "1. Freeze flagged users\n2. Review unconfirmed items\n3. Change how many times" +
-                                " a user must lend before they can borrow\n4. Create a new admin\n5. Return to main" +
+                                " a user must lend before they can borrow\n 4. Undo requests\n 5. Create a new admin" +
+                                "\n6. Return to main" +
                                 " menu");
 
                         String adminNum = br.readLine();
@@ -85,11 +86,7 @@ public class AdminOptions {
                                 String userName = br.readLine();
                                 System.out.println("Create a password:");
                                 String password = br.readLine();
-                                List<Message> adminNoti = new ArrayList<Message>();
-                                List<Message> traderNoti = new ArrayList<Message>();
-                                AdminInbox newAdminInbox = new AdminInbox(traderNoti, adminNoti);
-                                Admin newAdmin = new Admin(userName, password, newAdminInbox);
-                                newAdminInbox.setOwner(newAdmin);
+                                Admin newAdmin = new Admin(userName, password, (AdminInbox)curr.getInbox());
                                 uc.userBase.add(newAdmin);
                                 System.out.println("New Admin created successfully");
                                 System.out.println(menuOptions);
@@ -114,7 +111,7 @@ public class AdminOptions {
                             //Handling unfreeze requests
                             case "1":
                                 AdminInbox inbox = ((Admin) curr).getAdminInbox();
-                                if(inbox.getUndoFrozenUnread() == 0){
+                                if(inbox.getUndoFrozen().size() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
                                     break;
@@ -145,7 +142,7 @@ public class AdminOptions {
                             //Admin notifications
                             case "2":
                                 AdminInbox inbox1 = ((Admin)curr).getAdminInbox();
-                                if(inbox1.getAdmiNotiUnread() == 0){
+                                if(inbox1.getAdmiNoti().size() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
                                     break;
@@ -175,7 +172,7 @@ public class AdminOptions {
                             //trader notifications
                             case "3":
                                 AdminInbox inbox2 = ((Admin)curr).getAdminInbox();
-                                if(inbox2.getTraderNotiUnread() == 0){
+                                if(inbox2.getTraderNoti().size() == 0){
                                     System.out.println("Sub-inbox empty");
                                     System.out.println(menuOptions);
                                     break;
@@ -212,10 +209,15 @@ public class AdminOptions {
                                     while (!input.equals("exit")) {
                                         switch (input) {
                                             case "1":
+                                                if (((AdminInbox)(curr.getInbox())).getUndoWishList().size() == 0){
+                                                    System.out.println("No requests available");
+                                                    System.out.println(menuOptions);
+                                                    break;
+                                                }
                                                 System.out.println("Choose an item to delete from the user's wishlist");
                                                 for(int i = 0;
                                                     i < ((AdminInbox)(curr.getInbox())).getUndoWishList().size(); i++){
-                                                    System.out.println(i + ((AdminInbox)(curr.getInbox())).getUndoWishList().get(i).getItem().getName());
+                                                    System.out.println(i+ ") " + ((AdminInbox)(curr.getInbox())).getUndoWishList().get(i).getItem().getName());
                                                 }
                                                 String removeNum = br.readLine();
                                                 AdminInbox in = (AdminInbox)(curr.getInbox());
@@ -224,23 +226,33 @@ public class AdminOptions {
                                                 System.out.println(menuOptions);
                                                 break;
                                             case "2":
+                                                if (((AdminInbox)(curr.getInbox())).getUndoInventory().size() == 0){
+                                                    System.out.println("No requests available");
+                                                    System.out.println(menuOptions);
+                                                    break;
+                                                }
                                                 System.out.println("Choose an item to delete from the user's inventory");
                                                 for(int i = 0;
                                                     i < ((AdminInbox)(curr.getInbox())).getUndoInventory().size(); i++){
-                                                    System.out.println(i + ((AdminInbox)(curr.getInbox())).getUndoInventory().get(i).getItem().getName());
+                                                    System.out.println(i + ") " + ((AdminInbox)(curr.getInbox())).getUndoInventory().get(i).getItem().getName());
                                                 }
                                                 String removeNum1 = br.readLine();
                                                 AdminInbox in1 = (AdminInbox)(curr.getInbox());
-                                                in1.showUndoWishList(Integer.parseInt(removeNum1));
+                                                in1.showUndoInv(Integer.parseInt(removeNum1));
                                                 System.out.println("Item removed");
                                                 System.out.println(menuOptions);
                                                 break;
 
                                             case "3":
+                                                if (((AdminInbox)(curr.getInbox())).getRestartedTrades().size() == 0){
+                                                    System.out.println("No requests available");
+                                                    System.out.println(menuOptions);
+                                                    break;
+                                                }
                                                 System.out.println("Choose a trade to restart");
                                                 for( int i = 0;
                                                 i < ((AdminInbox)(curr.getInbox())).getRestartedTrades().size(); i++){
-                                                    System.out.println(i + ((AdminInbox)(curr.getInbox())).getRestartedTrades().get(i).getSender().getName());
+                                                    System.out.println(i + ") " + ((AdminInbox)(curr.getInbox())).getRestartedTrades().get(i).getSender().getName());
                                                 }
                                                 String removeNum2 = br.readLine();
                                                 AdminInbox in2 = (AdminInbox)(curr.getInbox());
@@ -257,8 +269,19 @@ public class AdminOptions {
                                 }
                                 break;
 
-                            //back to menu  
                             case "5":
+                                System.out.println("To create an Admin, start by typing the user name:");
+                                String userName = br.readLine();
+                                System.out.println("Create a password:");
+                                String password = br.readLine();
+                                Admin newAdmin = new Admin(userName, password, (AdminInbox)curr.getInbox());
+                                uc.userBase.add(newAdmin);
+                                System.out.println("New Admin created successfully");
+                                System.out.println(menuOptions);
+                                break;
+
+                            //back to menu  
+                            case "6":
                                 System.out.println(menuOptions);
                                 break;
 

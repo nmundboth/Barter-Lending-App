@@ -1,6 +1,7 @@
 package phase1;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /** Reference from: https://www.dummies.com/programming/java/how-to-use-javadoc-to-document-your-classes/
@@ -13,22 +14,22 @@ public class AdminInbox extends Inbox implements Serializable {
     /**
      * A list representing the requests for removing an item from the Trader's wish list
      */
-    static List<ItemMessage> undoWishList;
+    public List<ItemMessage> undoWishList;
 
     /**
      * A list representing the requests for removing an item from the Trader's inventory
      */
-    static List<ItemMessage> undoInventory;
+    public List<ItemMessage> undoInventory;
 
     /**
      * A list representing the requests for users to restart a trade
      */
-    static List<TradeMessage> restartedTrades;
+    public List<TradeMessage> restartedTrades;
 
     /**
      * A list representing the undoFrozen sub-inbox for the Admin to view
      */
-    static List<Trader> undoFrozen;
+    public List<Trader> undoFrozen;
 
     /**
      * The number of unread messages form other traders
@@ -65,8 +66,13 @@ public class AdminInbox extends Inbox implements Serializable {
      * @param traderNoti is all text-based notifications for an Admin from Traders
      * @param adminNotifs is all text-based notifications for an Admin from another Admin/System
      */
-    protected AdminInbox(List<Message> traderNoti, List<Message> adminNotifs){
+    protected AdminInbox(List<Message> traderNoti, List<Message> adminNotifs, List<ItemMessage> undoWishList,
+                         List<ItemMessage> undoInventory, List<TradeMessage> restartedTrades, List<Trader> undoFrozen){
         super(traderNoti, adminNotifs);
+        this.undoWishList = undoWishList;
+        this.undoInventory = undoInventory;
+        this.restartedTrades = restartedTrades;
+        this.undoFrozen = undoFrozen;
         this.admiNotiUnread = 0;
         this.traderUnread = 0;
         this.undoFrozenUnread = 0;
@@ -126,9 +132,7 @@ public class AdminInbox extends Inbox implements Serializable {
         Trader temp = undoFrozen.get(index);
         undoFrozen.remove(index);
         this.undoFrozenUnread -= 1;
-        if(temp.getTraderStatus().isFrozen()){
-            temp.frozen = false;
-        }
+        temp.frozen = false;
     }
 
     /** Method for accessing a wishlist removing requests and removing that item

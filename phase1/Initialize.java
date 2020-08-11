@@ -11,7 +11,12 @@ public class Initialize {
     public static void main(String[] args) throws Exception {
         List<Message> traderNoti = new ArrayList<Message>();
         List<Message> adminNotifs = new ArrayList<Message>();
-        AdminInbox inbox = new AdminInbox(traderNoti, adminNotifs);
+        List<ItemMessage> undoWishList = new ArrayList<ItemMessage>();
+        List<ItemMessage> undoInventory = new ArrayList<ItemMessage>();
+        List<TradeMessage> restartedTrades = new ArrayList<TradeMessage>();
+        List<Trader> undoFrozen = new ArrayList<Trader>();
+        AdminInbox inbox = new AdminInbox(traderNoti, adminNotifs, undoWishList,
+                undoInventory, restartedTrades, undoFrozen);
         User admin = new Admin("admin", "admin", inbox);
         inbox.setOwner(admin);
 
@@ -25,9 +30,10 @@ public class Initialize {
         Inventory inventory = new Inventory(list1, "inventory");
         Inventory wishlist = new Inventory(new ArrayList<Item>(), "wishlist");
         TraderStatus traderStatus = new TraderStatus();
-        User trader = new Trader("trader", "trader", traderInbox,
+        Trader trader = new Trader("trader", "trader", traderInbox,
                 inventory, wishlist, "trader", traderStatus, "trader");
         traderInbox.setOwner(trader);
+        trader.frozen = true;
 
         List<TradeMessage> tradeMessages2 = new ArrayList<TradeMessage>();
         List<Message> traderNoti2 = new ArrayList<Message>();
