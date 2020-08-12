@@ -45,6 +45,16 @@ InboxOptions {
 
         System.out.println(menuOptions);
 
+        ArrayList<User> list = uc.userBase;
+        Admin admin = null;
+        for (User user : list) {
+            if (user instanceof Admin) {
+                admin = (Admin)user;
+            }
+        }
+        assert admin != null;
+        AdminInbox adminInbox = (AdminInbox)admin.getInbox();
+
         try{
             String input = br.readLine();
             while (!input.equals("exit")) {
@@ -124,9 +134,9 @@ InboxOptions {
                         break;
 
                     case "6":
-                        if (((Trader) curr).getTraderStatus().isFrozen()){
-                            if (!(AdminInbox.undoFrozen.contains((Trader) curr))){
-                                AdminInbox.undoFrozen.add((Trader) curr);
+                        if (((Trader) curr).f){
+                            if (!(adminInbox.undoFrozen.contains((Trader) curr))){
+                                adminInbox.undoFrozen.add((Trader) curr);
                                 System.out.println("You have requested to be unfrozen.");
                             }
                             else{ // undoFrozen.contains(Trader)
