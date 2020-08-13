@@ -11,6 +11,10 @@ import javafx.stage.Stage;
  */
 public class TradingMain extends Application {
 
+    /**
+     * Start of the scene builder GUI.
+     * @param primaryStage The primary stage of the Scene Builder
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("LoginScreen.fxml"));
@@ -19,10 +23,13 @@ public class TradingMain extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Main method entry point of the application.
+     * @param args Arguments.
+     */
     public static void main(String[] args) throws Exception {
         //TradingSystem ts = new TradingSystem();
         //ts.run();
         launch(args);
-
     }
 }
