@@ -43,6 +43,14 @@ public class Item implements Serializable {
         return descrip;
     }
 
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public void setDescrip(String descrip) {
+        this.descrip = descrip;
+    }
+
     /**
      * States whether or not the item is confirmed.
      *

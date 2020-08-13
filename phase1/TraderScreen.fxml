@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phase1.TraderScreen">
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Home">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label text="Welcome to TradeApp!">
+                                 <font>
+                                    <Font size="48.0" />
+                                 </font>
+                              </Label>
+                              <HBox alignment="TOP_RIGHT" prefHeight="100.0" prefWidth="360.0">
+                                 <HBox.margin>
+                                    <Insets left="5.0" />
+                                 </HBox.margin>
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#logoutBtnClicked" text="Log Out">
+                                       <HBox.margin>
+                                          <Insets top="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </HBox>
+                     </top>
+                     <center>
+                        <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label prefHeight="20.0" prefWidth="844.0" text="To get started, click on a tab at the top of the window.">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                              </Label>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <ScrollPane prefHeight="430.0" prefWidth="900.0" VBox.vgrow="ALWAYS">
+                                 <content>
+                                    <VBox prefHeight="430.0" prefWidth="900.0">
+                                       <children>
+                                          <Label text="Information">
+                                             <font>
+                                                <Font name="System Bold" size="26.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets bottom="5.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label layoutX="20.0" layoutY="10.0" text="Inventory">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="View your inventory (lendlist and wishlist)." />
+                                          <Label layoutX="20.0" layoutY="78.0" text="Add an item to your lendlist (either create a new item, or select from existing TradeApp items)." />
+                                          <Label layoutX="20.0" layoutY="78.0" text="Add an existing TradeApp item to your wishlist." />
+                                          <Label text="Request to remove an item from your wishlist or lendlist." />
+                                          <Label layoutX="20.0" layoutY="53.0" text="Trade">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="Send a transaction request." />
+                                          <Label layoutX="20.0" layoutY="159.0" text="View transaction requests from others." />
+                                          <Label layoutX="20.0" layoutY="302.0" text="View and edit your accepted trades (propose/edit meetings, confirm a meeting has happened, request to cancel a trade)." />
+                                          <Label layoutX="20.0" layoutY="78.0" text="Inbox">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                             <padding>
+                                                <Insets top="5.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label text="View trade notifications." />
+                                          <Label layoutX="20.0" layoutY="240.0" text="View system notifications." />
+                                          <Label layoutX="20.0" layoutY="103.0" text="Misc">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="View recently traded items." />
+                                          <Label layoutX="20.0" layoutY="304.0" text="View frequent trading partners." />
+                                          <Label layoutX="20.0" layoutY="128.0" text="Account">
+                                             <font>
+                                                <Font name="System Bold" size="16.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets top="20.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label text="View your account status." />
+                                          <Label layoutX="20.0" layoutY="368.0" text="Change your account status." />
+                                          <Label layoutX="20.0" layoutY="385.0" text="Change your location." />
+                                          <Label layoutX="20.0" layoutY="402.0" text="Request to be unfrozen (message an Admin)." />
+                                       </children>
+                                       <padding>
+                                          <Insets left="10.0" />
+                                       </padding>
+                                    </VBox>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </VBox>
+                     </center>
+                  </BorderPane>
+               </content>
+          </Tab>
+            <Tab text="Inventory">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label text="Inventory">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Region prefHeight="54.0" prefWidth="666.0" />
+                              <Button mnemonicParsing="false" onAction="#logoutBtnClicked" text="Log Out" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <center>
+                        <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Separator prefWidth="200.0" />
+                              <HBox prefHeight="18.0" prefWidth="900.0">
+                                 <children>
+                                    <VBox prefHeight="200.0" prefWidth="500.0">
+                                       <children>
+                                          <Label text="Lendlist">
+                                             <VBox.margin>
+                                                <Insets left="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                       <padding>
+                                          <Insets top="10.0" />
+                                       </padding>
+                                    </VBox>
+                                    <VBox prefHeight="200.0" prefWidth="400.0">
+                                       <children>
+                                          <Label text="Wishlist">
+                                             <VBox.margin>
+                                                <Insets />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                       <HBox.margin>
+                                          <Insets right="10.0" top="10.0" />
+                                       </HBox.margin>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="300.0" prefWidth="200.0">
+                                 <children>
+                                    <TableView fx:id="lendTable" prefHeight="100.0" prefWidth="400.0">
+                                      <columns>
+                                        <TableColumn fx:id="lendItemColumn" prefWidth="100.0" text="Item" />
+                                        <TableColumn fx:id="lendDescripColumn" prefWidth="300.0" text="Description" />
+                                      </columns>
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </TableView>
+                                    <Region prefHeight="300.0" prefWidth="100.0" />
+                                    <TableView fx:id="wishTable" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="400.0">
+                                       <columns>
+                                          <TableColumn fx:id="wishItemColumn" prefWidth="100.0" text="Item" />
+                                          <TableColumn fx:id="wishDescripColumn" prefWidth="300.0" text="Description" />
+                                       </columns>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </TableView>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="138.0" prefWidth="900.0">
+                                 <children>
+                                    <VBox alignment="TOP_CENTER" prefHeight="123.0" prefWidth="400.0">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <Button fx:id="addExistingBtn" mnemonicParsing="false" onAction="#lendlistAddExistingButtonClicked" text="Add Existing Item" />
+                                                <Label prefHeight="34.0" prefWidth="221.0" text="Add an item to your lendlist that has already been registered." wrapText="true">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <Button fx:id="addNewBtn" mnemonicParsing="false" onAction="#lendlistAddNewItemButtonClicked" text="Add New Item" />
+                                                <Label prefHeight="34.0" prefWidth="205.0" text="Create a new (unconfirmed) item and add it to your lendlist." wrapText="true">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#lendlistRemoveButtonClicked" text="Remove Item">
+                                                   <HBox.margin>
+                                                      <Insets left="3.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <Label prefHeight="34.0" prefWidth="214.0" text="Request to remove the selected item from your lendlist (messages an admin)." wrapText="true">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label fx:id="lendlistNotifLabel" prefHeight="17.0" prefWidth="319.0" text="Lendlist notification label" textAlignment="CENTER" wrapText="true">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <Region prefHeight="200.0" prefWidth="100.0" />
+                                    <VBox alignment="TOP_CENTER" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="400.0">
+                                       <children>
+                                          <HBox alignment="CENTER" prefHeight="39.0" prefWidth="400.0">
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#addWishlistButtonClicked" text="Add to Wishlist" />
+                                                <Label prefHeight="34.0" prefWidth="221.0" text="Opens a window where you can select an item to add to your wishlist." wrapText="true">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" prefHeight="39.0" prefWidth="400.0">
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#wishlistRemoveButtonClicked" text="Remove Item">
+                                                   <HBox.margin>
+                                                      <Insets left="3.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <Label prefHeight="34.0" prefWidth="226.0" text="Request to remove the selected item from your wishlist (messages an admin)." wrapText="true">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" />
+                                                   </HBox.margin>
+                                                   <padding>
+                                                      <Insets right="12.0" />
+                                                   </padding>
+                                                </Label>
+                                             </children>
+                                          </HBox>
+                                          <Label fx:id="wishlistNotifLabel" prefHeight="17.0" prefWidth="319.0" text="Wishlist notification label" textAlignment="CENTER" wrapText="true">
+                                             <VBox.margin>
+                                                <Insets top="10.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </center></BorderPane>
+               </content>
+            </Tab>
+            <Tab text="Trade">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label text="Trade">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Region prefHeight="54.0" prefWidth="715.0" />
+                              <Button mnemonicParsing="false" onAction="#logoutBtnClicked" text="Log Out" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <center>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Separator prefWidth="200.0" />
+                              <Label text="Trade Requests">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="4.0" left="16.0" right="8.0" top="8.0" />
+                                 </VBox.margin>
+                              </Label>
+                              <TableView fx:id="requestTable" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="199.0" prefWidth="825.0">
+                                <columns>
+                                  <TableColumn fx:id="tradeInfoColumn" prefWidth="824.0" text="Trade Information" />
+                                </columns>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" />
+                                 </VBox.margin>
+                              </TableView>
+                              <HBox alignment="CENTER" prefHeight="31.0" prefWidth="900.0">
+                                 <children>
+                                    <Button fx:id="acceptBtn" mnemonicParsing="false" onAction="#acceptBtnClicked" text="Accept">
+                                       <HBox.margin>
+                                          <Insets left="32.0" right="10.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Button fx:id="rejectBtn" mnemonicParsing="false" onAction="#rejectBtnClicked" text="Reject" />
+                                    <Label fx:id="noTradeSelectedLabel" text="Label">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <VBox alignment="TOP_CENTER" prefHeight="236.0" prefWidth="900.0">
+                                 <children>
+                                    <Label text="To accept or reject a trade, select it from the above table, and click 'Accept' or 'Reject'.">
+                                       <VBox.margin>
+                                          <Insets top="5.0" />
+                                       </VBox.margin></Label>
+                                    <Separator prefWidth="200.0">
+                                       <VBox.margin>
+                                          <Insets top="20.0" />
+                                       </VBox.margin>
+                                    </Separator>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="900.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#sendTransactionRequestBtnClicked" text="Send Transaction Request">
+                                             <HBox.margin>
+                                                <Insets left="30.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Label text="Opens a new window that allows you to send a transaction request to another trader.">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <Separator prefWidth="200.0">
+                                       <VBox.margin>
+                                          <Insets top="3.0" />
+                                       </VBox.margin>
+                                    </Separator>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="47.0" prefWidth="900.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onAction="#acceptedTradesBtnClicked" text="Accepted Trades">
+                                             <HBox.margin>
+                                                <Insets left="30.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Label text="Opens a new window that allows you to manage your accepted trades (edit/propose/confirm meetings, cancel a trade, etc).">
+                                             <HBox.margin>
+                                                <Insets left="10.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </center></BorderPane>
+               </content>
+            </Tab>
+            <Tab text="Inbox">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label text="Inbox">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Region prefHeight="54.0" prefWidth="714.0" />
+                              <Button mnemonicParsing="false" onAction="#logoutBtnClicked" text="Log Out" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <right>
+                        <VBox prefHeight="518.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Separator prefWidth="200.0" />
+                              <HBox alignment="BOTTOM_LEFT" prefHeight="45.0" prefWidth="900.0">
+                                 <children>
+                                    <Label text="Trade Notifications">
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="16.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="Admin Notifications">
+                                       <font>
+                                          <Font name="System Bold" size="14.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="340.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="267.0" prefWidth="900.0">
+                                 <children>
+                                    <TableView fx:id="tradeNotifTable" prefHeight="267.0" prefWidth="400.0">
+                                      <columns>
+                                        <TableColumn fx:id="tradeMessageColumn" prefWidth="399.0" text="Message" />
+                                      </columns>
+                                       <HBox.margin>
+                                          <Insets left="16.0" />
+                                       </HBox.margin>
+                                    </TableView>
+                                    <Separator orientation="VERTICAL" prefHeight="200.0">
+                                       <HBox.margin>
+                                          <Insets left="30.0" />
+                                       </HBox.margin>
+                                    </Separator>
+                                    <TableView fx:id="adminNotifTable" prefHeight="264.0" prefWidth="400.0">
+                                       <columns>
+                                          <TableColumn fx:id="adminMessageColumn" prefWidth="399.0" text="Message" />
+                                       </columns>
+                                       <HBox.margin>
+                                          <Insets left="27.0" />
+                                       </HBox.margin>
+                                    </TableView>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="900.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#deleteTradeNotifBtnClicked" text="Delete">
+                                       <HBox.margin>
+                                          <Insets left="92.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Label text="Deletes the selected Trade Notification.">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Region prefHeight="42.0" prefWidth="204.0" />
+                                    <Button mnemonicParsing="false" onAction="#deleteAdminNotifBtnClicked" text="Delete" />
+                                    <Label text="Deletes the selected Admin Notification.">
+                                       <HBox.margin>
+                                          <Insets left="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" prefHeight="72.0" prefWidth="900.0">
+                                 <children>
+                                    <Label fx:id="messageNotSelectedLabel" text="Label" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </right></BorderPane>
+               </content>
+            </Tab>
+            <Tab text="Misc">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label text="Misc">
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Region prefHeight="54.0" prefWidth="727.0" />
+                              <Button mnemonicParsing="false" onAction="#logoutBtnClicked" text="Log Out" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <center>
+                        <VBox prefHeight="518.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Separator prefWidth="200.0" />
+                              <HBox alignment="BOTTOM_LEFT" prefHeight="28.0" prefWidth="900.0">
+                                 <children>
+                                    <Label text="Most recent (3) traders that you have traded with:">
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label text="Most recent (3) items that you have traded:">
+                                       <HBox.margin>
+                                          <Insets left="223.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox prefHeight="150.0" prefWidth="900.0">
+                                 <children>
+                                    <TableView fx:id="recentTraderTable" prefHeight="100.0" prefWidth="400.0">
+                                       <columns>
+                                          <TableColumn fx:id="recentTraderColumn" prefWidth="395.0" text="Trader" />
+                                       </columns>
+                                       <HBox.margin>
+                                          <Insets left="10.0" />
+                                       </HBox.margin>
+                                    </TableView>
+                                    <Region prefHeight="258.0" prefWidth="93.0" />
+                                    <TableView fx:id="recentItemTable" layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="400.0">
+                                       <columns>
+                                          <TableColumn fx:id="recentItemColumn" prefWidth="114.0" text="Item" />
+                                          <TableColumn fx:id="recentDescripColumn" prefWidth="281.0" text="Description" />
+                                       </columns>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
+                                    </TableView>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </center></BorderPane>
+               </content>
+            </Tab>
+            <Tab text="Account">
+               <content>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0">
+                     <top>
+                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Label text="Account">
+                                 <HBox.margin>
+                                    <Insets bottom="8.0" left="16.0" right="8.0" top="8.0" />
+                                 </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="26.0" />
+                                 </font>
+                              </Label>
+                              <Region prefHeight="54.0" prefWidth="687.0" />
+                              <Button mnemonicParsing="false" onAction="#logoutBtnClicked" text="Log Out" />
+                           </children>
+                        </HBox>
+                     </top>
+                     <center>
+                        <VBox prefHeight="200.0" prefWidth="900.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Separator prefWidth="200.0" />
+                              <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="900.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#unavailableBtnClicked" text="Mark As Unavailable">
+                                       <HBox.margin>
+                                          <Insets left="30.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Label prefHeight="34.0" prefWidth="650.0" text="Clicking this button will mark your account as unavailable to trades. This means you will be logged out and no other users will be able to propose trades with you until you decide to log back in." wrapText="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="900.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#unfreezeBtnClicked" text="Request Unfreeze">
+                                       <HBox.margin>
+                                          <Insets left="30.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Label prefHeight="34.0" prefWidth="650.0" text="If your account is frozen, clicking this button will send a request to be unfrozen to an admin, who can then decide whether or not to unfreeze you." wrapText="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="900.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#changeLocationBtnClicked" text="Change Location">
+                                       <HBox.margin>
+                                          <Insets left="30.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Label prefHeight="34.0" prefWidth="650.0" text="Click this button to change your location (city)." wrapText="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets top="20.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="900.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#restartTradeBtnClicked" text="Restart Trade">
+                                       <HBox.margin>
+                                          <Insets left="30.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Button>
+                                    <Label prefHeight="34.0" prefWidth="650.0" text="Request to restart a trade which you have previously cancelled." wrapText="true">
+                                       <HBox.margin>
+                                          <Insets left="10.0" top="20.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0">
+                                 <padding>
+                                    <Insets top="20.0" />
+                                 </padding>
+                              </Separator>
+                              <HBox alignment="CENTER" prefHeight="80.0" prefWidth="900.0">
+                                 <children>
+                                    <Label fx:id="accountStatusLabel" text="Label" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </center></BorderPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

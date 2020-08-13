@@ -87,12 +87,12 @@ public class OneWayTrade extends Trade implements Serializable {
      * @return a String representation of a OneWayTrade.
      */
     public String toString(){
-        if (permanent){
-            return receiver.getName() + " receiving " + item + " from " + lender.getName() + ".";
-        }
-        else { // temporary trade
-            return receiver.getName() + " borrowing " + item + " from " + lender.getName() + ".";
-        }
+        String digital = this.isNoMeet() ? "Digital" : "Not Digital";
+        String duration = this.isPermanent() ? "Permanent" : "Temporary";
+        String open = this.isOpen() ? "Open" : "Closed";
+        String meeting = this.getMeeting().isEmpty() ? "No meeting scheduled" : this.getMeeting().toString();
+        return receiver.getUsername() + " receiving " + item + " from " + lender.getUsername() +
+                " (" + digital + ", " + duration + ", " + open + ")  |  Meeting: " + meeting + ".";
     }
 
 

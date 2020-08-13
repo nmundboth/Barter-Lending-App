@@ -1,6 +1,8 @@
 package phase1;
 
-public class TradeMessage extends Message {
+import java.io.Serializable;
+
+public class TradeMessage extends Message implements Serializable {
 
     private Trade trade;
 

@@ -1,7 +1,7 @@
 package phase1;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /** Reference from: https://www.dummies.com/programming/java/how-to-use-javadoc-to-document-your-classes/
@@ -132,7 +132,7 @@ public class AdminInbox extends Inbox implements Serializable {
         Trader temp = undoFrozen.get(index);
         undoFrozen.remove(index);
         this.undoFrozenUnread -= 1;
-        temp.getTraderStatus().setFrozen(false);
+        temp.getTraderStatus().setFrozen();
     }
 
     /** Method for accessing a wishlist removing requests and removing that item
@@ -210,7 +210,7 @@ public class AdminInbox extends Inbox implements Serializable {
             }
             // If trade conditions are no longer true
             else{
-                Message newMessage = new Message("Could not reset trade as the trade conditions no longer holf",
+                Message newMessage = new Message("Could not reset trade as the trade conditions no longer hold",
                         message.sender, message.recipient);
                 message.sender.getInbox().addAdminNoti(newMessage);
                 message.recipient.getInbox().addAdminNoti(newMessage);

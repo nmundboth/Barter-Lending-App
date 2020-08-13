@@ -126,6 +126,4 @@ public class UndoOptions {
             System.out.println("Something went wrong.");
         }
     }
-
-
 }
