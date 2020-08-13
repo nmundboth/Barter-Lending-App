@@ -20,9 +20,6 @@ public class TradingMain extends Application {
     }
 
     public static void main(String[] args) throws Exception {
-        //TradingSystem ts = new TradingSystem();
-        //ts.run();
         launch(args);
-
     }
 }

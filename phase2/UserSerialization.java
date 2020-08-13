@@ -67,9 +67,6 @@ public class UserSerialization
             System.out.println("Class not found");
         }
 
-        for (User name : userList) {
-            System.out.println(name);
-        }
         return userList;
     }
 }
