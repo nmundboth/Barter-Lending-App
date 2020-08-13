@@ -535,10 +535,12 @@ InboxOptions {
                                 System.out.println("Request sent!");
                                 break;
                             }
-                            else if (input.equals("N")){ //Make other item physical
-                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
-                                        true, true, false);
-                                System.out.println("Request sent!");
+                            else if (input.equals("N")){ //Item is physical
+                                System.out.println("This trade cannot be arranged. Either both items are digital"+
+                                        " or both items are non-digital for a trade to occur.");
+//                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+//                                        true, true, false);
+//                                System.out.println("Request sent!");
                                 break;
                             }
                             else {
@@ -563,10 +565,12 @@ InboxOptions {
                             if (input.equals("exit")){
                                 break;
                             }
-                            else if (input.equals("Y")){ //Make other item digital
-                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
-                                        true, false, true);
-                                System.out.println("Request sent!");
+                            else if (input.equals("Y")){ //Item is digital
+                                System.out.println("This trade cannot be arranged. Either both items are digital"+
+                                        " or both items are non-digital for a trade to occur.");
+//                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+//                                        true, false, true);
+//                                System.out.println("Request sent!");
                                 break;
                             }
                             else if (input.equals("N")){ //Make other item physical
@@ -610,10 +614,12 @@ InboxOptions {
                                 System.out.println("Request sent!");
                                 break;
                             }
-                            else if (input.equals("N")){ //Make other item physical
-                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
-                                        false, true, false);
-                                System.out.println("Request sent!");
+                            else if (input.equals("N")){ //Item is physical
+                                System.out.println("This trade cannot be arranged. Either both items are digital"+
+                                        " or both items are non-digital for a trade to occur.");
+//                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+//                                        false, true, false);
+//                                System.out.println("Request sent!");
                                 break;
                             }
                             else {
@@ -638,10 +644,12 @@ InboxOptions {
                             if (input.equals("exit")){
                                 break;
                             }
-                            else if (input.equals("Y")){ //Make other item digital
-                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
-                                        false, false, true);
-                                System.out.println("Request sent!");
+                            else if (input.equals("Y")){ //Item is digital
+                                System.out.println("This trade cannot be arranged. Either both items are digital"+
+                                        " or both items are non-digital for a trade to occur.");
+//                                tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
+//                                        false, false, true);
+//                                System.out.println("Request sent!");
                                 break;
                             }
                             else if (input.equals("N")){ //Make other item physical

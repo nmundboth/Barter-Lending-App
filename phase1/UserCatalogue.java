@@ -34,7 +34,9 @@ public class UserCatalogue {
         return items;
     }
 
-    //Prints the Catalogue for guest only
+    /**
+     * Prints the Trade Catalogue where all information is provided about Traders and what they want to buy and sell.
+     */
     public void printDetails(){
         for (User trader: userBase){
             if (trader instanceof Trader){
@@ -110,7 +112,10 @@ public class UserCatalogue {
         }
     }
 
-    //Filters location for guest only
+    /** Filters the Trade Catalogue by city.
+     *
+     * @param location which represents the city where Trader resides.
+     */
     public void filterByLocation(String location){
         for (User trader: userBase){
             if (trader instanceof Trader && ((Trader) trader).getLocation().equals(location)){
@@ -181,7 +186,11 @@ public class UserCatalogue {
         }
     }
 
-    //Checks if location exists
+    /** Checks if the city exists in the Trade Catalogue.
+     *
+     * @param location which represents the city where Trader resides.
+     * @return a boolean representing if the city exists in the Trade Catalogue.
+     */
     public boolean validLocation(String location){
         for (User user: userBase){
             if (user instanceof Trader && ((Trader) user).getLocation().equals(location)){
@@ -191,7 +200,10 @@ public class UserCatalogue {
         return false;
     }
 
-    //Filters a trader's information for guest only
+    /** Filters the Trade Catalogue by name.
+     *
+     * @param name which represents the name of the Trader.
+     */
     public void filterByName(String name){
         for (User trader: userBase){
             if (trader instanceof Trader && ((Trader) trader).getName().equals(name)){
@@ -262,7 +274,11 @@ public class UserCatalogue {
         }
     }
 
-    //Checks if trader's name exists
+    /** Checks if that name exists in the Trade Catalogue.
+     *
+     * @param name which represents the name of a Trader.
+     * @return a boolean to check if that name exists in the Trade Catalogue.
+     */
     public boolean validName(String name){
         if (!(userBase.size() == 0)) {
             for (User user : userBase) {
@@ -274,7 +290,11 @@ public class UserCatalogue {
         return false;
     }
 
-    //Checks if inventory item exists
+    /** Checks if the item in a Trader's inventory exists.
+     *
+     * @param item which represents an item in a Trader's inventory.
+     * @return a boolean to check if the item in a Trader's inventory exists.
+     */
     public boolean validInventoryItem(String item){
         for (User user: userBase){
             if (user instanceof Trader){
@@ -290,7 +310,11 @@ public class UserCatalogue {
         return false;
     }
 
-    //Checks if wishlist item exists
+    /** Checks if the item in a Trader's wishlist exists.
+     *
+     * @param item which represents an item in a Trader's wishlist.
+     * @return a boolean to check if the item in a Trader's wishlist exists.
+     */
     public boolean validWishlistItem(String item){
         for (User user: userBase){
             if (user instanceof Trader){
@@ -306,7 +330,10 @@ public class UserCatalogue {
         return false;
     }
 
-    //Filters traders' inventories for guest only
+    /** Filters Trade Catalogue by inventory.
+     *
+     * @param item which represents an item in a Trader's inventory.
+     */
     public void filterInventory(String item){
         for (User trader: userBase){
             if (trader instanceof Trader){
@@ -377,7 +404,10 @@ public class UserCatalogue {
         }
     }
 
-    //Filters traders' wishlists for guest only
+    /** Filters Trade Catalogue by wishlist.
+     *
+     * @param item which represents an item in a Trader's wishlist.
+     */
     public void filterWishlist(String item){
         for (User trader: userBase){
             if (trader instanceof Trader){
