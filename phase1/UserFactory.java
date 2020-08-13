@@ -6,11 +6,21 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * <h1>User Factory</h1>
+ * <p>The UserFactory class creates instances of different types of users.</p>
+ */
 public class UserFactory {
 
     public UserFactory(){
     }
 
+    /**
+     * Creates a new instance of a Trader User.
+     * @param br Trader sending the request.
+     * @param username Trader receiving the request.
+     * @param us Item offered by ogTrader in transaction.
+     */
     public UserCatalogue newTrader(BufferedReader br, String username, UserSerialization us) throws Exception{
         UserCatalogue uc = new UserCatalogue(us.deserialize());
         //Need to get name and password for user
@@ -49,6 +59,12 @@ public class UserFactory {
         return uc;
     }
 
+    /**
+     * Creates a new instance of an Admin User.
+     * @param br Trader sending the request.
+     * @param username Trader receiving the request.
+     * @param us Item offered by ogTrader in transaction.
+     */
     public UserCatalogue newAdmin(BufferedReader br, String username, UserSerialization us) throws Exception{
         UserCatalogue uc = new UserCatalogue(us.deserialize());
         //Need to get name and password for user

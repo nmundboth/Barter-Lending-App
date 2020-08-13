@@ -230,6 +230,10 @@ public class TraderOptions {
     }
 
     // Allows a trader to create a new item, and add it to their inventory.
+    /**
+     * Prompts a user to input a name and details of a new item they want to add to their inventory.
+     * @param br Client input.
+     */
     private void addToInventory(BufferedReader br){
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         System.out.println("Enter the name of the item you would like to add to your inventory: ");
@@ -256,6 +260,10 @@ public class TraderOptions {
 
     // Allows a trader to add an existing, confirmed item to their wishlist.
     // A trader can not add an item to their wishlist that is in their inventory.
+    /**
+     * Adds an existing confirmed item to a trader's wishlist from their inventory.
+     * @param br Client input.
+     */
     private void addtoWishlist(BufferedReader br){
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         ArrayList<Item> confirmed = uc.findConfirmed();
@@ -292,6 +300,10 @@ public class TraderOptions {
     }
 
     // Allows a trader to remove item from their wishlist.
+    /**
+     * Removes an item from a trader's wishlist.
+     * @param br Client input.
+     */
     private void removeItemFromWishList(BufferedReader br){
         System.out.println("To go back to the options menu at any point, type 'exit'.");
         ArrayList<Item> userItem = curr.getWishList().getInv();
@@ -320,6 +332,10 @@ public class TraderOptions {
     }
 
     // Allow User to change their location
+    /**
+     * Prompts a user and changes the name of the trader's location that the user inputs.
+     * @param br Client input.
+     */
     private void changeLocation(BufferedReader br){
         System.out.println("Your current location: " + curr.getLocation());
         System.out.println("Do you want to change your current location? (Y/N)");
@@ -348,6 +364,10 @@ public class TraderOptions {
         }
     }
 
+    /**
+     * Prompts the user to confirm they want to make themselves marked as unavailable for new trades.
+     * @param br Client input.
+     */
     private Boolean makeUnavailable(BufferedReader br) {
         System.out.println("Do you want to make yourself unavailable for new trades? You will be logged out and unavailable to make additional trades until you log in again.\n" +
         "1. Yes\n" +
@@ -378,6 +398,10 @@ public class TraderOptions {
     // Template taken from
     // https://www.baeldung.com/java-check-string-number
     // Checks whether a given string is an integer.
+    /**
+     * Checks if a string is an integer.
+     * @param strNum String to check if it is an integer.
+     */
     private boolean isInteger(String strNum) {
         if (strNum == null) {
             return false;
