@@ -216,10 +216,18 @@ public class Trade implements Serializable {
     public void removeItems(){
     }
 
+    /** Method which represents if a meeting needs to take place or not.
+     *
+     * @return a boolean which represents if a meeting is required or not.
+     */
     public boolean isNoMeet() {
         return noMeet;
     }
 
+    /** Sets a required or non-required meeting.
+     *
+     * @param noMeet which represents a required or non-required meeting
+     */
     public void setNoMeet(boolean noMeet) {
         this.noMeet = noMeet;
     }
