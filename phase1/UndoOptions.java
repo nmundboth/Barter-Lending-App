@@ -18,6 +18,10 @@ public class UndoOptions {
     public List<Message> cancelledTrades;
     private UserCatalogue uc;
 
+    /**
+     * @param curr the current user.
+     * @param uc an instance of User Catalogue.
+     */
     public UndoOptions(Trader curr, UserCatalogue uc) {
         this.uc = uc;
         this.curr = curr;
@@ -27,7 +31,9 @@ public class UndoOptions {
                 "3. Restart an already cancelled trade";
     }
 
-
+    /**
+     * Presents Admin User with options to undo from Trader accounts.
+     */
     public void run() {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 

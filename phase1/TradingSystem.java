@@ -63,6 +63,10 @@ public class TradingSystem {
     }
 
     //Enters guest mode
+    /**
+     * Presents the user with guest mode options to view the catalogue of items.
+     * @param br client input.
+     */
     private void guestMode(BufferedReader br){
 
         try{
@@ -82,6 +86,10 @@ public class TradingSystem {
 
     // Takes user input, and checks it against the user catalogue, then logs the user in if the user exists and the pw
     // is correct.
+    /**
+     * Presents the user with guest mode options to view the catalogue of items.
+     * @param br client input.
+     */
     private void login(BufferedReader br){
         try{
             System.out.println("Please enter your Username: ");
@@ -163,6 +171,7 @@ public class TradingSystem {
         }
     }
 
+    // Moved to UserFactory.java
     // Called once verified that user with username doesn't already exist.
     // Creates a new user with the specified username, and the first name & password that the user inputs.
 //    public void newUser(BufferedReader br, String username){
