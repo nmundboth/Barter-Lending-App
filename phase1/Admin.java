@@ -15,7 +15,6 @@ public class Admin extends User implements Serializable {
     /**
      * @param username The username of the admin
      * @param password The password of the admin
-     * @param type The account type of the admin ("admin")
      * @param inbox The admin's inbox
      */
     public Admin(String username, String password, AdminInbox inbox) {
@@ -28,7 +27,7 @@ public class Admin extends User implements Serializable {
      *
      * @param trader The trader that the admin wishes to freeze
      */
-    protected void freezeTrader(Trader trader){trader.getTraderStatus().setFrozen(true);}
+    protected void freezeTrader(Trader trader){trader.getTraderStatus().setFrozen();}
 
     /**
      * Allows an admin to confirm an item.

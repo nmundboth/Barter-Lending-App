@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phase1.OKDialogueBox">
+   <center>
+      <VBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0" BorderPane.alignment="BOTTOM_CENTER">
+         <children>
+            <Label alignment="CENTER" contentDisplay="BOTTOM" prefHeight="39.0" prefWidth="300.0" text="Please lend more items before you attempt to borrow!" textAlignment="CENTER" wrapText="true">
+               <VBox.margin>
+                  <Insets left="8.0" right="8.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+         </children>
+      </VBox>
+   </center>
+   <bottom>
+      <HBox alignment="CENTER" prefHeight="42.0" prefWidth="300.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonClicked" text="OK">
+               <HBox.margin>
+                  <Insets bottom="5.0" right="5.0" />
+               </HBox.margin>
+               <padding>
+                  <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+               </padding>
+            </Button>
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>

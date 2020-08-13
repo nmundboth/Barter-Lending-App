@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="624.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phase1.AcceptedTradesScreen">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="900.0">
+               <children>
+                  <Label text="Accepted Trades">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" top="20.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin>
+            </Separator>
+            <HBox alignment="CENTER_LEFT" prefHeight="302.0" prefWidth="900.0">
+               <children>
+                  <TableView fx:id="acceptedTradeTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="300.0" prefWidth="600.0">
+                    <columns>
+                      <TableColumn fx:id="tradeInfoColumn" minWidth="600.0" prefWidth="600.0" text="Trade" />
+                    </columns>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </TableView>
+                  <VBox alignment="CENTER_LEFT" prefHeight="300.0" prefWidth="300.0" spacing="5.0">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="295.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#proposeBtnClicked" text="Propose Meeting">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label prefHeight="34.0" prefWidth="172.0" text="Propose a meeting for an unscheduled trade." wrapText="true" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="200.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#editBtnClicked" prefWidth="107.0" text="Edit Meeting">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label prefHeight="34.0" prefWidth="172.0" text="Edit a proposed meeting for a closed trade." wrapText="true" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="200.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#acceptBtnClicked" prefWidth="107.0" text="Accept Meeting">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label prefHeight="34.0" prefWidth="172.0" text="Accept a proposed meeting (opens trade)." wrapText="true" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="200.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#confirmBtnClicked" prefWidth="107.0" text="Confirm Trade">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label prefHeight="34.0" prefWidth="172.0" text="Confirm that a trade has happened." wrapText="true" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="200.0" spacing="5.0">
+                           <children>
+                              <Button mnemonicParsing="false" onAction="#cancelBtnClicked" prefWidth="107.0" text="Cancel Trade">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label prefHeight="34.0" prefWidth="172.0" text="Request to cancel a trade." wrapText="true" />
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" prefHeight="55.0" prefWidth="295.0">
+                           <children>
+                              <Label fx:id="incorrectSelectionLabel" text="Please select a valid trade, where you didn't propose the meeting." wrapText="true">
+                                 <HBox.margin>
+                                    <Insets left="6.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <Separator prefWidth="200.0">
+               <VBox.margin>
+                  <Insets top="17.0" />
+               </VBox.margin>
+            </Separator>
+            <HBox prefHeight="27.0" prefWidth="200.0">
+               <children>
+                  <Label text="Information">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" top="4.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="19.0" prefWidth="900.0">
+               <children>
+                  <Label text="A closed trade is one where a meeting has not yet been agreed upon.">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="19.0" prefWidth="900.0">
+               <children>
+                  <Label text="You may only propose a meeting for a closed trade which does not yet have a meeting scheduled.">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="19.0" prefWidth="200.0">
+               <children>
+                  <Label text="Each trader only has 3 edits to a proposed meeting (initial proposal counts as an edit).">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="19.0" prefWidth="200.0">
+               <children>
+                  <Label text="Accepting a proposed meeting will open the trade, and will be considered an active trade for both users involved.">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="19.0" prefWidth="200.0">
+               <children>
+                  <Label text="Confirming a trade either confirms that a meeting has happened for a non-digital trade, or confirms that the trade has happened for a digital trade.">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="19.0" prefWidth="200.0">
+               <children>
+                  <Label text="Canceling a trade indicates that you would like to cancel the trade - can only cancel trades where no meeting has been agreed upon yet.">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox prefHeight="19.0" prefWidth="200.0">
+               <children>
+                  <Label text="In order for a trade to be confirmed or cancelled, both users must indicate as such.">
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

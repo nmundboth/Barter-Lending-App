@@ -26,12 +26,8 @@ public class Message implements Serializable {
 
     public User getRecipient(){return this.recipient;}
 
-    public void read(){
-        System.out.println(this.content);
-        this.read = true;
-    }
-
     public String getContent() {
+        this.read = true;
         return content;
     }
 }

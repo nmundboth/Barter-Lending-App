@@ -1,7 +1,6 @@
 package phase1;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 abstract class Inbox implements Serializable {
@@ -43,10 +42,10 @@ abstract class Inbox implements Serializable {
     protected List<Message> getTraderNoti() { return traderNoti; }
 
 
-    // Getters for the un-read messages
+    // Getters for the un-read message amounts
     /**
      * A getter for the Trades sub-inbox
-     * @return the sub-inbox
+     * @return the number of unread trader messages
      */
     protected int getTraderNotiUnread(){return traderNotiUnread; }
 
@@ -77,7 +76,6 @@ abstract class Inbox implements Serializable {
         Message message = this.traderNoti.get(index);
         this.traderNoti.remove(index);
         this.traderNotiUnread -= 1;
-        message.read();
     }
 
     /**
@@ -89,7 +87,6 @@ abstract class Inbox implements Serializable {
         Message message = this.admiNoti.get(index);
         this.admiNoti.remove(index);
         this.admiNotiUnread -= 1;
-        message.read();
     }
 
     protected void addAdminNoti(Message message){ this.admiNoti.add(message);}

@@ -89,11 +89,6 @@ public class TraderStatus implements Serializable {
      */
     public boolean isFrozen(){return statusList.get(0);}
 
-    protected void setFrozen(boolean frozen){
-        this.statusList.remove(0);
-        this.statusList.add(0, frozen);
-    }
-
     /**
      * Checks whether the trader has been automatically flagged for having too many incomplete transactions, or too
      * many weekly transactions. Flagged traders are sent to admins, who can then decide whether or not to freeze a
@@ -131,6 +126,11 @@ public class TraderStatus implements Serializable {
     public void setUnavailable() {
         this.statusList.remove(2);
         this.statusList.add(2, false);
+    }
+
+    public void setFrozen() {
+        this.statusList.remove(0);
+        this.statusList.add(0, true);
     }
 
     /**

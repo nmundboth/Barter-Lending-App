@@ -42,15 +42,14 @@ public class TwoWayTrade extends Trade implements Serializable {
     /**
      * @return a String representation of a Two-Way trade.
      */
+
     public String toString(){
-        if (permanent){
-            return ogTrader.getName() + " giving " + ogItem + " to " + otherTrader.getName() + " for " +
-                    otherItem + ".";
-        }
-        else {// temporary
-            return ogTrader.getName() + " temporarily giving " + ogItem + " to " + otherTrader.getName() +
-                    " for " + otherItem + ".";
-        }
+        String digital = this.isNoMeet() ? "Digital" : "Not Digital";
+        String duration = this.isPermanent() ? "Permanent" : "Temporary";
+        String open = this.isOpen() ? "Open" : "Closed";
+        String meeting = this.getMeeting().isEmpty() ? "No meeting scheduled" : this.getMeeting().toString();
+        return ogTrader.getUsername() + " giving " + ogItem + " to " + otherTrader.getUsername() + " for " +
+                otherItem + " (" + digital + ", " + duration + ", " + open + ")  |  Meeting: " + meeting + ".";
     }
 
     /**

@@ -119,8 +119,7 @@ public class Trader extends User implements Serializable {
                 }
             }
         }
-        ArrayList<Trader> frequentPartners = new ArrayList<Trader>(threeMostFrequent.keySet());
-        return frequentPartners;
+        return new ArrayList<Trader>(threeMostFrequent.keySet());
     }
 
     /** Removes the trader from a trader's three most frequent if they are the least frequently traded with in that list.
@@ -173,92 +172,6 @@ public class Trader extends User implements Serializable {
         this.location = location;
     }
 
-//    /**
-//     * Keeps count of incomplete Trades. Records number of incomplete Trades.
-//     */
-//    public void addIncomplete(){
-//        incomplete += 1;
-//    }
-//
-//    /**
-//     * Once a Trade is completed, number of incomplete Trades decreases.
-//     */
-//    public void removeIncomplete(){
-//        incomplete -= 1;
-//    }
-//
-//    /** Checks if limit of Trades for a Trader has been exceeded in a week.
-//     *
-//     * @return true if limit of Trades has been exceeded.
-//     */
-//    public boolean overWeeklyLimit(){
-//        return this.weeklyTransxns > weeklyTransxnLimit;
-//    }
-//
-//    /** Checks if Trader has too many incomplete Trades.
-//     *
-//     * @return true if limit of incomplete Trades has been exceeded.
-//     */
-//    public boolean overIncompleteLimit(){
-//        return this.incomplete > incompleteLimit;
-//    }
-//
-//    /**
-//     * Checks whether the trader has been automatically flagged for having too many incomplete transactions, or too
-//     * many weekly transactions. Flagged traders are sent to admins, who can then decide whether or not to freeze a
-//     * trader.
-//     *
-//     * @return a boolean representing whether the user has been flagged.
-//     */
-//    public boolean isFlagged(){
-//        return flagged;
-//    }
-//
-//    /**
-//     * Flags a trader - indicates too many outstanding incomplete transactions, or too many weekly transactions.
-//     */
-//    public void flag(){
-//        this.flagged = true;
-//    }
-//
-//    /** Checks if Trader's account is frozen. true means the account is frozen.
-//     *
-//     * @return state of Trader's account.
-//     */
-//    public boolean isFrozen(){return frozen;}
-//
-//    /** Checks if the Trader is within the limits of borrowing from other Traders.
-//     *
-//     * @return an integer which checks if Trader has exceeded limit in borrowing.
-//     */
-//    public int getGreedyInt(){
-//        return greedyInt;
-//    }
-//
-//    /**
-//     * Used to track the lend/borrow ratio of users (higher = more borrows than lends = greedier)
-//     * @param greedyInt The integer tracking how greedy a user is (how much more they have borrowed than lent)
-//     */
-//    public void setGreedyInt(int greedyInt){
-//        this.greedyInt = greedyInt;
-//    }
-//
-//    /** Gets the number of incomplete Trades for a Trader.
-//     *
-//     * @return an integer telling the number of incomplete Trades.
-//     */
-//    public int getIncomplete(){
-//        return this.incomplete;
-//    }
-//
-//    /**
-//     * Gets the number of transactions that a trader has conducted this week.
-//     *
-//     * @return an integer representing number of weekly transactions.
-//     */
-//    public int getWeeklyTransxns(){
-//        return this.weeklyTransxns;
-//    }
     /**
      * Gets the items that this trader has most recently traded to others (max. 3 items)
      *

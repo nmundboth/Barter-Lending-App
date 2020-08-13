@@ -30,12 +30,12 @@ public class TradeManager {
         trade.setReceiver(ogTrader);
         trade.setLender(otherTrader);
         trade.setPermanent(isPermanent);
-        trade.setNoMeet(item.isDigital()); //If item is digital, there will be no meeting
+        trade.setNoMeet(item.isDigital());
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
-        TradeMessage text = new TradeMessage(ogTrader.getName() + " wants to borrow " + item + " from you.",
-                ogTrader, otherTrader, trade);
-        traderInbox.addUnaccepted(text);//ogTrader.getInbox().addUnaccepted(message);
+        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
+        Message text = new Message(ogTrader.getName() + " wants to borrow " + item + " from you.",
+                ogTrader, otherTrader);
         otherTrader.getInbox().addTraderNoti(text);
     }
 
@@ -55,12 +55,11 @@ public class TradeManager {
         trade.setLender(ogTrader);
         trade.setReceiver(otherTrader);
         trade.setPermanent(isPermanent);
-        trade.setNoMeet(item.isDigital()); //If item is digital, there will be no meeting
+        trade.setNoMeet(item.isDigital());
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
-        TradeMessage text = new TradeMessage(ogTrader.getName() + " wants to lend you " + item + ".",
-                ogTrader, otherTrader, trade);
-        traderInbox.addUnaccepted(text);//ogTrader.getInbox().addUnaccepted(message);
+        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
+        Message text = new Message(ogTrader.getName() + " wants to lend you " + item + ".", ogTrader, otherTrader);
         otherTrader.getInbox().addTraderNoti(text);
     }
 
@@ -80,12 +79,11 @@ public class TradeManager {
         TwoWayTrade trade = new TwoWayTrade(ogTrader, otherTrader, ogItem, otherItem);
         trade.setPermanent(isPermanent);
         trade.setNoMeet(ogItem.isDigital()&&otherItem.isDigital());
-        //If both items are digital, there will be no meeting
-        //If one item is digital, there will be one meeting (for the physical item)
+        TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
-        TradeMessage text = new TradeMessage(ogTrader.getName() + " wants to trade their " + ogItem +
-                " for your " + otherItem + ".", ogTrader, otherTrader, trade);
-        traderInbox.addUnaccepted(text);//ogTrader.getInbox().addUnaccepted(message);
+        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
+        Message text = new Message(ogTrader.getName() + " wants to trade their " + ogItem +
+                " for your " + otherItem + ".", ogTrader, otherTrader);
         otherTrader.getInbox().addTraderNoti(text);
     }
 
@@ -142,28 +140,22 @@ public class TradeManager {
         //accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
         this.checkTransxnLimit(accepting);
         this.checkTransxnLimit(accepted);
-        TraderInbox inbox = (TraderInbox) accepted.getInbox();
         if (accepting == trade.getLender()){
             accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " will lend you their " +
                     trade.getItem() + ".", accepting, accepted));
-            inbox.addTrade(new TradeMessage(accepting.getName() + " will lend you their " +
-                    trade.getItem() + ".", accepting, accepted, trade));
         }
         else { // (accepting == trade.getReceiver())
             accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " will borrow your " +
                     trade.getItem() + ".", accepting, accepted));
-            inbox.addTrade(new TradeMessage(accepting.getName() + " will borrow your " +
-                    trade.getItem() + ".", accepting, accepted, trade));
         }
     }
 
     public void acceptTrade(Trader accepting, Trader accepted, TwoWayTrade trade){
         TraderInbox traderInbox = (TraderInbox) accepting.getInbox();
-//        traderInbox.addTrade(new TradeMessage("", accepted, accepting, trade));
+        traderInbox.addTrade(new TradeMessage("", accepted, accepting, trade));
         //accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
         this.checkTransxnLimit(accepting);
         this.checkTransxnLimit(accepted);
-        TraderInbox inbox = (TraderInbox) accepted.getInbox();
         if (accepting == trade.getOgTrader()){
             accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " accepts the trade for their " +
                     trade.getOgItem() + " and your " + trade.getOtherItem() + ".", accepting, accepted));
@@ -172,8 +164,6 @@ public class TradeManager {
             accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " accepts the trade for their " +
                     trade.getOtherItem() + " and your" + trade.getOgItem() + ".", accepting, accepted));
         }
-        inbox.addTrade(new TradeMessage(accepting.getName() + " accepts the trade for their " +
-                trade.getOtherItem() + " and your " + trade.getOgItem() + ".", accepting, accepted, trade));
     }
 
     private void checkTransxnLimit(Trader trader){
@@ -199,7 +189,7 @@ public class TradeManager {
     }
 
     private void confirm(Trade trade){
-        if (trade.isPermanent() || trade.isNoMeet()){ //If the trade does not require a meeting or is permanent
+        if (trade.isPermanent() || trade.isNoMeet()){
             trade.removeItems();
             this.completeTrade(trade);
         }

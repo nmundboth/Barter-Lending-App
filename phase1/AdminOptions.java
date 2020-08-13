@@ -280,7 +280,7 @@ public class AdminOptions {
                                 System.out.println(menuOptions);
                                 break;
 
-                            //back to menu  
+                            //back to menu
                             case "6":
                                 System.out.println(menuOptions);
                                 break;

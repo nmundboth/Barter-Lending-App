@@ -1,6 +1,5 @@
 package phase1;
 
-import java.util.List;
 import java.io.Serializable;
 
 /**
@@ -63,5 +62,10 @@ abstract class User implements Serializable{
      */
     public Inbox getInbox() {
         return inbox;
+    }
+
+    @Override
+    public String toString() {
+        return username;
     }
 }

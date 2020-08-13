@@ -17,13 +17,13 @@ public class Trade implements Serializable {
     private int ogEdits;
     private int otherEdits;
     private boolean open;
-    protected boolean permanent;
+    protected Boolean permanent;
     private ArrayList<Trader> confirmations;
     private ArrayList<Trader> cancellations;
     private Meeting meeting;
     private int completedMeetings; // For temporary trades only -> tracks whether this is the first or second meeting.
     private Period tempTradePeriod;
-    private boolean noMeet; //No meeting is required for a  trade to happen
+    private Boolean noMeet; //No meeting is required for a  trade to happen
 
     /**
      * @param ogTrader the trader that originally proposed this trade
@@ -127,9 +127,6 @@ public class Trade implements Serializable {
         LocalDate secondMeeting = currMeeting.plus(tempTradePeriod);
         meeting.setDate(secondMeeting.toString());
 
-        TradeMessage message = new TradeMessage("" + secondMeeting.toString(),
-                this.ogTrader, this.otherTrader, this);
-
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
         traderInbox.tradeConfirmed(otherTrader, "First meeting for the trade:\n" + this +
                 "\nhas been completed. Second meeting set for " + secondMeeting.toString());
@@ -216,18 +213,10 @@ public class Trade implements Serializable {
     public void removeItems(){
     }
 
-    /** Method which represents if a meeting needs to take place or not.
-     *
-     * @return a boolean which represents if a meeting is required or not.
-     */
     public boolean isNoMeet() {
         return noMeet;
     }
 
-    /** Sets a required or non-required meeting.
-     *
-     * @param noMeet which represents a required or non-required meeting
-     */
     public void setNoMeet(boolean noMeet) {
         this.noMeet = noMeet;
     }
