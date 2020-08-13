@@ -24,7 +24,7 @@ public class MeetingManager {
      * @param time The time of the meeting.
      */
     public void proposeMeeting(Trader setter, Trade trade, String location, String date, String time){
-        if (trade.isNoMeet()){
+        if (trade.isNoMeet()){ //If item/s is/are digital, a meeting cannot happen
             System.out.println("A meeting cannot be scheduled since the trade is digital.");
         }
         else if (trade.getOgEdits() == 0 && trade.getOtherEdits() == 0){
