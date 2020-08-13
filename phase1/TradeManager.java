@@ -33,9 +33,9 @@ public class TradeManager {
         trade.setNoMeet(item.isDigital()); //If item is digital, there will be no meeting
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
-        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
-        Message text = new Message(ogTrader.getName() + " wants to borrow " + item + " from you.",
-                ogTrader, otherTrader);
+        TradeMessage text = new TradeMessage(ogTrader.getName() + " wants to borrow " + item + " from you.",
+                ogTrader, otherTrader, trade);
+        traderInbox.addUnaccepted(text);//ogTrader.getInbox().addUnaccepted(message);
         otherTrader.getInbox().addTraderNoti(text);
     }
 
@@ -58,8 +58,9 @@ public class TradeManager {
         trade.setNoMeet(item.isDigital()); //If item is digital, there will be no meeting
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
-        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
-        Message text = new Message(ogTrader.getName() + " wants to lend you " + item + ".", ogTrader, otherTrader);
+        TradeMessage text = new TradeMessage(ogTrader.getName() + " wants to lend you " + item + ".",
+                ogTrader, otherTrader, trade);
+        traderInbox.addUnaccepted(text);//ogTrader.getInbox().addUnaccepted(message);
         otherTrader.getInbox().addTraderNoti(text);
     }
 
@@ -141,22 +142,28 @@ public class TradeManager {
         //accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
         this.checkTransxnLimit(accepting);
         this.checkTransxnLimit(accepted);
+        TraderInbox inbox = (TraderInbox) accepted.getInbox();
         if (accepting == trade.getLender()){
             accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " will lend you their " +
                     trade.getItem() + ".", accepting, accepted));
+            inbox.addTrade(new TradeMessage(accepting.getName() + " will lend you their " +
+                    trade.getItem() + ".", accepting, accepted, trade));
         }
         else { // (accepting == trade.getReceiver())
             accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " will borrow your " +
                     trade.getItem() + ".", accepting, accepted));
+            inbox.addTrade(new TradeMessage(accepting.getName() + " will borrow your " +
+                    trade.getItem() + ".", accepting, accepted, trade));
         }
     }
 
     public void acceptTrade(Trader accepting, Trader accepted, TwoWayTrade trade){
         TraderInbox traderInbox = (TraderInbox) accepting.getInbox();
-        traderInbox.addTrade(new TradeMessage("", accepted, accepting, trade));
+//        traderInbox.addTrade(new TradeMessage("", accepted, accepting, trade));
         //accepting.getInbox().addTrade(new TradeMessage("", accepted, accepting, trade));
         this.checkTransxnLimit(accepting);
         this.checkTransxnLimit(accepted);
+        TraderInbox inbox = (TraderInbox) accepted.getInbox();
         if (accepting == trade.getOgTrader()){
             accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " accepts the trade for their " +
                     trade.getOgItem() + " and your " + trade.getOtherItem() + ".", accepting, accepted));
@@ -165,6 +172,8 @@ public class TradeManager {
             accepted.getInbox().addTraderNoti(new Message(accepting.getName() + " accepts the trade for their " +
                     trade.getOtherItem() + " and your" + trade.getOgItem() + ".", accepting, accepted));
         }
+        inbox.addTrade(new TradeMessage(accepting.getName() + " accepts the trade for their " +
+                trade.getOtherItem() + " and your " + trade.getOgItem() + ".", accepting, accepted, trade));
     }
 
     private void checkTransxnLimit(Trader trader){
