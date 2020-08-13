@@ -132,7 +132,7 @@ public class AdminInbox extends Inbox implements Serializable {
         Trader temp = undoFrozen.get(index);
         undoFrozen.remove(index);
         this.undoFrozenUnread -= 1;
-        temp.frozen = false;
+        temp.getTraderStatus().setFrozen(false);
     }
 
     /** Method for accessing a wishlist removing requests and removing that item

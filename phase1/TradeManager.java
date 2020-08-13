@@ -30,7 +30,7 @@ public class TradeManager {
         trade.setReceiver(ogTrader);
         trade.setLender(otherTrader);
         trade.setPermanent(isPermanent);
-        trade.setNoMeet(item.isDigital());
+        trade.setNoMeet(item.isDigital()); //If item is digital, there will be no meeting
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
         traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
@@ -55,7 +55,7 @@ public class TradeManager {
         trade.setLender(ogTrader);
         trade.setReceiver(otherTrader);
         trade.setPermanent(isPermanent);
-        trade.setNoMeet(item.isDigital());
+        trade.setNoMeet(item.isDigital()); //If item is digital, there will be no meeting
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
         traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
@@ -79,6 +79,8 @@ public class TradeManager {
         TwoWayTrade trade = new TwoWayTrade(ogTrader, otherTrader, ogItem, otherItem);
         trade.setPermanent(isPermanent);
         trade.setNoMeet(ogItem.isDigital()&&otherItem.isDigital());
+        //If both items are digital, there will be no meeting
+        //If one item is digital, there will be one meeting (for the physical item)
         TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
         traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
@@ -189,7 +191,7 @@ public class TradeManager {
     }
 
     private void confirm(Trade trade){
-        if (trade.isPermanent() || trade.isNoMeet()){
+        if (trade.isPermanent() || trade.isNoMeet()){ //If the trade does not require a meeting or is permanent
             trade.removeItems();
             this.completeTrade(trade);
         }

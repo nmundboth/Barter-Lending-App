@@ -134,7 +134,7 @@ InboxOptions {
                         break;
 
                     case "6":
-                        if (((Trader) curr).f){
+                        if (((Trader) curr).getTraderStatus().isFrozen()){
                             if (!(adminInbox.undoFrozen.contains((Trader) curr))){
                                 adminInbox.undoFrozen.add((Trader) curr);
                                 System.out.println("You have requested to be unfrozen.");
@@ -379,10 +379,16 @@ InboxOptions {
                             }
                         }
                         else{
+                            for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++) {
+                                System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i));
+                            }
                             System.out.println(lendPrompt);
                         }
                     }
                     else{
+                        for (int i = 0; i < ((Trader) curr).getInventory().getInv().size(); i++) {
+                            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getInventory().getInv().get(i));
+                        }
                         System.out.println(lendPrompt);
                     }
                 }
@@ -398,12 +404,17 @@ InboxOptions {
     // This method initiates that process, by asking the trader which item from their wishlist that they would like
     // to receive in a trade.
     private void tradeItem(BufferedReader br){
-        for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++) {
-            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
-        }
         String tradePrompt = "Select the item from your wishlist that you would like to trade for, " +
                 "or type 'exit' to go back: ";
-        System.out.println(tradePrompt);
+        if (((Trader) curr).getWishList().getInv().size() == 0){
+            System.out.println("There are no tradable items. You cannot make a selection.\nTo go back, type 'exit'");
+        }
+        else {
+            for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++) {
+                System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
+            }
+            System.out.println(tradePrompt);
+        }
 
         try{
             String input = br.readLine();
@@ -413,7 +424,15 @@ InboxOptions {
                     phase1.Item item = ((Trader) curr).getWishList().getInv().get(Integer.parseInt(input) - 1);
                     ArrayList <User> userWithItem = uc.findUserWithItem(item);
                     selectTrader(item, userWithItem, br);
-                    System.out.println(tradePrompt);
+                    if (((Trader) curr).getWishList().getInv().size() == 0){
+                        System.out.println("There are no tradable items. You cannot make a selection.\nTo go back, type 'exit'");
+                    }
+                    else {
+                        for (int i = 0; i < ((Trader) curr).getWishList().getInv().size(); i++) {
+                            System.out.println("    " + (i + 1) + ". " + ((Trader) curr).getWishList().getInv().get(i));
+                        }
+                        System.out.println(tradePrompt);
+                    }
                 }
                 input = br.readLine();
             }
@@ -480,7 +499,12 @@ InboxOptions {
                 tradableItems.add(((Trader) other).getWishList().getInv().get(i));
             }
         }
-        System.out.println("Select an item you wish to offer in the trade.");
+        if (tradableItems.size() == 0){
+            System.out.println("There are no tradable items. You cannot make a selection.");
+        }
+        else {
+            System.out.println("Select an item you wish to offer in the trade.");
+        }
         try{
             String input = br.readLine();
             while(!input.equals("exit")){
@@ -493,110 +517,170 @@ InboxOptions {
                     if(input.equals("exit")){
                         break;
                     }
-                    else if(input.equals("Y")){
+                    else if(input.equals("Y")){ //Make transaction permanent
                         System.out.println("Is your item digital? (Y/N)");
                         input = br.readLine();
                         if (input.equals("exit")){
                             break;
                         }
-                        else if (input.equals("Y")){
+                        else if (input.equals("Y")){ //Make item digital
                             System.out.println("Is "+((Trader) other).getName()+"'s item digital? (Y/N)");
                             input = br.readLine();
                             if (input.equals("exit")){
                                 break;
                             }
-                            else if (input.equals("Y")){
+                            else if (input.equals("Y")){ //Make other item digital
                                 tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
                                         true, true, true);
                                 System.out.println("Request sent!");
                                 break;
                             }
-                            else if (input.equals("N")){
+                            else if (input.equals("N")){ //Make other item physical
                                 tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
                                         true, true, false);
                                 System.out.println("Request sent!");
                                 break;
                             }
                             else {
-                                System.out.println("Select an item you wish to offer in the trade.");
+                                for (int i = 0; i < ((Trader) other).getWishList().getInv().size(); i++){
+                                    if (((Trader) curr).getInventory().getInv().contains(((Trader) other).getWishList().getInv().get(i))){
+                                        System.out.println("    " + (i + 1) + ". " + ((Trader) other).getWishList().getInv().get(i));
+                                        tradableItems.add(((Trader) other).getWishList().getInv().get(i));
+                                    }
+                                }
+                                if (tradableItems.size() == 0){
+                                    System.out.println("There are no tradable items. You cannot make a selection.");
+                                }
+                                else {
+                                    System.out.println("Select an item you wish to offer in the trade.");
+                                }
+                                System.out.println("To go back, type 'exit'.");
                             }
                         }
-                        else if (input.equals("N")){
+                        else if (input.equals("N")){ //Make item physical
                             System.out.println("Is "+((Trader) other).getName()+"'s item digital? (Y/N)");
                             input = br.readLine();
                             if (input.equals("exit")){
                                 break;
                             }
-                            else if (input.equals("Y")){
+                            else if (input.equals("Y")){ //Make other item digital
                                 tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
-                                        true, true, true);
+                                        true, false, true);
                                 System.out.println("Request sent!");
                                 break;
                             }
-                            else if (input.equals("N")){
+                            else if (input.equals("N")){ //Make other item physical
                                 tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
-                                        true, true, false);
+                                        true, false, false);
                                 System.out.println("Request sent!");
                                 break;
                             }
                             else {
-                                System.out.println("Select an item you wish to offer in the trade.");
+                                for (int i = 0; i < ((Trader) other).getWishList().getInv().size(); i++){
+                                    if (((Trader) curr).getInventory().getInv().contains(((Trader) other).getWishList().getInv().get(i))){
+                                        System.out.println("    " + (i + 1) + ". " + ((Trader) other).getWishList().getInv().get(i));
+                                        tradableItems.add(((Trader) other).getWishList().getInv().get(i));
+                                    }
+                                }
+                                if (tradableItems.size() == 0){
+                                    System.out.println("There are no tradable items. You cannot make a selection.");
+                                }
+                                else {
+                                    System.out.println("Select an item you wish to offer in the trade.");
+                                }
+                                System.out.println("To go back, type 'exit'.");
                             }
                         }
                     }
-                    else if(input.equals("N")){
+                    else if(input.equals("N")){ //Make transaction temporary
                         System.out.println("Is your item digital? (Y/N)");
                         input = br.readLine();
                         if (input.equals("exit")){
                             break;
                         }
-                        else if (input.equals("Y")){
+                        else if (input.equals("Y")){ //Make item digital
                             System.out.println("Is "+((Trader) other).getName()+"'s item digital? (Y/N)");
                             input = br.readLine();
                             if (input.equals("exit")){
                                 break;
                             }
-                            else if (input.equals("Y")){
+                            else if (input.equals("Y")){ //Make other item digital
                                 tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
                                         false, true, true);
                                 System.out.println("Request sent!");
                                 break;
                             }
-                            else if (input.equals("N")){
+                            else if (input.equals("N")){ //Make other item physical
                                 tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
                                         false, true, false);
                                 System.out.println("Request sent!");
                                 break;
                             }
                             else {
-                                System.out.println("Select an item you wish to offer in the trade.");
+                                for (int i = 0; i < ((Trader) other).getWishList().getInv().size(); i++){
+                                    if (((Trader) curr).getInventory().getInv().contains(((Trader) other).getWishList().getInv().get(i))){
+                                        System.out.println("    " + (i + 1) + ". " + ((Trader) other).getWishList().getInv().get(i));
+                                        tradableItems.add(((Trader) other).getWishList().getInv().get(i));
+                                    }
+                                }
+                                if (tradableItems.size() == 0){
+                                    System.out.println("There are no tradable items. You cannot make a selection.");
+                                }
+                                else {
+                                    System.out.println("Select an item you wish to offer in the trade.");
+                                }
+                                System.out.println("To go back, type 'exit'.");
                             }
                         }
-                        else if (input.equals("N")){
+                        else if (input.equals("N")){ //Make item physical
                             System.out.println("Is "+((Trader) other).getName()+"'s item digital? (Y/N)");
                             input = br.readLine();
                             if (input.equals("exit")){
                                 break;
                             }
-                            else if (input.equals("Y")){
+                            else if (input.equals("Y")){ //Make other item digital
                                 tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
                                         false, false, true);
                                 System.out.println("Request sent!");
                                 break;
                             }
-                            else if (input.equals("N")){
+                            else if (input.equals("N")){ //Make other item physical
                                 tm.sendTWTradeRequest(((Trader) curr), ((Trader) other), yourItem, theirItem,
                                         false, false, false);
                                 System.out.println("Request sent!");
                                 break;
                             }
                             else {
-                                System.out.println("Select an item you wish to offer in the trade.");
+                                for (int i = 0; i < ((Trader) other).getWishList().getInv().size(); i++){
+                                    if (((Trader) curr).getInventory().getInv().contains(((Trader) other).getWishList().getInv().get(i))){
+                                        System.out.println("    " + (i + 1) + ". " + ((Trader) other).getWishList().getInv().get(i));
+                                        tradableItems.add(((Trader) other).getWishList().getInv().get(i));
+                                    }
+                                }
+                                if (tradableItems.size() == 0){
+                                    System.out.println("There are no tradable items. You cannot make a selection.");
+                                }
+                                else {
+                                    System.out.println("Select an item you wish to offer in the trade.");
+                                }
+                                System.out.println("To go back, type 'exit'.");
                             }
                         }
                     }
                     else {
-                        System.out.println("Select an item you wish to offer in the trade.");
+//                        ArrayList<Item> tradableItems = new ArrayList<Item>();
+                        for (int i = 0; i < ((Trader) other).getWishList().getInv().size(); i++){
+                            if (((Trader) curr).getInventory().getInv().contains(((Trader) other).getWishList().getInv().get(i))){
+                                System.out.println("    " + (i + 1) + ". " + ((Trader) other).getWishList().getInv().get(i));
+                                tradableItems.add(((Trader) other).getWishList().getInv().get(i));
+                            }
+                        }
+                        if (tradableItems.size() == 0){
+                            System.out.println("There are no tradable items. You cannot make a selection.");
+                        }
+                        else {
+                            System.out.println("Select an item you wish to offer in the trade.");
+                        }
                     }
                 }
                 input = br.readLine();
@@ -612,11 +696,17 @@ InboxOptions {
     private void viewTR(BufferedReader br){
         System.out.println("Unaccepted trade offers from other users: ");
         TraderInbox traderInbox = (TraderInbox) curr.getInbox();
-        for (int i = 0; i < traderInbox.getUnacceptedTrades().size(); i++){
-            System.out.println("    " + (i + 1) + ". " + traderInbox.getUnacceptedTrades().get(i));
+        if (traderInbox.getUnacceptedTrades().size() == 0){
+            System.out.println("There are no unaccepted trades at the moment.\nTo go back, type 'exit'.");
         }
-        System.out.println("Enter the number associated with the trade offer that you would like to accept/reject," +
-                "or type 'exit' to go back:");
+        else {
+            for (int i = 0; i < traderInbox.getUnacceptedTrades().size(); i++){
+                System.out.println("    " + (i + 1) + ". " + traderInbox.getUnacceptedTrades().get(i));
+            }
+            System.out.println("Enter the number associated with the trade offer that you would like to accept/reject," +
+                    "or type 'exit' to go back:");
+        }
+
         try{
             String input = br.readLine();
             while (!input.equals("exit")){

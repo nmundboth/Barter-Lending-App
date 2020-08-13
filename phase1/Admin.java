@@ -28,7 +28,7 @@ public class Admin extends User implements Serializable {
      *
      * @param trader The trader that the admin wishes to freeze
      */
-    protected void freezeTrader(Trader trader){trader.frozen = true;}
+    protected void freezeTrader(Trader trader){trader.getTraderStatus().setFrozen(true);}
 
     /**
      * Allows an admin to confirm an item.

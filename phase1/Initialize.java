@@ -27,21 +27,24 @@ public class Initialize {
         ArrayList<Item> list1 = new ArrayList<Item>();
         list1.add(new Item("game", "game"));
         list1.add(new Item("dvd", "dvd"));
+
+        ArrayList<Item> list2 = new ArrayList<Item>();
+        list2.add(new Item("cd", "cd"));
+        list2.add(new Item("book", "book"));
+
         Inventory inventory = new Inventory(list1, "inventory");
-        Inventory wishlist = new Inventory(new ArrayList<Item>(), "wishlist");
+        Inventory wishlist = new Inventory(list2, "wishlist");
         TraderStatus traderStatus = new TraderStatus();
         Trader trader = new Trader("trader", "trader", traderInbox,
                 inventory, wishlist, "trader", traderStatus, "trader");
         traderInbox.setOwner(trader);
-        trader.frozen = true;
+        trader.getTraderStatus().setFrozen(false);
 
         List<TradeMessage> tradeMessages2 = new ArrayList<TradeMessage>();
         List<Message> traderNoti2 = new ArrayList<Message>();
         List<Message> adminNotifs2 = new ArrayList<Message>();
         TraderInbox traderInbox2 = new TraderInbox(tradeMessages2, traderNoti2, adminNotifs2);
-        ArrayList<Item> list2 = new ArrayList<Item>();
-        list2.add(new Item("cd", "cd"));
-        list2.add(new Item("book", "book"));
+
         Inventory inventory2 = new Inventory(list2, "inventory");
         Inventory wishlist2 = new Inventory(list1, "wishlist2");
         TraderStatus traderStatus2 = new TraderStatus();
