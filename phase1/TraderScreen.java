@@ -35,11 +35,17 @@ public class TraderScreen implements Initializable {
     private TableColumn<Item, String> lendDescripColumn;
 
     @FXML
+    private Label lendlistNotifLabel;
+
+    @FXML
     private TableView<Item> wishTable;
     @FXML
     private TableColumn<Item, String> wishItemColumn;
     @FXML
     private TableColumn<Item, String> wishDescripColumn;
+
+    @FXML
+    private Label wishlistNotifLabel;
 
     @FXML
     private TableView<TradeMessage> requestTable;
@@ -63,6 +69,18 @@ public class TraderScreen implements Initializable {
     private Label messageNotSelectedLabel;
 
     @FXML
+    private TableView<Trader> recentTraderTable;
+    @FXML
+    private TableColumn<Trader, String> recentTraderColumn;
+
+    @FXML
+    private TableView<Item> recentItemTable;
+    @FXML
+    private TableColumn<Item, String> recentItemColumn;
+    @FXML
+    private TableColumn<Item, String> recentDescripColumn;
+
+    @FXML
     private Label accountStatusLabel;
 
     @Override
@@ -70,11 +88,16 @@ public class TraderScreen implements Initializable {
         lendItemColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
         lendDescripColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("descrip"));
         wishItemColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
-        wishDescripColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+        wishDescripColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("descrip"));
         tradeInfoColumn.setCellValueFactory(new PropertyValueFactory<TradeMessage, Trade>("trade"));
         tradeMessageColumn.setCellValueFactory(new PropertyValueFactory<Message, String>("content"));
         adminMessageColumn.setCellValueFactory(new PropertyValueFactory<Message, String>("content"));
+        recentTraderColumn.setCellValueFactory(new PropertyValueFactory<Trader, String>("username"));
+        recentItemColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));
+        recentDescripColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("descrip"));
 
+        lendlistNotifLabel.setText("");
+        wishlistNotifLabel.setText("");
         noTradeSelectedLabel.setText("");
         messageNotSelectedLabel.setText("");
         accountStatusLabel.setText("");
@@ -90,6 +113,8 @@ public class TraderScreen implements Initializable {
         requestTable.setItems(getTradeRequests());
         tradeNotifTable.setItems(getTraderMessages());
         adminNotifTable.setItems(getAdminMessages());
+        recentTraderTable.setItems(getRecentTraders());
+        recentItemTable.setItems(getRecentItems());
     }
 
     public void logoutBtnClicked() throws Exception {
@@ -148,17 +173,29 @@ public class TraderScreen implements Initializable {
 
     public void lendlistRemoveButtonClicked() throws Exception {
         if (!lendTable.getSelectionModel().isEmpty()) {
-            ((Trader)currUser).getInventory().removeItem(lendTable.getSelectionModel().getSelectedItem());
+            AdminInbox adminInbox = getAdminInbox();
+            Item itemToRemove = lendTable.getSelectionModel().getSelectedItem();
+            ItemMessage message = new ItemMessage("Request for this item to be removed", currUser,
+                    currUser, itemToRemove);
+            adminInbox.undoInventory.add(message);
+            lendlistNotifLabel.setText("Lendlist removal request sent.");
+
             lendTable.setItems(getLendList());
-            us.toSerialize(uc.userBase);
+            us.toSerialize(uc.userBase); // Save
         }
     }
 
     public void wishlistRemoveButtonClicked() throws Exception {
         if (!wishTable.getSelectionModel().isEmpty()) {
-            ((Trader)currUser).getWishList().removeItem(wishTable.getSelectionModel().getSelectedItem());
+            AdminInbox adminInbox = getAdminInbox();
+            Item itemToRemove = wishTable.getSelectionModel().getSelectedItem();
+            ItemMessage message = new ItemMessage("Request for this item to be removed", currUser,
+                    currUser, itemToRemove);
+            adminInbox.undoWishList.add(message);
+            wishlistNotifLabel.setText("Wishlist removal request sent.");
+
             wishTable.setItems(getWishList());
-            us.toSerialize(uc.userBase);
+            us.toSerialize(uc.userBase); // Save
         }
     }
 
@@ -326,9 +363,20 @@ public class TraderScreen implements Initializable {
         }
     }
 
-    public void unfreezeBtnClicked() {
+    public void unfreezeBtnClicked() throws Exception {
         if (((Trader)currUser).getTraderStatus().isFrozen()) {
-            if (!AdminInbox.undoFrozen)
+            AdminInbox adminInbox = getAdminInbox();
+            if (!adminInbox.undoFrozen.contains((Trader)currUser)) {
+                adminInbox.undoFrozen.add((Trader)currUser);
+                us.toSerialize(uc.userBase); // Save
+                accountStatusLabel.setText("You have requested to be unfrozen.");
+            }
+            else { // Trader has already requested to be unfrozen
+                accountStatusLabel.setText("You have already requested to be unfrozen.");
+            }
+        }
+        else { // Trader is not frozen
+            accountStatusLabel.setText("You are not frozen!");
         }
     }
 
@@ -345,6 +393,21 @@ public class TraderScreen implements Initializable {
 
         window.showAndWait();
         us.toSerialize(uc.userBase);
+    }
+
+    public void restartTradeBtnClicked() throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("RequestRestart.fxml"));
+
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("Restart Trade");
+
+        window.setScene(new Scene(loader.load()));
+        RequestRestartScreen controller = loader.getController();
+        controller.initData(currUser, uc, us);
+
+        window.showAndWait();
+        us.toSerialize(uc.userBase); // Save
     }
 
     /*
@@ -402,6 +465,35 @@ public class TraderScreen implements Initializable {
         messages.addAll(inbox.getAdmiNoti());
 
         return messages;
+    }
+
+    private ObservableList<Trader> getRecentTraders() {
+        ObservableList<Trader> traders = FXCollections.observableArrayList();
+        ArrayList<Trader> recentTraders = ((Trader)currUser).frequentPartners();
+        traders.addAll(recentTraders);
+
+        return traders;
+    }
+
+    private ObservableList<Item> getRecentItems() {
+        ObservableList<Item> items = FXCollections.observableArrayList();
+        ArrayList<Item> recentItems = ((Trader)currUser).getRecentItems();
+        items.addAll(recentItems);
+
+        return items;
+    }
+
+    private AdminInbox getAdminInbox() {
+        ArrayList<User> list = uc.userBase;
+        Admin admin = null;
+        for (User user : list) {
+            if (user instanceof Admin) {
+                admin = (Admin)user;
+            }
+        }
+        assert admin != null;
+
+        return (AdminInbox)admin.getInbox();
     }
 
 }
