@@ -89,14 +89,21 @@ public class AcceptedTradeOptions {
     private void proposeMeeting(BufferedReader br, List<TradeMessage> acceptedTrades){
         ArrayList<TradeMessage> unproposed = new ArrayList<TradeMessage>();
         for (TradeMessage trade: acceptedTrades){
-            if (trade.getTrade().getMeeting().isEmpty() && !(trade.getTrade().isOpen())){
+            if (trade.getTrade().getMeeting().isEmpty() && !(trade.getTrade().isOpen()) &&
+                    !trade.getTrade().isNoMeet()){//If a meeting is required
                 unproposed.add(trade);
             }
         }
-        for (int i = 0; i < unproposed.size(); i++){
-            System.out.println("    " + (i + 1) + ". " + unproposed.get(i));
+        if (unproposed.size() == 0){
+            System.out.println("You have no unproposed meetings. To go back, type 'exit'.");
         }
-        System.out.println("Enter the number corresponding to the trade you would like to propose a meeting for.");
+        else {
+            for (int i = 0; i < unproposed.size(); i++){
+                System.out.println("    " + (i + 1) + ". " + unproposed.get(i).getContent());
+            }
+            System.out.println("Enter the number corresponding to the trade you would like to propose a meeting for.");
+        }
+
 
         try{
             String input = br.readLine();
@@ -117,12 +124,25 @@ public class AcceptedTradeOptions {
                             if(!input.equals("exit")){
                                 String time = input;
                                 mm.proposeMeeting(((Trader) curr), trade.getTrade(), location, date, time);
+                                unproposed.clear();
                             }
                         }
                     }
                 }
-                System.out.println("Enter the number corresponding to the trade you would like to " +
-                        "propose a meeting for.");
+                for (TradeMessage trade: acceptedTrades){
+                    if (trade.getTrade().getMeeting().isEmpty() && !(trade.getTrade().isOpen())){
+                        unproposed.add(trade);
+                    }
+                }
+                if (unproposed.size() == 0){
+                    System.out.println("You have no unproposed meetings. To go back, type 'exit'.");
+                }
+                else {
+                    for (int i = 0; i < unproposed.size(); i++){
+                        System.out.println("    " + (i + 1) + ". " + unproposed.get(i));
+                    }
+                    System.out.println("Enter the number corresponding to the trade you would like to propose a meeting for.");
+                }
                 input = br.readLine();
             }
         }
