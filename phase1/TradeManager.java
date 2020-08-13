@@ -81,11 +81,10 @@ public class TradeManager {
         trade.setNoMeet(ogItem.isDigital()&&otherItem.isDigital());
         //If both items are digital, there will be no meeting
         //If one item is digital, there will be one meeting (for the physical item)
-        TradeMessage message = new TradeMessage("", ogTrader, otherTrader, trade);
         TraderInbox traderInbox = (TraderInbox) ogTrader.getInbox();
-        traderInbox.addUnaccepted(message);//ogTrader.getInbox().addUnaccepted(message);
-        Message text = new Message(ogTrader.getName() + " wants to trade their " + ogItem +
-                " for your " + otherItem + ".", ogTrader, otherTrader);
+        TradeMessage text = new TradeMessage(ogTrader.getName() + " wants to trade their " + ogItem +
+                " for your " + otherItem + ".", ogTrader, otherTrader, trade);
+        traderInbox.addUnaccepted(text);//ogTrader.getInbox().addUnaccepted(message);
         otherTrader.getInbox().addTraderNoti(text);
     }
 

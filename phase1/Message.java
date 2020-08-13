@@ -31,6 +31,7 @@ public class Message implements Serializable {
         this.read = true;
     }
 
-
-
+    public String getContent() {
+        return content;
+    }
 }

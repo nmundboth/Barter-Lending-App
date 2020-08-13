@@ -681,6 +681,7 @@ InboxOptions {
                         else {
                             System.out.println("Select an item you wish to offer in the trade.");
                         }
+                        System.out.println("To go back, type 'exit'.");
                     }
                 }
                 input = br.readLine();
@@ -701,7 +702,7 @@ InboxOptions {
         }
         else {
             for (int i = 0; i < traderInbox.getUnacceptedTrades().size(); i++){
-                System.out.println("    " + (i + 1) + ". " + traderInbox.getUnacceptedTrades().get(i));
+                System.out.println("    " + (i + 1) + ". " + traderInbox.getUnacceptedTrades().get(i).getContent());
             }
             System.out.println("Enter the number associated with the trade offer that you would like to accept/reject," +
                     "or type 'exit' to go back:");
