@@ -50,7 +50,7 @@ public class AcceptedTradesScreen implements Initializable {
     public void proposeBtnClicked() throws Exception {
         if (!acceptedTradeTable.getSelectionModel().isEmpty()) {
             Trade selectedTrade = acceptedTradeTable.getSelectionModel().getSelectedItem().getTrade();
-            if (selectedTrade.isNoMeet()){
+            if (selectedTrade.isNoMeet()){ //No meeting trade
                 System.out.println("A meeting cannot be arranged since the item/s in the trade " +
                         "is/are digital.");
             }
