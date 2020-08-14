@@ -123,7 +123,11 @@ public class TraderInbox extends Inbox implements Serializable {
 
 
 
-
+    /**
+     * Carries out trade between Trader Users.
+     * @param trader the other client who originally proposed a trade
+     * @param text A text form message to the client to inform them of the confirmation
+     */
     public void completeTrade(Trader trader, Trade trade, String text){
         //Handled in GUI, removing a TradeMessage that was just created would cause problems
         //this.trades.remove(new TradeMessage("", trade.getOgTrader(), trade.getOtherTrader(), trade));
@@ -139,6 +143,10 @@ public class TraderInbox extends Inbox implements Serializable {
         trader.getInbox().addTraderNoti(new Message(text, this.OG, trader));
     }
 
+    /**
+     * Adds a trade to a trader's inbox.
+     * @param message message detailing trade has been added.
+     */
     public void addTrade(TradeMessage message){
         Trader trader = findCorrectRecipient(message);
         this.trades.add(message);
@@ -148,11 +156,21 @@ public class TraderInbox extends Inbox implements Serializable {
         traderInbox.tradeUnread += 1;
     }
 
+    /**
+     * Messages a trader telling them their trade was unaccepted.
+     * @param message a message displaying an unaccepted trade.
+     */
     public void refuseUnaccepted(TradeMessage message){
         TraderInbox traderInbox = (TraderInbox) message.getSender().getInbox();
         traderInbox.tradeUnread += 1;
     }
 
+    /**
+     * Takes a current trade, the other trader, and cancels the trade.
+     * @param trade trade being cancelled.
+     * @param trader other trader who's trade has been cancelled.
+     * @param cancel the message string variable.
+     */
     public void cancelTrade(Trade trade, Trader trader, String cancel) {
 
         TraderInbox traderInbox = (TraderInbox) trader.getInbox();
@@ -165,7 +183,10 @@ public class TraderInbox extends Inbox implements Serializable {
                 trade));
     }
 
-
+    /**
+     * Messages a trader telling them an unaccepted trade has been added.
+     * @param message a message displaying unaccepted trade has been added.
+     */
     public void addUnaccepted(TradeMessage message){
         Trader trader = findCorrectRecipient(message);
         TraderInbox traderInbox = (TraderInbox) trader.getInbox();
@@ -173,6 +194,11 @@ public class TraderInbox extends Inbox implements Serializable {
         traderInbox.unaccptedUnread += 1;
     }
 
+    /**
+     * Finds the trader that is a recipient of a Message.
+     * @param message message contents.
+     * @return The trader to send a message to.
+     */
     public Trader findCorrectRecipient(TradeMessage message){
         if(message.getSender() == (this.OG)){
             return message.getRecipient();

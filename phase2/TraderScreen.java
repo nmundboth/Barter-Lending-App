@@ -83,6 +83,7 @@ public class TraderScreen implements Initializable {
     @FXML
     private Label accountStatusLabel;
 
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         lendItemColumn.setCellValueFactory(new PropertyValueFactory<Item, String>("name"));

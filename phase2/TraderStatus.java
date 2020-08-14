@@ -108,6 +108,11 @@ public class TraderStatus implements Serializable {
         this.statusList.add(1, true);
     }
 
+    /**
+     * Checks if a Trader is available for new trades.
+     *
+     * @return true if Trader is available, false if they are unavilable for new trades.
+     */
     public boolean isAvailable(){
         return statusList.get(2);
     }
@@ -128,6 +133,9 @@ public class TraderStatus implements Serializable {
         this.statusList.add(2, false);
     }
 
+    /**
+     * Makes trader status frozen. Unfrozen by Admin User.
+     */
     public void setFrozen() {
         this.statusList.remove(0);
         this.statusList.add(0, true);
