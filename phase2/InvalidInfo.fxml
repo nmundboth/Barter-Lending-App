@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane prefHeight="100.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="phase2.OKDialogueBox">
+    <center>
+        <VBox alignment="CENTER" prefHeight="100.0" prefWidth="250.0" BorderPane.alignment="BOTTOM_CENTER">
+            <children>
+                <Label alignment="CENTER" contentDisplay="BOTTOM" prefHeight="39.0" prefWidth="250.0" text="Please enter a valid username and/or password to register!" textAlignment="CENTER" wrapText="true">
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Label>
+            </children>
+        </VBox>
+    </center>
+    <bottom>
+        <HBox alignment="CENTER_RIGHT" prefHeight="35.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button fx:id="okButton" mnemonicParsing="false" onAction="#okButtonClicked" text="OK">
+                    <HBox.margin>
+                        <Insets right="5.0" />
+                    </HBox.margin>
+                    <padding>
+                        <Insets bottom="5.0" left="20.0" right="20.0" top="5.0" />
+                    </padding>
+                </Button>
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>

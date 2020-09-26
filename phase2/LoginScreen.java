@@ -66,38 +66,44 @@ public class LoginScreen {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        if (!uc.inUserBase(username)) {
-
-            //Prepare the registration window
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistrationScreen.fxml"));
-
-            Stage window = new Stage();
-            window.initModality(Modality.APPLICATION_MODAL);
-            window.setTitle("TradeApp Registration");
-
-            window.setScene(new Scene(loader.load()));
-            RegistrationScreen controller = loader.getController();
-            controller.initData(username, password);
-
-            window.showAndWait();
-
-            usernameField.clear();
-            passwordField.clear();
-            System.out.println("User created!");
-
-
-            //Add created user to user catalogue userbase and serialize (save)
-            Optional<User> createdUser = controller.getUser();
-            createdUser.ifPresent(user -> uc.userBase.add((user)));
-            us.toSerialize(uc.userBase);
-
+        // Navnee: added case where username and password fields cannot be left empty
+        if (username.equals("") || password.equals("")){
+            showInvalidInfoBox();
         }
+        else {
+            if (!uc.inUserBase(username)) {
 
-        else { // duplicate username
-            showDuplicateUserBox();
+                //Prepare the registration window
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("RegistrationScreen.fxml"));
 
-            //remove later
-            System.out.println("Duplicate user");
+                Stage window = new Stage();
+                window.initModality(Modality.APPLICATION_MODAL);
+                window.setTitle("TradeApp Registration");
+
+                window.setScene(new Scene(loader.load()));
+                RegistrationScreen controller = loader.getController();
+                controller.initData(username, password);
+
+                window.showAndWait();
+
+                usernameField.clear();
+                passwordField.clear();
+                System.out.println("User created!");
+
+
+                //Add created user to user catalogue userbase and serialize (save)
+                Optional<User> createdUser = controller.getUser();
+                createdUser.ifPresent(user -> uc.userBase.add((user)));
+                us.toSerialize(uc.userBase);
+
+            }
+
+            else { // duplicate username
+                showDuplicateUserBox();
+
+                //remove later
+                System.out.println("Duplicate user");
+            }
         }
     }
 
@@ -179,6 +185,19 @@ public class LoginScreen {
 
     public void showDuplicateUserBox() throws IOException {
         Parent alertBoxParent = FXMLLoader.load(getClass().getResource("DuplicateUser.fxml"));
+        Scene alertBoxScene = new Scene(alertBoxParent);
+
+        Stage window = new Stage();
+        window.initModality(Modality.APPLICATION_MODAL);
+        window.setTitle("TradeApp");
+
+
+        window.setScene(alertBoxScene);
+        window.showAndWait();
+    }
+
+    public void showInvalidInfoBox() throws IOException {
+        Parent alertBoxParent = FXMLLoader.load(getClass().getResource("InvalidInfo.fxml"));
         Scene alertBoxScene = new Scene(alertBoxParent);
 
         Stage window = new Stage();
